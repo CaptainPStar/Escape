@@ -10,12 +10,12 @@ echo COMMIT: %GIT_COMMIT% >> %WORKSPACE%\version.txt
 echo BRANCH: %GIT_BRANCH% >> %WORKSPACE%\version.txt
 echo BUILD INFO: %BUILD_URL% >> %WORKSPACE%\version.txt
 
-del %WORKSPACE%\checkout\co10_escape.altis\include\build.hpp /f /q
+del %WORKSPACE%\co10_escape.altis\include\build.hpp /f /q
 echo #define BUILD %BUILD_NUMBER% >> %WORKSPACE%\checkout\escape.altis\include\build.hpp
 
 echo Copied over folder to binned folder
 ::"C:\Steam\SteamApps\common\Arma 3 Tools\FileBank\FileBank.exe" -dst "%WORKSPACE%" source "%WORKSPACE%\checkout\co10_escape.altis"
-"C:\Program Files (x86)\Bohemia Interactive\Tools\BinPBO Personal Edition\BinPBO.exe" "%WORKSPACE%\checkout\escape.altis" "%WORKSPACE%" -DEBUG -PREFIX ""
+"C:\Program Files (x86)\Bohemia Interactive\Tools\BinPBO Personal Edition\BinPBO.exe" "%WORKSPACE%\co10_escape.altis" "%WORKSPACE%" -DEBUG -PREFIX ""
 echo Created PBOs
 xcopy "%WORKSPACE%\co10_escape.altis.pbo" "C:\Server\Apache2.4\htdocs\escape.anzp.de\escape_build%BUILD_NUMBER%.altis.pbo*"
 echo PBO copied to webserver
