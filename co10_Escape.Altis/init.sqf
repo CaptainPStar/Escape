@@ -15,10 +15,10 @@ if(!isDedicated) then {
 	titleText ["Loading...", "BLACK",0.1];
 };
 
-//call compileFinal preprocessFileLineNumbers "FAR_revive\FAR_revive_init.sqf";
 call compile preprocessFile "Revive\reviveInit.sqf";
 call compile preprocessFile "Scripts\AT\hack_terminal.sqf";
-call compile preprocessFile "Scripts\AT\dronehack_init.sqf";
+//call compile preprocessFile "Scripts\AT\dronehack_init.sqf";
+
 call compile preprocessFileLineNumbers "config.sqf";
 call compile preprocessFileLineNumbers ("Islands\" + worldName + "\WorldConfig.sqf");
 
