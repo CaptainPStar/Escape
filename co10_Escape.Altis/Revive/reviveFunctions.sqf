@@ -1,6 +1,4 @@
 AT_FNC_Revive_InitPlayer = {
-	private["_init","_anotherPlayer"];
-	_init = _this select 0;
 	player removeAllEventHandlers "HandleDamage";
 	
 	player addEventHandler ["HandleDamage", AT_FNC_Revive_HandleDamage];
@@ -9,6 +7,7 @@ AT_FNC_Revive_InitPlayer = {
 		"Killed",
 		{
 			_body = _this select 0;
+			
 			[_body] spawn 
 			{
 			
@@ -27,30 +26,6 @@ AT_FNC_Revive_InitPlayer = {
 	[] spawn AT_FNC_Revive_Actions;
 	
 	//systemchat "AT Revive started";
-	if(!_init) then {
-		//Player used respawn.. remove all his stuff and thread him like JIP
-		removeallweapons player;
-		removeAllItems player;
-		removeBackpack player;
-		
-		player unassignItem "ItemMap";
-		player removeItem "ItemMap";
-		player unassignItem "ItemCompass";
-		player removeItem "ItemCompass";
-		player unassignItem "itemGPS";
-		player removeItem "itemGPS";
-		player unassignItem "NVGoggles";
-		player removeItem "NVGoggles";
-		
-		_anotherPlayer = (call drn_fnc_Escape_GetPlayers) select 0;
-        if (player == _anotherPlayer) then {
-            _anotherPlayer = (call drn_fnc_Escape_GetPlayers) select 1;
-        };
-        _pos = [((getPos vehicle _anotherPlayer) select 0) + 3, ((getPos vehicle _anotherPlayer) select 1) + 3, 0];
-		player setpos _pos;
-		
-		[player, player] spawn AT_FNC_Revive_Unconscious;
-	};
 };
 
 AT_FNC_Revive_Actions = {
@@ -134,6 +109,8 @@ AT_FNC_Revive_Unconscious =
 	_msg = format["%1 is unconscious.",name _unit];
 	[[_msg],"AT_FNC_Revive_GlobalMsg",true] call bis_fnc_MP;
 	
+
+	
 	if (isPlayer _unit) then
 	{
 		disableUserInput true;
@@ -146,32 +123,71 @@ AT_FNC_Revive_Unconscious =
 		unAssignVehicle _unit;
 		_unit action ["eject", vehicle _unit];
 		
-		sleep 2;
+		//sleep 2;
 	};
 	
-	if(((eyepos _unit) select 2)>0.4) then {
-		[_unit] spawn at_fnc_revive_ragdoll;
-	} else {
-		[[_unit,"AinjPpneMstpSnonWrflDnon_rolltoback"],"at_fnc_revive_playMove",true] call BIS_fnc_MP;
-	};
+//	if(((eyepos _unit) select 2)>0.4) then {
+//		[_unit] spawn at_fnc_revive_ragdoll;
+//	} else {
+//		[[_unit,"AinjPpneMstpSnonWrflDnon_rolltoback"],"at_fnc_revive_playMove",true] call BIS_fnc_MP;
+//	};
 	
 	_unit setDamage 0;
     _unit setVelocity [0,0,0];
     _unit allowDamage false;
 	_unit setCaptive true;
-
+	//_unit playMove "AinjPpneMstpSnonWrflDnon_rolltoback";
+	_unit playMove "AinjPpneMstpSnonWrflDnon";
 	
-	sleep 4;
-    
+	// create camera
+	reviveCamera = "camera" camCreate (position player);
+	reviveCamera camSetPos [(getpos player select 0) + 0.5,(getpos player select 1) + 0.5,1.2];
+	//reviveCamera camSetFocus [-1,1];
+	reviveCamera camSetTarget player;
+	reviveCamera cameraEffect ["Internal", "BACK"];
+	reviveCamera camCommitPrepared 0;
+	
+	// move camera
+	reviveCamera camPreparePos [(getpos player select 0) + 6,(getpos player select 1) + 6,4];
+	//reviveCamera camPrepareFocus [0.3, 10];
+	reviveCamera camCommitPrepared 6;
+	
+	reviveCamera camPreparePos [(getpos player select 0) + 14,(getpos player select 1) + 6,20];
+	//reviveCamera camPrepareFocus [0.3, 10];
+	reviveCamera camCommitPrepared 90;
+	//_unit playMove "AinjPpneMstpSnonWnonDnon";
+	
+	sleep 6;
+	
+	// Game Over
+	_noPlayers = 0;
+	_players = call drn_fnc_Escape_GetPlayers;
+	_noPlayers = count _players;
+	
+	if ({(_x getVariable "AT_Revive_isUnconscious")} count _players == _noPlayers) then
+	{
+	cutText ["", "BLACK FADED",3];
+	reviveCamera cameraEffect ["Terminate", "Back"];
+	camDestroy reviveCamera;
+	call drn_fnc_Escape_SetMissionCompleteTasks;
+	drn_var_Escape_AllPlayersDead = true;
+	publicVariable "drn_var_Escape_AllPlayersDead";	
+	};
+	
+	
+	//waitUntil {camCommitted reviveCamera;};
+	//sleep 4;
+	
+	
 	if (isPlayer _unit) then
 	{
 		//titleText ["", "BLACK IN", 1];
 		disableUserInput false;
 
 	};
-	
-	[[_unit,"AinjPpneMstpSnonWrflDnon"],"at_fnc_revive_switchMove",true] call BIS_fnc_MP;
-	_unit enableSimulation false;
+
+	//[[_unit,"AinjPpneMstpSnonWrflDnon"],"at_fnc_revive_switchMove",true] call BIS_fnc_MP;
+	//_unit enableSimulation false;
 	//_unit setVariable ["AT_Revive_isUnconscious", true, true];
 	
 	// Call this code only on players
@@ -192,13 +208,12 @@ AT_FNC_Revive_Unconscious =
 		_unit allowDamage true;
 		_unit setDamage 0;
 		_unit setCaptive false;
-		
+		reviveCamera cameraEffect ["Terminate", "Back"];
+		camDestroy reviveCamera;
 
 		[[_unit,"amovppnemstpsraswrfldnon"],"at_fnc_revive_playMove",true] call BIS_fnc_MP;
 		[[_unit,""],"at_fnc_revive_playMove",true] call BIS_fnc_MP;
 		_unit playMove "";
-		sleep 0.5;
-		_unit setpos getpos _unit; //Fix the stuck in the ground bug
 
 	}
 	else
@@ -232,7 +247,6 @@ AT_FNC_Revive_HandleRevive =
 
 		_target setVariable ["AT_Revive_isUnconscious", false, true];
 		_target setVariable ["AT_Revive_isDragged", objNull, true];
-		
 		sleep 6;
 		
 		if (!isPlayer _target) then
@@ -381,8 +395,8 @@ AT_FNC_Revive_Ragdoll = {
 			};
 			sleep 0.1;
 		};
-		//_unit setposASL getposASL _dummy;
-		//_unit setdir getdir _dummy;
+		_unit setposASL getposASL _dummy;
+		_unit setdir getdir _dummy;
 		if(!(isplayer _unit)) then {
 			_unit disableAI "ANIM";
 		};
@@ -434,9 +448,9 @@ AT_FNC_CopyGear = {
 	if((vest _u2)!="") then {
 		_u1 addvest (vest _u2);
 	};
-	//if((backpack _u2)!="") then {
-	//	_u1 addbackpack (backpack _u2);
-	//};
+	if((backpack _u2)!="") then {
+		_u1 addbackpack (backpack _u2);
+	};
 
 	//This keeps the correct amount of ammo in every magazine but the correct distribution will be lost
 	if(_keep_ammocount) then {
@@ -522,26 +536,17 @@ AT_FNC_CopyGear = {
 		} foreach ((_array) select 0);
 	};
 
-	if(false) then {
-		_array = getItemCargo backpackContainer _u2;
-		if(count(_array)>0) then {
-			{
-				for[{_i=0},{_i<((_array) select 1) select _forEachIndex},{_i=_i+1}] do {
-					_u1 addItemToBackpack _x;
-				};
-			} foreach ((_array) select 0);
-		};
-		if(!_keep_ammocount) then {
-			_array = getMagazineCargo backpackContainer _u2;
-			if(count(_array)>0) then {
-				{
-					for[{_i=0},{_i<((_array) select 1) select _forEachIndex},{_i=_i+1}] do {
-						_u1 addItemToBackpack _x;
-					};
-				} foreach ((_array) select 0);
+
+	_array = getItemCargo backpackContainer _u2;
+	if(count(_array)>0) then {
+		{
+			for[{_i=0},{_i<((_array) select 1) select _forEachIndex},{_i=_i+1}] do {
+				_u1 addItemToBackpack _x;
 			};
-		};
-		_array = getWeaponCargo backpackContainer _u2;
+		} foreach ((_array) select 0);
+	};
+	if(!_keep_ammocount) then {
+		_array = getMagazineCargo backpackContainer _u2;
 		if(count(_array)>0) then {
 			{
 				for[{_i=0},{_i<((_array) select 1) select _forEachIndex},{_i=_i+1}] do {
@@ -550,6 +555,15 @@ AT_FNC_CopyGear = {
 			} foreach ((_array) select 0);
 		};
 	};
+	_array = getWeaponCargo backpackContainer _u2;
+	if(count(_array)>0) then {
+		{
+			for[{_i=0},{_i<((_array) select 1) select _forEachIndex},{_i=_i+1}] do {
+				_u1 addItemToBackpack _x;
+			};
+		} foreach ((_array) select 0);
+	};
+
 	{
 		_u1 linkItem _x;
 	} foreach assignedItems _u2;

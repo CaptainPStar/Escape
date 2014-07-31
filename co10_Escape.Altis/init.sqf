@@ -12,7 +12,7 @@ if (!isServer && isNull player) then
 if(!isDedicated) then {
 	//startLoadingScreen ["Loading Mission, please wait...","Escape_loadingScreen"];
 	//startLoadingScreen ["Loading Mission, please wait..."];
-	titleText ["Loading...", "BLACK",0.1];
+	titleText ["Loading Escape", "BLACK",0.1];
 };
 
 //call compileFinal preprocessFileLineNumbers "FAR_revive\FAR_revive_init.sqf";
@@ -20,9 +20,9 @@ call compile preprocessFile "Revive\reviveInit.sqf";
 call compile preprocessFile "Scripts\AT\hack_terminal.sqf";
 call compile preprocessFile "Scripts\AT\dronehack_init.sqf";
 call compile preprocessFileLineNumbers "config.sqf";
-call compile preprocessFileLineNumbers ("Islands\" + worldName + "\WorldConfig.sqf");
+//call compile preprocessFileLineNumbers "Islands\WorldConfigs.sqf";
 
-
+//waitUntil {param_init_finished};
 
 
 // Developer Variables
@@ -39,11 +39,6 @@ _debug = a3e_debug;
 // Initialization
 
 drn_var_Escape_firstPreloadDone = false;
-
-if(isNil("drn_var_commonLibInitialized")) then {
-	call compile preprocessFileLineNumbers "Scripts\DRN\CommonLib\CommonLib.sqf";
-};
-
 drn_var_Escape_playerEnteredWorld = false;
 
 
@@ -82,11 +77,16 @@ if(isMultiplayer) then {
 //[] spawn at_fnc_serverCheck;
 
 
-
 // Initialization
 drn_arr_JipSpawnPos = [];
-//call compile preprocessFileLineNumbers "Scripts\DRN\CommonLib\CommonLib.sqf";
-//call drn_fnc_CL_InitParams;
+call compile preprocessFileLineNumbers "Scripts\DRN\CommonLib\CommonLib.sqf";
+
+/*
+if (isServer || isDedicated) then 
+	{
+	waitUntil {!isnil ("drn_var_commonLibInitialized")};
+	};
+*/
 
 //Wait until server has parsed the parameters
 waituntil {!isNil("A3E_ParamsParsed")};
@@ -97,6 +97,8 @@ call compile preprocessFileLineNumbers "Scripts\Escape\AIskills.sqf";
 [_isJipPlayer] call compile preprocessFileLineNumbers "Briefing.sqf";
 
 setTerrainGrid (Param_Grass);
+
+
 
 if (isServer) then {
     drn_var_Escape_hoursSkipped = 0;
@@ -117,11 +119,16 @@ if (isServer) then {
     };
 };
 
-if((Param_NoNightvision)==1) then {
-	a3e_var_noNV = true;
-} else {
-	a3e_var_noNV = false;
+
+
+/*	// Server Initialization
+if (isServer) then {
+		//### To a function
+execVM "ServerInitialization.sqf";
+//		if (isDedicated) exitWith {};
 };
+*/
+
 
 
 if (!isDedicated) then {
@@ -215,7 +222,7 @@ if (!isDedicated) then {
 
 	drn_var_Escape_syncronizationDone = true;
 	publicVariable "drn_var_Escape_syncronizationDone";
-
+	
 	waitUntil {!isNil "drn_var_Escape_FunctionsInitializedOnServer"};
 	[] call drn_fnc_Escape_AskForTimeSynchronization;
 
@@ -265,8 +272,6 @@ if (!isDedicated) then {
 		} foreach units group player;
 	};
 
-
-
 	// Run start sequence for all players
 	if (!isNull player) then {
 		[_showIntro, _showPlayerMapAndCompass, _isJipPlayer, _useRevive, _debug] spawn {
@@ -303,6 +308,14 @@ if (!isDedicated) then {
 					for "_i" from 0 to (count drn_var_Escape_ammoDepotPositions) - 1 do {
 						_marker = createMarkerLocal ["drn_Escape_AmmoDepotJipMarker" + str _i, (drn_var_Escape_ammoDepotPositions select _i)];
 						_marker setMarkerType "o_installation";
+					};
+					
+					// Heli Base markers
+					waitUntil {!isNil "drn_var_Escape_HeliBasePositions"};
+					
+					for "_i" from 0 to (count drn_var_Escape_HeliBasePositions) - 1 do {
+						_marker = createMarkerLocal ["drn_Escape_HeliBaseJipMarker" + str _i, (drn_var_Escape_HeliBasePositions select _i)];
+						_marker setMarkerType "o_air";
 					};
 					
 					// Extraction marker
@@ -389,5 +402,4 @@ if (!isDedicated) then {
 		paramsArray call A3E_fnc_WriteParamBriefing;
 	};
 };
-
 

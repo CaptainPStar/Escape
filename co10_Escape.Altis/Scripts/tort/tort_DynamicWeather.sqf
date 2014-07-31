@@ -96,9 +96,9 @@ skiptime -24; 86400 setOvercast fOc; skiptime 24; 0 setRain fRain;
 sleep 0.5;simulWeatherSync;sleep 0.5;ForceWeatherChange;sleep 0.5;
 0 setFog [fFogVal, fFogDecay, fFogBase]; 0 setWindStr fWS; 0 setWindDir fWD;
 
-//if (_debugMode > 0) then {
+if (_debugMode > 0) then {
 sleep 5; hint format ["tort_DynamicWeather started. Initial weather: Overcast: %1 | Fog: %2 | Wind: %3 - Trend: %4 DebugMode: %5 / Rain is handled by ArmA",fOc,fFogVal,fWS,_trend,_debugMode];
-//};
+};
 
 while {true} do {
    _transitionSpeed = 900; // 15 minutes weather cycles

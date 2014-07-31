@@ -55,9 +55,9 @@ drn_fnc_Escape_GetPlayers = {
 };
 
 drn_fnc_Escape_OnSpawnGeneralSoldierUnit = {
-	private["_nighttime"];
+	private ["_nighttime","_scopes","_scope"];
     _this setVehicleAmmo (0.2 + random 0.6);
-	if(daytime > 20 OR daytime < 8) then {
+	if(daytime > 18 OR daytime < 8) then {
 		_nighttime = true;
 	} else {
 		_nighttime = false;
@@ -141,10 +141,11 @@ drn_fnc_Escape_OnSpawnGeneralSoldierUnit = {
 			 _this assignItem "NVGoggles";
 		};
     };
+	
 };
 
 drn_fnc_Escape_FindGoodPos = {
-	private ["_i", "_startPos", "_isOk", "_result", "_roadSegments", "_dummyObject"];
+	private ["_i","_startPos","_isOk","_result","_roadSegments","_dummyObject","_buildings"];
     // Choose a random and flat position (for-loopen and markers are for test on new maps).
     for [{_i = 0},  {_i < 1}, {_i = _i + 1}] do {
         _isOk = false;
@@ -772,15 +773,15 @@ drn_fnc_Escape_BuildAmmoDepot = {
 };
 
 drn_fnc_Escape_CreateExtractionPointServer = {
-    private ["_extractionPointNo"];
+    private ["_extractionPos"];
     
-    _extractionPointNo = _this select 0;
+    _extractionPos = _this select 0;
     
     if (isServer) then {
-        [_extractionPointNo] execVM "Scripts\Escape\CreateExtractionPoint.sqf";
+        [_extractionPos] execVM "Scripts\Escape\CreateExtractionPoint.sqf";
     }
     else {
-        drn_EscapeExtractionEventArgs = [_extractionPointNo];
+        drn_EscapeExtractionEventArgs = [_extractionPos];
         publicVariable "drn_EscapeExtractionEventArgs";
     };
 };
@@ -1062,15 +1063,36 @@ drn_fnc_Escape_AddRemoveComCenArmor = {
     }
     else {
         private ["_group"];
-        
+   
+		
+		
+		
         {
+			_playerInVehicle = false;
+			_vehicle = _x;
+			
+				{
+				
+				if (_x in _vehicle) then {
+					_playerInVehicle = true;
+					};
+				} foreach call drn_fnc_Escape_GetPlayers;
+			
             _group = group _x;
             
             {
                 deleteVehicle _x;
             } foreach crew _x;
             
+            If (!_playerInVehicle) then {
+			diag_log "AddRemoveComCenArmor is DELETING:";
+			diag_log _x;
             deleteVehicle _x;
+			
+			};
+			
+			
+			
             deleteGroup _group;
         } foreach _armorObjects;
         
@@ -1207,7 +1229,7 @@ drn_fnc_Escape_PopulateVehicle = {
     while {_continue && (_soldierCount <= _maxSoldiersCount)} do {
         _unitType = _unitTypes select floor random count _unitTypes;
         _insurgentSoldier = _group createUnit [_unitType, [0,0,0], [], 0, "FORM"];
-        
+        _insurgentSoldier call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
         _insurgentSoldier setRank "LIEUTNANT";
         _insurgentSoldier moveInDriver _vehicle;
         
@@ -1226,7 +1248,7 @@ drn_fnc_Escape_PopulateVehicle = {
     while {_continue && _soldierCount <= _maxSoldiersCount} do {
         _unitType = _unitTypes select floor random count _unitTypes;
         _insurgentSoldier = _group createUnit [_unitType, [0,0,0], [], 0, "FORM"];
-        
+        _insurgentSoldier call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
         _insurgentSoldier setRank "LIEUTNANT";
         _insurgentSoldier moveInGunner _vehicle;
         
@@ -1245,7 +1267,7 @@ drn_fnc_Escape_PopulateVehicle = {
     while {_continue && _soldierCount <= _maxSoldiersCount} do {
         _unitType = _unitTypes select floor random count _unitTypes;
         _insurgentSoldier = _group createUnit [_unitType, [0,0,0], [], 0, "FORM"];
-        
+        _insurgentSoldier call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
         _insurgentSoldier setRank "LIEUTNANT";
         _insurgentSoldier moveInCommander _vehicle;
         
@@ -1264,7 +1286,7 @@ drn_fnc_Escape_PopulateVehicle = {
     while {_continue && _soldierCount <= _maxSoldiersCount} do {
         _unitType = _unitTypes select floor random count _unitTypes;
         _insurgentSoldier = _group createUnit [_unitType, [0,0,0], [], 0, "FORM"];
-        
+        _insurgentSoldier call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
         _insurgentSoldier setRank "LIEUTNANT";
         _insurgentSoldier moveInCargo _vehicle;
         
@@ -1277,27 +1299,30 @@ drn_fnc_Escape_PopulateVehicle = {
             _continue = false;
         };
     };
-    
+	
+	
     _group
 };
+
+
 
 if (isServer) then {
     "drn_fnc_Escape_AskForJipPos" addPublicVariableEventHandler {
         private ["_anotherPlayer"];
         
         _unitName = drn_fnc_Escape_AskForJipPos select 0;
-        
-        _anotherPlayer = (call drn_fnc_Escape_GetPlayers) select 0;
-        if (_unitName == str _anotherPlayer) then {
-            _anotherPlayer = (call drn_fnc_Escape_GetPlayers) select 1;
-        };
-        
+		
+		{
+		if (isPlayer _x && (_unitName != str _x)) exitwith {_anotherPlayer = _x;};
+		} forEach call drn_fnc_Escape_GetPlayers;
+		
+		
         _pos = [((getPos vehicle _anotherPlayer) select 0) + 3, ((getPos vehicle _anotherPlayer) select 1) + 3, 0];
         
         drn_arr_JipSpawnPos = [_unitName, _pos];
         publicVariable "drn_arr_JipSpawnPos";
         
-        diag_log ("Server respond to JIP, pos == " + str getPos _anotherPlayer);
+        //diag_log ("Server respond to JIP, pos == " + str getPos _anotherPlayer);
     };
 
     drn_var_Escape_FunctionsInitializedOnServer = true;

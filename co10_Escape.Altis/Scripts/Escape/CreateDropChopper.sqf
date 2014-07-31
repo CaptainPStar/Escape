@@ -1,7 +1,7 @@
 if (!isServer) exitWith {};
 
-private ["_spawnPos", "_side", "_minSkill", "_maxSkill", "_onGroupDropped", "_dropUnits", "_debug", "_chopper", "_group", "_pilot", "_gunner1", "_gunner2", "_currentInstanceNo", "_crewType", "_chopperType", "_dropPosition"];
-private ["_vehicleVarName"];
+private ["_spawnPos","_side","_minSkill","_maxSkill","_onGroupDropped","_dropUnits","_debug","_chopper", "_chopNo", "_group","_pilot","_gunner1","_currentInstanceNo","_crewType","_chopperType","_dropPosition","_vehicleVarName"];
+
 
 _spawnPos = _this select 0;
 _side = _this select 1;
@@ -19,17 +19,29 @@ if (_debug) then {
 };
 
 if (isNil "drn_CreateDropChopper_CurrentInstanceNo") then {
-	drn_CreateDropChopper_CurrentInstanceNo = 0
+	drn_CreateDropChopper_CurrentInstanceNo = 1
+};
+
+if (drn_CreateDropChopper_CurrentInstanceNo > 5) then {
+	drn_CreateDropChopper_CurrentInstanceNo = 1;
+//	diag_log "Chopper instance reset";
 };
 
 _currentInstanceNo = drn_CreateDropChopper_CurrentInstanceNo;
 drn_CreateDropChopper_CurrentInstanceNo = drn_CreateDropChopper_CurrentInstanceNo + 1;
+//diag_log "==========================================";
+//diag_log "drn_CreateDropChopper_CurrentInstanceNo =";
+//diag_log drn_CreateDropChopper_CurrentInstanceNo;
+//diag_log "_currentInstanceNo";
+//diag_log _currentInstanceNo;
+//diag_log "==========================================";
 
 //_chopper = _chopperType createVehicle _spawnPos;
-_chopper = createVehicle [_chopperType, _spawnPos, [], 0, "NONE"];
+_chopper = createVehicle [_chopperType, _spawnPos, [], 0, "FLY"];
 _vehicleVarName = "drn_searchChopper" + str _currentInstanceNo;
 _chopper setVehicleVarName _vehicleVarName;
 _chopper Call Compile Format ["%1 = _this; PublicVariable ""%1""", _vehicleVarName];
+_chopNo = _currentInstanceNo;
 
 {
 	_x moveInCargo _chopper;
@@ -60,7 +72,7 @@ _gunner1 moveInTurret [_chopper, [0]];
     _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
 } foreach units _group;
 
-[_chopper, _dropUnits, _dropPosition, _onGroupDropped, _debug] execVM "Scripts\Escape\DropChopper.sqf";
+[_chopper, _dropUnits, _dropPosition, _chopNo, _onGroupDropped, _debug] spawn A3E_fnc_RoyDropChopper;
 
 
 

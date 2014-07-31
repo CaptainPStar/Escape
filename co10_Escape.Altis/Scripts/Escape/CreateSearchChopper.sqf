@@ -45,7 +45,7 @@ while {!(isNil _vehicleVarName)} do {
 };
 
 //_chopper = "O_Heli_Light_02_F" createVehicle _homePos;
-_chopper = createVehicle ["I_Heli_light_03_F", _homePos, [], 0, "NONE"];
+_chopper = createVehicle ["B_Heli_Light_01_armed_F", _homePos, [], 0, "FLY"];
 _chopper lock false;
 _chopper setVehicleVarName _vehicleVarName;
 _chopper call compile format ["%1=_this;", _vehicleVarName];
@@ -78,5 +78,4 @@ _chopper action ["lightOn", _chopper];
 } foreach units _group;
 
 [_chopper, _searchAreaMarker, _searchTimeMin, _refuelTimeMin, _debug] spawn drn_fnc_SearchChopper;
-
 

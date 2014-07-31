@@ -1,6 +1,6 @@
 class Params
 {
-    class Param_Loadparams
+	class Param_Loadparams
     {
             title = "Parameter Loading";
             values[] = {0, 1, 2};
@@ -8,7 +8,7 @@ class Params
             default = 1;
 	};
     class Param_EnemySkill
-	{
+    {
             title = "Enemy Skill";
             values[] = {0, 1, 2, 3, 4, 6};
             texts[] = {"Cadet", "Easy", "Normal", "Hard", "Extreme", "Use this setting for AI mods such as Zeus AI"};
@@ -23,18 +23,17 @@ class Params
 	};
 	class Param_TimeOfDay	
 	{	
-	    title="Time Of Day";
+	      	title="Time Of Day";
 		values[]={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24};
 		texts[]={"00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00","Random"};
 		default = 24;
-		//function = "A3E_fnc_paramDaytime"; // (Optional) Function called when player joins, selected value is passed as an argument
 	};
 	class Param_TimeMultiplier	
 	{	
 	    title="Time Multiplier (Fasttime)";
 		values[]={1,6,12,24,36};
 		texts[]={"1:1 (Normal)","1:6 (Day = 4 Hours)","1:12 (Day = 2 Hours)","1:24 (Day = 1 Hour)","1:36 (Day = 40 Minutes)"};
-		default = 1;
+		default = 12;
 	};
 	class Param_Weather
 	{
@@ -62,28 +61,50 @@ class Params
 		title="Enemy Spawn Distance";
 		values[]={800,1050,1300};
 		texts[]={"Short (better performance)", "Medium", "Far (for good rigs)"};
-		default = 1300;
+		default = 1050;
 	};
-	class Param_VillageSpawnCount
+	class Param_BuildingGradient
 	{
-		title="Village Patrol Spawns";
-		values[]={80000, 40000, 10000};
-		texts[]={"Low (better performance)", "Medium", "High (Very demanding)"};
-		default = 40000;
+		title="Building Gradient";
+		values[]={0, 1, 2, 3, 4};
+		texts[]={"Very Flat", "Slight Incline (Default)", "Fair Incline", "Steep Incline", "Very Steep Incline"};
+		default = 1;
 	};
 	class Param_ExtractionSelection
 	{
 		title="Extraction Points";
 		values[]={0, 1, 2};
 		texts[]={"Random", "Close", "Far"};
+		default = 2;
+	};
+/*	class Param_RoyCars
+	{
+		title="Car Addons";
+		values[]={0, 1};
+		texts[]={"off", "on"};
 		default = 0;
 	};
-	class Param_Waffelbox
+*/
+	class Param_RDSCars
 	{
-		title="Additional Weapons (AddOns required)";
-		values[]={0,1};
+		title="RDS Arma 2 Car Addons";
+		values[]={0, 1};
+		texts[]={"Off", "On"};
+		default = 1;
+	};
+	class Param_Mech
+	{
+		title="Mechs";
+		values[]={0, 1};
 		texts[]={"Off", "On"};
 		default = 0;
+	};
+	class Param_Kart
+	{
+		title="Karts";
+		values[]={0, 1};
+		texts[]={"Off", "On"};
+		default = 1;
 	};
 	class Param_RespawnButton
 	{
@@ -97,13 +118,6 @@ class Params
 		title="NVG-Goggles and TWS Scopes";
 		values[]={0,1};
 		texts[]={"All", "No Goggles and TWS"};
-		default = 0;
-	};
-	class Param_Debug
-	{
-		title="Debug";
-		values[]={0,1};
-		texts[]={"Off","On"};
-		default = 0;
+		default = 1;
 	};
 };

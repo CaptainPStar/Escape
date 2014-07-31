@@ -9,11 +9,11 @@ class Header
 };
 
 
-onLoadMission = "Escape Altis";
+onLoadMission = "Escape Roy";
 OnLoadMissionTime = FALSE;
-dev = "Vormulac and NeoArmageddon";
+dev = "Vormulac, NeoArmageddon and Roy";
 briefingName = MISSIONNAME;
-author = "Vormulac and NeoArmageddon";
+author = "Vormulac, NeoArmageddon and Roy";
 overviewPicture = "a3\Missions_F_Gamma\data\img\MP_COOP_m03_overview_CA.paa";
 overviewText = MISSIONNAMEFULL;
 onLoadName = MISSIONNAME;

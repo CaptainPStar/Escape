@@ -1,12 +1,15 @@
 if (!isServer) exitWith {};
 
-private ["_chopper", "_dropPosition", "_onGroupDropped", "_debug", "_group", "_waypoint", "_dropUnits"];
+private ["_chopper", "_dropPosition", "_onGroupDropped", "_debug", "_chopNo", "_group", "_waypoint", "_soldier", "_dropUnits"];
 
 _chopper = _this select 0;
 _dropUnits = _this select 1;
 _dropPosition = _this select 2;
-if (count _this > 3) then {_onGroupDropped = _this select 3;} else {_onGroupDropped = {};};
-if (count _this > 4) then {_debug = _this select 4;} else {_debug = false;};
+_chopNo = _this select 3;
+if (count _this > 4) then {_onGroupDropped = _this select 4;} else {_onGroupDropped = {};};
+if (count _this > 5) then {_debug = _this select 5;} else {_debug = false;};
+
+
 
 _group = group _chopper;
 
@@ -22,15 +25,17 @@ if (vehicleVarName _chopper == "") exitWith {
 _chopper setVariable ["waypointFulfilled", false];
 _chopper setVariable ["missionCompleted", false];
 
-[_chopper, _dropUnits, _dropPosition, _onGroupDropped, _debug] spawn {
-	private ["_chopper", "_dropUnits", "_dropPosition", "_onGroupDropped", "_debug", "_i", "_dropGroup"];
+[_chopper, _dropUnits, _dropPosition, _chopNo, _onGroupDropped, _debug] spawn {
+	private ["_chopper", "_soldier", "_dropUnits", "_dropPosition", "_onGroupDropped", "_debug", "_i", "_dropGroup"];
     
     _chopper = _this select 0;
     _dropUnits = _this select 1;
     _dropPosition = _this select 2;
-    _onGroupDropped = _this select 3;
-    _debug = _this select 4;
+	_chopNo = _this select 3;
+    _onGroupDropped = _this select 4;
+    _debug = _this select 5;
     
+
 	while {!(_chopper getVariable "waypointFulfilled")} do {
 		sleep 1;
 	};
@@ -39,18 +44,43 @@ _chopper setVariable ["missionCompleted", false];
 		player sideChat "Drop chopper dropping cargo...";
 	};
 	
-
-
-   for "_i" from 0 to ((count _dropUnits - 1)) step 1 do{
-		_dropUnit = _dropUnits select _i;
+	
+//	diag_log "_chopNo = ";
+//	diag_log _chopNo;
+//	_dropNo = 0;
+//	_dropNo = count _dropUnits;
+//	_chopOffset = 0;
+//	_soldier = 0;
+	
+ //  for "_i" from 0 to (_dropNo - 1) step 1 do {
+//		_chopOffset = _chopNo  * 4;
+//		diag_log "_Offset = ";
+//		diag_log _chopOffset;
+//		_realUnit = _i + _chopOffset;
+//		diag_log "_i + _chopOffset = ";
+//		diag_log _realUnit;
+//		_soldier = (_dropUnits select _realUnit);
+//		diag_log "==========================================";
+///		diag_log "==========================================";
+//		diag_log "soldier = ";
+//		diag_log _soldier;
+//		diag_log "==========================================";
+//		diag_log "==========================================";
 		
-		unassignVehicle _dropUnit;
-		_dropUnit setPos [(getPos _chopper) select 0,(getPos _chopper) select 1, ((getPos _chopper) select 2) - 5];
+	{
+	diag_log "==========================================";
+	diag_log "==========================================";
+	diag_log "_x is";
+	diag_log _x;
+	diag_log "==========================================";
+	diag_log "==========================================";
+		unassignVehicle _x;
+		_x setPos [(getPos _chopper) select 0,(getPos _chopper) select 1, ((getPos _chopper) select 2) - 5];
 		
-		// _dropUnit action ["eject", _chopper]; 
-        // waitUntil {vehicle _dropUnit != _chopper};
+		// _x action ["eject", _chopper]; 
+        // waitUntil {vehicle _x != _chopper};
 		
-		[_dropUnit,_chopper,50,true,true,true] spawn{
+		[_x,_chopper,50,true,true,true] spawn{
 			private ["_man2","_chopper","_openHeight","_para","_smokes","_flares","_chems","_smoke","_flare","_chem"];
 			_man2 = _this select 0;
 			_chopper = _this select 1;
@@ -81,7 +111,7 @@ _chopper setVariable ["missionCompleted", false];
 		};
 		
 		sleep .3;
-	};
+	} forEach _dropUnits;
 	
 	
 	

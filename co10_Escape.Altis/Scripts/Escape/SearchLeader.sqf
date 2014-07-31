@@ -11,7 +11,7 @@ if (count _this > 1) then {_debug = _this select 1;} else {_debug = false;};
 
 _marker = "";
 //will need to be appropriately changed for stratis
-_worldSizeXY = 30000;
+_worldSizeXY = A3E_WorldSize;
 _searchAreaDiamSmall = 200;
 _searchAreaDiamMedium = 700;
 _searchAreaDiamLarge = 1500;
@@ -54,7 +54,6 @@ _trigger2 = createTrigger["EmptyDetector", [_worldSizeXY / 2, _worldSizeXY / 2, 
 _trigger2 setTriggerArea[_worldSizeXY, _worldSizeXY, 0, true];
 _trigger2 setTriggerActivation["WEST", "GUER D", false];
 _trigger2 setTriggerStatements["this", "drn_var_SearchLeader_Detected = true;", ""];
-
 // Start thread that sets detected by civilian
 [] spawn {
     while {true} do {
@@ -63,10 +62,20 @@ _trigger2 setTriggerStatements["this", "drn_var_SearchLeader_Detected = true;", 
                 if (side _x == civilian && _x distance ((call drn_fnc_Escape_GetPlayers) select 0) <300) exitWith {
                     drn_var_SearchLeader_Detected = true;
                     drn_var_Escape_SearchLeader_ReportingCivilian = _x;
+					//diag_log "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$";
+					//diag_log drn_var_Escape_SearchLeader_ReportingCivilian;
+					
                 };
+				
             } foreach allUnits;
         };
-        
+ //       if (isNil "drn_var_Escape_SearchLeader_ReportingCivilian") then {
+//				hintsilent "reportciv is null";
+//				}
+//				else
+//				{
+//				hintsilent format ["ReportingCiv == %1 \n detected == %2",drn_var_Escape_SearchLeader_ReportingCivilian,drn_var_SearchLeader_Detected];
+//				};
         sleep 5;
     };
 };
@@ -231,7 +240,8 @@ while {1 == 1} do {
     };
     
     if (_state == "REPORTING") then {
-        if (alive _reportingUnit) then {
+	//if (isNil "drn_var_Escape_SearchLeader_ReportingCivilian") exitWith { hintsilent "Roy fixed the searchleader bug"; sleep 4; hintsilent ""; };
+        if (alive _reportingUnit ) then {
             if (diag_tickTime > _reportingStartTime + _timeUntilReportToHQSec) then {
                 
                 _state = "KNOW NOTHING";
@@ -265,6 +275,7 @@ while {1 == 1} do {
 					_firstsight = (_list select 0) getvariable ["A3E_FirstSight",diag_tickTime];
 					if((diag_tickTime-_firstsight)>=a3e_var_artilleryTimeThreshold && (diag_tickTime > (a3e_var_artillery_cooldown+_lastArtilleryStrike))) then {
 						if(random 100 < a3e_var_artillery_chance) then {
+						["Incoming Artillery Strike!!"] call drn_fnc_CL_ShowTitleTextAllClients;
 							if (a3e_debug_artillery) then {
 								player sidechat "HQ is trying to call an artillery strike";
 							};
@@ -320,7 +331,7 @@ while {1 == 1} do {
 			};
 
 			_timeUntilReportToHQSec = _minTimeUntilReportToHQSec + random (_maxTimeUntilReportToHQSec - _minTimeUntilReportToHQSec);
-		};
+		};	
 	};
 
 	sleep 1;

@@ -35,7 +35,7 @@ _vehicle call compile format ["%1=_this;", _vehicleVarName];
 {
     _x setRank "PRIVATE";
     //_x setSkill (_minSkill + random (_maxSkill - _minSkill));
-	[_x, drn_var_Escape_enemyMinSkill] call EGG_EVO_skill;
+	//[_x, drn_var_Escape_enemyMinSkill] call EGG_EVO_skill;
     _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
 } foreach _crew;
 
@@ -58,16 +58,19 @@ for "_i" from 1 to _soldiersCount do {
     //_insurgentSoldier setSkill (_minSkill + random (_maxSkill - _minSkill));
 	//[_insurgentSoldier, drn_var_Escape_enemyMinSkill] call EGG_EVO_skill;
     _insurgentSoldier setRank "LIEUTNANT";
+	_insurgentSoldier call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
     _insurgentSoldier moveInCargo _vehicle;
     _insurgentSoldier assignAsCargo _vehicle;
     _insurgentSoldiers set [count _insurgentSoldiers, _insurgentSoldier];
 };
 
+/*
 {
     _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
     //_x setSkill (_minSkill + random (_maxSkill - _minSkill));
 	//[_x, drn_var_Escape_enemyMinSkill] call EGG_EVO_skill;
 } foreach units _group;
+*/
 
 _fnc_OnDroppingGroup = {
     [_this, "drn_searchAreaMarker", [0, 0, 0], drn_var_Escape_DebugSearchGroup] spawn drn_fnc_SearchGroup;

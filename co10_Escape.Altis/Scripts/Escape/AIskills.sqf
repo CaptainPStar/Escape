@@ -26,23 +26,23 @@ EGG_EVO_skill =
         {
             case 0: //conscript very low skill
             {
-                _aiSkillBase = 0.2;
+                _aiSkillBase = 0.1;
             };
             case 1: //rebels low skill
             {
-                _aiSkillBase = 0.5;
+                _aiSkillBase = 0.3;
             };
             case 2: //regular fair skill
             {
-                _aiSkillBase = 1.0;
+                _aiSkillBase = 0.8;
             };
             case 3: //elite soldiers medium skill
             {
-                _aiSkillBase = 1.4;
+                _aiSkillBase = 1.2;
             };
             case 4: // specops good skill
             {
-                _aiSkillBase = 1.8;
+                _aiSkillBase = 2;
             };
         };
         
@@ -60,17 +60,17 @@ EGG_EVO_skill =
     }
     else {
         if(_skill == 5) then {
-            _unit setskill (paramsArray select 17);
-            _unit setskill ["general", (paramsArray select 17)];
-            _unit setskill ["aimingAccuracy", (paramsArray select 8)];
-            _unit setskill ["aimingShake", (paramsArray select 9)];
-            _unit setskill ["aimingSpeed", (paramsArray select 10)];
-            _unit setskill ["endurance", (paramsArray select 11)];
-            _unit setskill ["spotDistance", (paramsArray select 12)];
-            _unit setskill ["spotTime", (paramsArray select 13)];
-            _unit setskill ["courage", (paramsArray select 14)];
-            _unit setskill ["reloadSpeed", (paramsArray select 15)];
-            _unit setskill ["commanding", (paramsArray select 16)];
+            _unit setskill (paramsArray select 20);
+            _unit setskill ["general", (paramsArray select 20)];
+            _unit setskill ["aimingAccuracy", (paramsArray select 11)];
+            _unit setskill ["aimingShake", (paramsArray select 12)];
+            _unit setskill ["aimingSpeed", (paramsArray select 13)];
+            _unit setskill ["endurance", (paramsArray select 14)];
+            _unit setskill ["spotDistance", (paramsArray select 15)];
+            _unit setskill ["spotTime", (paramsArray select 16)];
+            _unit setskill ["courage", (paramsArray select 17)];
+            _unit setskill ["reloadSpeed", (paramsArray select 18)];
+            _unit setskill ["commanding", (paramsArray select 19)];
         };
     };
 

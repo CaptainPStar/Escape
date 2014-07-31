@@ -5,14 +5,14 @@ AT_Revive_Debug = true;
 {
     waitUntil {!isNull player};
 	
-	[true] spawn AT_FNC_Revive_InitPlayer;
+	[] spawn AT_FNC_Revive_InitPlayer;
 	
 	
 	player addEventHandler 
 	[
 		"Respawn", 
 		{ 
-			[false] spawn AT_FNC_Revive_InitPlayer;
+			[] spawn AT_FNC_Revive_InitPlayer;
 		}
 	];
 };

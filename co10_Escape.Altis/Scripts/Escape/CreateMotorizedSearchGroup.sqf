@@ -47,6 +47,7 @@ for "_i" from 1 to _soldiersCount do {
     //_insurgentSoldier setSkill (_minSkill + random (_maxSkill - _minSkill));
 //	[_insurgentsoldier, drn_var_Escape_enemyMinSkill] call EGG_EVO_skill;
     _insurgentSoldier setRank "LIEUTNANT";
+	_insurgentSoldier call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
     _insurgentSoldier moveInCargo _vehicle;
     _insurgentSoldier assignAsCargo _vehicle;
     _insurgentSoldiers set [count _insurgentSoldiers, _insurgentSoldier];
@@ -54,10 +55,12 @@ for "_i" from 1 to _soldiersCount do {
 
 _group selectLeader (_insurgentSoldiers select 0);
 
+/*
 {
     _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
     //[_x, drn_var_Escape_enemyMinSkill] call EGG_EVO_skill;
 } foreach units _group;
+*/
 
 [_vehicle, _searchAreaMarker, _debug] spawn drn_fnc_MotorizedSearchGroup;
 

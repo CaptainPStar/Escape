@@ -95,7 +95,7 @@ class Escape_loadingScreen
 	{
 		class Title1 : RscLoadingText
 		{
-			text = "Loading Escape Altis"; // "Loading" text in the middle of the screen
+			text = "Loading Escape Roy"; // "Loading" text in the middle of the screen
 		};
 		class CA_Progress : RscProgress // progress bar, has to have idc 104
 		{

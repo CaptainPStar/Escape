@@ -472,7 +472,8 @@ drn_fnc_CL_RunGarbageCollector = {
             sleep 1;
         }
         else {
-            sleep 10;
+		// Doubled the sleep time
+            sleep 20;
         };
         
         // Delete empty groups if they are still empty
@@ -720,5 +721,9 @@ drn_fnc_CL_DeleteDebugMarkerAllClients = {
 };
 
 drn_var_CL_CommonLibVersion = 1.04;
-drn_var_commonLibInitialized = true;
 
+if (isServer || isDedicated) then 
+	{
+	drn_var_commonLibInitialized = true;
+	};
+	

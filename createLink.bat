@@ -5,7 +5,7 @@ SETLOCAL ENABLEDELAYEDEXPANSION
        :: DEFINE the following variables where applicable to your install
 
     SET SOURCE=.\
-    SET TARGET="C:\Users\Username\Documents\Arma 3 - Other Profiles\Playername\missions"
+    SET TARGET="C:\Users\Roy\My Documents\Arma 3\missions"
     
 
 
