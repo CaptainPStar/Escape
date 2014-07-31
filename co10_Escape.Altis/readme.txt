@@ -1,38 +1,20 @@
-CO08 Escape Altis
-18.12.2013
+Escape Roy v4.11 - A forked version of 'Escape'
+31.07.2014
  
 Requirements
 -----------------
-Arma 3 v1.08 minimum
+Latest Arma 3 DEV Build 
  
-
-Changelog Highlights 1.6
------------------
-Optimized and reworked complete mission framework
-More use of A3 engine functions (faster and more reliable)
-Completely new AI-Scripts (removed UPSMON)
-New searchleader engine (for easier implementation of advanced AI and other new features)
-Patrol Boats
-Enemy artillery
-more AAF - less CSAT
-Completely new weapon and equipment balancing
-Missionloading improves (no more 1 minute intro)
-JIP loading improved
-New Revive script
-No more center map cheating
-Attackchopper at escape
-Extraction placement can be set to random, close or far.
-
-
 Installation
 -----------------
-Place the mission file in the MPmissions folder inside your Arma 3 installation.
+Place the mission files in the MPmissions folder inside your Arma 3 installation.
 Your ArmA3 installation should be in yoursteamfolder/steamapps/common
 
  
 Contact us
 -----------------
-BI Forums: Vormulac or NeoArmageddon
+
+BI Forums: Vormulac or NeoArmageddon & RoyWheels
 http://escape.modfact.net/
 
  
@@ -43,7 +25,9 @@ Engima - Creating one of the greatest Arma missions ever.
 Vormulac - Scripting and general confusion
 NeoArmageddon - Scripting and configs
 Hyperz - Scripting and configs 
- 
+Roy - Hacking, slashing, scripting and tea drinking
+
+
 Special thanks to all voluntary and non-voluntary testers:
 Armed-Tatics:
 	Scruffy
