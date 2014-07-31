@@ -40,10 +40,13 @@ _debug = a3e_debug;
 
 drn_var_Escape_firstPreloadDone = false;
 
-if(isNil("drn_var_commonLibInitialized")) then {
+/*if(isNil("drn_var_commonLibInitialized")) then {
 	call compile preprocessFileLineNumbers "Scripts\DRN\CommonLib\CommonLib.sqf";
-};
+};*/
 
+if(isNil("A3E_var_FunctionsInitialized")) then {
+	call compile preprocessFileLineNumbers "Scripts\Escape\Functions.sqf";
+};
 drn_var_Escape_playerEnteredWorld = false;
 
 
@@ -91,7 +94,6 @@ drn_arr_JipSpawnPos = [];
 //Wait until server has parsed the parameters
 waituntil {!isNil("A3E_ParamsParsed")};
 
-call compile preprocessFileLineNumbers "Scripts\Escape\Functions.sqf";
 call compile preprocessFileLineNumbers "Scripts\Escape\AIskills.sqf";
 
 [_isJipPlayer] call compile preprocessFileLineNumbers "Briefing.sqf";
