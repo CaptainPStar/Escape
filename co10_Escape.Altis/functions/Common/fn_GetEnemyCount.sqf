@@ -1,6 +1,6 @@
 private["_modifier","_enemyFrequency","_minEnemies","_maxEnemies","_return"];
 _modifier = [_this, 0, 1] call BIS_fnc_param;
-_enemyFrequency = (Param_EnemyFrequency);
+_enemyFrequency = Param_EnemyFrequency;
 _minEnemies = 8;
 _maxEnemies = 12;
 switch (_enemyFrequency) do

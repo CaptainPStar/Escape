@@ -13,13 +13,18 @@ _countNE = 0;
 _countSE = 0;
 _countSW = 0;
 
-drn_var_Escape_ammoDepotPositions = [];
+drn_var_Escape_HeliBasePositions = [];
 
-if(isNil("A3E_AmmoDepotCount")) then {
-            A3E_AmmoDepotCount = 8;
-    };
-_regionCount = ceil(A3E_AmmoDepotCount/4);
-while {count _positions < A3E_AmmoDepotCount} do {
+if(isNil("A3E_HeliBaseCount")) then {
+            A3E_HeliBaseCount = 8;
+    }
+	else
+	{
+	A3E_HeliBaseCount = A3E_AmmoDepotCount;
+	};
+	
+_regionCount = ceil(A3E_HeliBaseCount/4);
+while {count _positions < A3E_HeliBaseCount} do {
     _isOk = false;
     _j = 0;
 
@@ -27,10 +32,10 @@ while {count _positions < A3E_AmmoDepotCount} do {
         _pos = call A3E_fnc_findFlatArea;
         _isOk = true;
 
-			{
+				{
 		
 		If ((_pos distance _x) < A3E_MinObjDistance) then {
-		
+			
 			_isOk = false;
 			};
 		} foreach banned_positions;
@@ -82,7 +87,7 @@ while {count _positions < A3E_AmmoDepotCount} do {
         };
     } foreach _positions;
 
-   
+
 
     if (!_tooCloseAnotherPos) then {
         _positions set [count _positions, _pos];
@@ -96,8 +101,8 @@ while {count _positions < A3E_AmmoDepotCount} do {
 
 
 {
-    [_x,drn_arr_Escape_AmmoDepot_StaticWeaponClasses,drn_arr_Escape_AmmoDepot_ParkedVehicleClasses] call A3E_fnc_AmmoDepot;
+    [_x,drn_arr_Escape_AmmoDepot_StaticWeaponClasses,drn_arr_Escape_AmmoDepot_ParkedVehicleClasses] call A3E_fnc_HeliBase;
 } foreach _positions;
 
-drn_var_Escape_ammoDepotPositions = _positions;
-publicVariable "drn_var_Escape_ammoDepotPositions";
+drn_var_Escape_HeliBasePositions = _positions;
+publicVariable "drn_var_Escape_HeliBasePositions";

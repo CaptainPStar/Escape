@@ -167,7 +167,8 @@ _fnc_CreateRoadBlock = {
     
 
     _units = [];
-    
+    _posVeh = [];
+	_posVeh2 = [];
     _dir = direction _roadSegment;
     _pos = getPos _roadSegment;
     
@@ -178,13 +179,14 @@ _fnc_CreateRoadBlock = {
         _angle = -90;
     };
     
-    _posX = (getPos _roadSegment) select 0;
-    _posY = (getPos _roadSegment) select 1;
-    
-    _posX = _posX + 7.5 * sin (_dir + _angle);
-    _posY = _posY + 7.5 * cos (_dir + _angle);
-    _pos = [_posX, _posY];
+    _posX = _pos select 0;
+    _posY = _pos select 1;
+    _posMain = [_posX, _posY];
 
+    _posVeh1 = [_posX, _posY + 18];
+	_posVeh2 = [_posX, _posY - 18];
+	//spawn roadblock structure
+	0 = [_pos, _dir, call (compile (preprocessFileLineNumbers "Structures\RoadBlock.sqf"))] call BIS_fnc_ObjectsMapper;
 
     if(_side == EAST) then {
         _possibleVehicles = drn_arr_Escape_RoadBlock_MannedVehicleTypes;
@@ -192,7 +194,10 @@ _fnc_CreateRoadBlock = {
     if (_side == RESISTANCE) then {
         _possibleVehicles = drn_arr_Escape_RoadBlock_MannedVehicleTypes_Ind;
     };
-    _result = [_pos, _dir, _possibleVehicles select floor random count _possibleVehicles, _side] call BIS_fnc_spawnVehicle;
+	
+
+	// vehicle 1
+    _result = [_posVeh1, _dir, _possibleVehicles select floor random count _possibleVehicles, _side] call BIS_fnc_spawnVehicle;
     _vehicle = _result select 0;
     _crew = _result select 1;
     _group = _result select 2;
@@ -206,18 +211,42 @@ _fnc_CreateRoadBlock = {
     //_waypoint setWaypointCombatMode "RED";
     
     _result spawn _fnc_OnSpawnMannedVehicle;
+
+	// vehicle 2
+	_result2 = [_posVeh2, _dir, _possibleVehicles select floor random count _possibleVehicles, _side] call BIS_fnc_spawnVehicle;
+    _vehicle2 = _result2 select 0;
+    _crew2 = _result2 select 1;
+    _group2 = _result2 select 2;
     
+    _units = _units + [_vehicle2];
+    _units = _units + _crew2;
+    
+    //_waypoint = _group addWaypoint [_pos, 0];
+    //_waypoint setWaypointType "MOVE";
+    //_waypoint setWaypointBehaviour "AWARE";
+    //_waypoint setWaypointCombatMode "RED";
+    
+    _result2 spawn _fnc_OnSpawnMannedVehicle;
+
+	
+	
     _posX = (getPos _roadSegment) select 0;
     _posY = (getPos _roadSegment) select 1;
     
-    _posX = _posX + 7.5 * sin (_dir - _angle);
-    _posY = _posY + 7.5 * cos (_dir - _angle);
+    //_posX = _posX + 7.5 * sin (_dir - _angle);
+    //_posY = _posY + 7.5 * cos (_dir - _angle);
     _pos = [_posX, _posY];
+ 
+	// RoadBlock Objects 
+//    _barrier = "RoadCone_L_F" createVehicle _pos;
+//    _barrier setDir (_dir);
+//    _units = _units + [_barrier];
+	
+	
+	
     
-    _barrier = "RoadCone_L_F" createVehicle _pos;
-    _barrier setDir (_dir);
-    _units = _units + [_barrier];
-    
+	
+	
     _posX = (getPos _roadSegment) select 0;
     _posY = (getPos _roadSegment) select 1;
     
@@ -259,6 +288,26 @@ _fnc_CreateRoadBlock = {
     _units
 };
 
+
+_landHeight = getTerrainHeightASL [(A3E_WorldSize/2),(A3E_WorldSize/2)]; 
+_logPosC = [(A3E_WorldSize/2),(A3E_WorldSize/2),_landHeight];
+
+_markerPosi = [0,0,0];
+
+While {!(isOnRoad _markerPosi)} do {
+
+    _posMarkerPos = [(getpos SouthWest select 0) + random (getpos NorthEast select 0),(getpos SouthWest select 1) + random (getpos NorthEast select 1),0];
+	_markerPosiHeight = getTerrainHeightASL [(_posMarkerPos select 0),(_posMarkerPos select 1)];
+	_markerPosi = [(_posMarkerPos select 0),(_posMarkerPos select 1), 0];
+	//diag_log _markerPosi;
+
+};
+
+	_roadMarker = createMarker ["RoadBlockNullRoad", _markerPosi];
+	_roadMarker setMarkerPos _markerPosi;
+	_roadMarker setMarkerSize [50, 50];
+ 
+	  
 _firstLoop = true;
 _nullRoad = ((getMarkerPos "RoadBlockNullRoad") nearRoads 50) select 0;
 while {true} do {

@@ -1,4 +1,4 @@
-	private ["_middlePos", "_staticWeaponClasses", "_parkedVehicleClasses"];
+    private ["_middlePos", "_staticWeaponClasses", "_parkedVehicleClasses"];
     private ["_object", "_pos", "_marker", "_instanceNo", "_randomNo", "_gun", "_angle", "_car"];
     
     _middlePos = _this select 0;
@@ -12,171 +12,132 @@
         drn_BuildAmmoDepot_MarkerInstanceNo = drn_BuildAmmoDepot_MarkerInstanceNo + 1;
     };
     _instanceNo = drn_BuildAmmoDepot_MarkerInstanceNo;
+
+_buildingType = floor(random 3);
+//_buildingType = 1;
+_rotateDir = 0;
+_units = [];
+_vehPos = 10;
+diag_log "---_buildingtype---";
+diag_log _buildingType;
+
+switch (_buildingType) do {
+    case 0: 
+	{
+		_vehPos = 10;
+		
+		// Call Object Mapper
+		0 = [_middlePos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\AmmoDepot.sqf"))] call BIS_fnc_ObjectsMapper;
+		
+		
+		// Static HMG 1
+		_dir = 315;
+		_pos = [(_middlePos select 0) - 8, (_middlePos select 1) + 8, 0];
+		_side = EAST;
+		_result = [_pos, _dir, "O_HMG_01_high_F", _side] call BIS_fnc_spawnVehicle;
+		_vehicle = _result select 0;
+		_crew = _result select 1;
+		_group = _result select 2;
     
-    _pos = [(_middlePos select 0) - 4.5, (_middlePos select 1) + 6, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 0;
+		_units = _units + [_vehicle];
+		_units = _units + _crew;
+		
+		{_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;} foreach (_result select 1);
+		
+		// Static HMG 2
+		_dir = 125;
+		_pos = [(_middlePos select 0) + 8, (_middlePos select 1) - 8, 0];
+		_side = EAST;
+		_result = [_pos, _dir, "O_HMG_01_high_F", _side] call BIS_fnc_spawnVehicle;
+		_vehicle = _result select 0;
+		_crew = _result select 1;
+		_group = _result select 2;
     
-    _pos = [(_middlePos select 0) - 1.5, (_middlePos select 1) + 6, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 0;
+		_units = _units + [_vehicle];
+		_units = _units + _crew;
+		
+		{_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;} foreach (_result select 1);
+		
+		
+	};
+    case 1: 
+	{		
+		_vehPos = 10;
+		
+		// Call Object Mapper
+		0 = [_middlePos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\AmmoDepot_2.sqf"))] call BIS_fnc_ObjectsMapper;
+		
+		// Static HMG 1
+		_dir = 315;
+		_pos = [(_middlePos select 0) - 1.2, (_middlePos select 1) + 2, 1.9];
+		_side = EAST;
+		_result = [_pos, _dir, "O_HMG_01_high_F", _side] call BIS_fnc_spawnVehicle;
+		_vehicle = _result select 0;
+		_crew = _result select 1;
+		_group = _result select 2;
     
-    _pos = [(_middlePos select 0) + 1.5, (_middlePos select 1) + 6, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 0;
+		_units = _units + [_vehicle];
+		_units = _units + _crew;
+		
+		{_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;} foreach (_result select 1);
+		
+		// Static HMG 2
+		_dir = 125;
+		_pos = [(_middlePos select 0) + 2, (_middlePos select 1) - 2.4, 1.9];
+		_side = EAST;
+		_result = [_pos, _dir, "O_HMG_01_high_F", _side] call BIS_fnc_spawnVehicle;
+		_vehicle = _result select 0;
+		_crew = _result select 1;
+		_group = _result select 2;
     
-    _pos = [(_middlePos select 0) + 4.5, (_middlePos select 1) + 6, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 0;
+		_units = _units + [_vehicle];
+		_units = _units + _crew;
+		
+		{_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;} foreach (_result select 1);
+		
+		_vehPos = 10;
+		
+	};
+	case 2: 
+	{
+		_vehPos = 10;
+		
+		// Call Object Mapper
+		0 = [_middlePos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\AmmoDepot_3.sqf"))] call BIS_fnc_ObjectsMapper;
+		
+		// Static HMG 1
+		_dir = 35;
+		_pos = [(_middlePos select 0) + 4.6, (_middlePos select 1) + 9, 0];
+		_side = EAST;
+		_result = [_pos, _dir, "O_HMG_01_high_F", _side] call BIS_fnc_spawnVehicle;
+		_vehicle = _result select 0;
+		_crew = _result select 1;
+		_group = _result select 2;
     
-    _pos = [(_middlePos select 0) - 6, (_middlePos select 1) - 4.5, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 270;
+		_units = _units + [_vehicle];
+		_units = _units + _crew;
+		
+		{_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;} foreach (_result select 1);
+		
+		// Static HMG 2
+		_dir = 313;
+		_pos = [(_middlePos select 0) - 6, (_middlePos select 1) + 9, 0];
+		_side = EAST;
+		_result = [_pos, _dir, "O_HMG_01_high_F", _side] call BIS_fnc_spawnVehicle;
+		_vehicle = _result select 0;
+		_crew = _result select 1;
+		_group = _result select 2;
     
-    _pos = [(_middlePos select 0) - 6, (_middlePos select 1) - 1.5, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 270;
+		_units = _units + [_vehicle];
+		_units = _units + _crew;
+		
+		{_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;} foreach (_result select 1);
+
+		
+	};
+};
     
-    _pos = [(_middlePos select 0) - 6, (_middlePos select 1) + 1.5, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 270;
-    
-    _pos = [(_middlePos select 0) - 6, (_middlePos select 1) + 4.5, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 270;
-    
-    _pos = [(_middlePos select 0) - 4.5, (_middlePos select 1) - 6, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 180;
-    
-    /*
-    _pos = [(_middlePos select 0) - 1.5, (_middlePos select 1) - 6, 0];
-    _object = "Fence_Ind" createVehicle _pos;
-    _object setPos _pos;
-    _object setDir 180;
-    
-    _pos = [(_middlePos select 0) + 1.5, (_middlePos select 1) - 6, 0];
-    _object = "Fence_Ind" createVehicle _pos;
-    _object setPos _pos;
-    _object setDir 180;
-    */
-    
-    _pos = [(_middlePos select 0) + 4.5, (_middlePos select 1) - 6, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 180;
-    
-    _pos = [(_middlePos select 0) + 6, (_middlePos select 1) - 4.5, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 90;
-    
-    _pos = [(_middlePos select 0) + 6, (_middlePos select 1) - 1.5, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 90;
-    
-    _pos = [(_middlePos select 0) + 6, (_middlePos select 1) + 1.5, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 90;
-    
-    _pos = [(_middlePos select 0) + 6, (_middlePos select 1) + 4.5, 0];
-    //_object = "Land_IndFnc_3_F" createVehicle _pos;
-    _object = createVehicle ["Land_IndFnc_3_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 90;
-    
-    // Tunnor
-    _pos = [(_middlePos select 0) + 7, (_middlePos select 1) - 5, 0];
-    //_object = "MetalBarrel_burning_F" createVehicle _pos;
-    _object = createVehicle ["MetalBarrel_burning_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 90;
-    
-    _pos = [(_middlePos select 0) - 5, (_middlePos select 1) + 7, 0];
-    //_object = "MetalBarrel_burning_F" createVehicle _pos;
-    _object = createVehicle ["MetalBarrel_burning_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 90;
-    
-    // Flagga
-    
-    _pos = [(_middlePos select 0) + 3.2, (_middlePos select 1) - 6.5, 0];
-    //_object = "Flag_CSAT_F" createVehicle _pos;
-    _object = createVehicle ["Flag_CSAT_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 90;
-    
-    _pos = [(_middlePos select 0) - 3, (_middlePos select 1) - 6.3, 0];
-    //_object = "Flag_CSAT_F" createVehicle _pos;
-    _object = createVehicle ["Flag_CSAT_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 90;
-    
-    // Skylt
-    
-    _pos = [(_middlePos select 0) + 3, (_middlePos select 1) - 7, 0];
-    //_object = "Land_Sign_WarningMilAreaSmall_F" createVehicle _pos;
-    _object = createVehicle ["Land_Sign_WarningMilAreaSmall_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 340;
-    
-    _pos = [(_middlePos select 0) - 3, (_middlePos select 1) - 7, 0];
-    //_object = "Land_Sign_WarningMilAreaSmall_F" createVehicle _pos;
-    _object = createVehicle ["Land_Sign_WarningMilAreaSmall_F", _pos, [], 0, "NONE"];
-    _object setPos _pos;
-    _object setDir 20;
-    
-    // Statics
-    
-    if (count _staticWeaponClasses > 0) then {
-        _gun = _staticWeaponClasses select floor random count _staticWeaponClasses;
-        
-        _randomNo = random 100;
-        _pos = [(_middlePos select 0) + 10, (_middlePos select 1) + 10, 0];
-        _angle = 45;
-        
-        if (_randomNo > 25) then {
-            _pos = [(_middlePos select 0) + 10, (_middlePos select 1) - 10, 0];
-            _angle = 135
-        };
-        if (_randomNo > 50) then {
-            _pos = [(_middlePos select 0) - 10, (_middlePos select 1) - 10, 0];
-            _angle = 225
-        };
-        if (_randomNo > 75) then {
-            _pos = [(_middlePos select 0) - 10, (_middlePos select 1) + 10, 0];
-            _angle = 315
-        };
-        
-        //_object = _gun createVehicle _pos;
-        _object = createVehicle [_gun, _pos, [], 0, "NONE"];
-        _object setPos _pos;
-        _object setDir _angle;
-    };
+
     
     // Cars
     
@@ -189,16 +150,16 @@
     
     if (_car != "") then {
         _randomNo = random 4;
-        _pos = [(_middlePos select 0) + 8, (_middlePos select 1), 0];
+        _pos = [(_middlePos select 0) + _vehPos, (_middlePos select 1), 0];
         _angle = 45;
         if ((random 100) > 50) then {_angle = 0;} else {_angle = 180;};
         
         if (_randomNo > 2) then {
-            _pos = [(_middlePos select 0) - 8, (_middlePos select 1), 0];
+            _pos = [(_middlePos select 0) - _vehPos, (_middlePos select 1), 0];
             if ((random 100) > 50) then {_angle = 0;} else {_angle = 180;};
         };
         if (_randomNo > 3) then {
-            _pos = [(_middlePos select 0), (_middlePos select 1) + 8, 0];
+            _pos = [(_middlePos select 0), (_middlePos select 1) + _vehPos, 0];
             if ((random 100) > 50) then {_angle = 90;} else {_angle = 270;};
         };
         
@@ -207,7 +168,39 @@
         _object setPos _pos;
         _object setDir _angle;
     };
+ /*   
+	// Statics
     
+
+        _gun = _staticWeaponClasses select floor random count _staticWeaponClasses;
+        
+        _randomNo = random 100;
+        _pos = [(_middlePos select 0) + 11, (_middlePos select 1) + 11, 0];
+        _angle = 45;
+ 
+        _object = createVehicle [_gun, _pos, [], 0, "NONE"];
+        _object setPos _pos;
+        _object setDir _angle;
+		
+        if (_randomNo > 25) then {
+            _pos = [(_middlePos select 0) + 11, (_middlePos select 1) - 11, 0];
+            _angle = 135
+        };
+        if (_randomNo > 50) then {
+            _pos = [(_middlePos select 0) - 11, (_middlePos select 1) - 11, 0];
+            _angle = 225
+        };
+        if (_randomNo > 75) then {
+            _pos = [(_middlePos select 0) - 11, (_middlePos select 1) + 11, 0];
+            _angle = 315
+        };
+        
+
+        _object = createVehicle [_gun, _pos, [], 0, "NONE"];
+        _object setPos _pos;
+        _object setDir _angle;
+    };
+*/	
     // Weapons
     
     private ["_weapons", "_weaponMagazines", "_box", "_weaponCount"];
@@ -241,7 +234,7 @@
     
     if (count _weapons > 0) then {
         //_box = "Box_East_Wps_F" createVehicle [(_middlePos select 0) - 3, (_middlePos select 1) + 0, 0];
-        _box = createVehicle ["Box_East_Wps_F", [(_middlePos select 0) - 3, (_middlePos select 1) + 0, 0], [], 0, "CAN_COLLIDE"];
+        _box = createVehicle ["Box_East_Wps_F", [(_middlePos select 0) - 3, (_middlePos select 1) + 0, 0.2], [], 0, "CAN_COLLIDE"];
         clearWeaponCargoGlobal _box;
         clearMagazineCargoGlobal _box;
         clearItemCargoGlobal _box;
@@ -284,7 +277,7 @@
     
     if (count _weapons > 0) then {
         //_box = "Box_East_WpsLaunch_F" createVehicle [(_middlePos select 0) + 3, (_middlePos select 1) + 0, 0];
-        _box = createVehicle ["Box_East_WpsLaunch_F", [(_middlePos select 0) + 3, (_middlePos select 1) + 0, 0], [], 0, "CAN_COLLIDE"];
+        _box = createVehicle ["Box_East_WpsLaunch_F", [(_middlePos select 0) + 3, (_middlePos select 1) + 0, 0.2], [], 0, "CAN_COLLIDE"];
         clearWeaponCargoGlobal _box;
         clearMagazineCargoGlobal _box;
         clearItemCargoGlobal _box;
@@ -298,10 +291,6 @@
         } foreach _weaponMagazines;
     };
 
-	if((Param_Waffelbox)==1) then {
-		_box = createVehicle ["AT_Waffelbox", [(_middlePos select 0) + 0, (_middlePos select 1) + 3, 0], [], 0, "CAN_COLLIDE"];
-		_box = createVehicle ["RHpistammobox", [(_middlePos select 0) + 3, (_middlePos select 1) + 3, 0], [], 0, "CAN_COLLIDE"];
-	 };
     // Ordnance
     
     _weapons = [];
@@ -331,7 +320,7 @@
     
     if (count _weapons > 0) then {
         //_box = "Box_East_WpsSpecial_F" createVehicle [(_middlePos select 0) + 0, (_middlePos select 1) - 3, 0];
-        _box = createVehicle ["Box_East_WpsSpecial_F", [(_middlePos select 0) + 0, (_middlePos select 1) - 3, 0], [], 0, "CAN_COLLIDE"];
+        _box = createVehicle ["Box_East_WpsSpecial_F", [(_middlePos select 0) + 0, (_middlePos select 1) - 3, 0.2], [], 0, "CAN_COLLIDE"];
         clearWeaponCargoGlobal _box;
         clearMagazineCargoGlobal _box;
         clearItemCargoGlobal _box;
@@ -371,9 +360,10 @@
             };
         };
     };
+    
     if (count _weapons > 0) then {
         //_box = "Box_NATO_AmmoVeh_F" createVehicle [(_middlePos select 0) + 0, (_middlePos select 1) + 0, 0];
-        _box = createVehicle ["Box_NATO_AmmoVeh_F", [(_middlePos select 0) + 0, (_middlePos select 1) + 0, 0], [], 0, "CAN_COLLIDE"];
+        _box = createVehicle ["Box_NATO_AmmoVeh_F", [(_middlePos select 0) + 0, (_middlePos select 1) + 0, 0.2], [], 0, "CAN_COLLIDE"];
         clearWeaponCargoGlobal _box;
         clearMagazineCargoGlobal _box;
         clearItemCargoGlobal _box;
@@ -412,7 +402,7 @@
     
     if (count _weapons > 0) then {
         //_box = "Box_East_Wps_F" createVehicle [(_middlePos select 0) + 0, (_middlePos select 1) + 3, 0];
-        _box = createVehicle ["Box_East_Wps_F", [(_middlePos select 0) + 3, (_middlePos select 1) - 3, 0], [], 0, "CAN_COLLIDE"];
+        _box = createVehicle ["Box_East_Wps_F", [(_middlePos select 0) + 3, (_middlePos select 1) - 3, 0.2], [], 0, "CAN_COLLIDE"];
         clearWeaponCargoGlobal _box;
         clearMagazineCargoGlobal _box;
         clearItemCargoGlobal _box;
@@ -451,7 +441,7 @@
     
     if (count _weapons > 0) then {
         //_box = "Box_East_WpsLaunch_F" createVehicle [(_middlePos select 0) - 3, (_middlePos select 1) - 3, 0];
-        _box = createVehicle ["Box_East_WpsLaunch_F", [(_middlePos select 0) - 3, (_middlePos select 1) - 3, 0], [], 0, "CAN_COLLIDE"];
+        _box = createVehicle ["Box_East_WpsLaunch_F", [(_middlePos select 0) - 3, (_middlePos select 1) - 3, 0.2], [], 0, "CAN_COLLIDE"];
         clearWeaponCargoGlobal _box;
         clearMagazineCargoGlobal _box;
         clearItemCargoGlobal _box;

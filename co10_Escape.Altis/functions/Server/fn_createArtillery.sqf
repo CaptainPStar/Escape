@@ -1,25 +1,25 @@
 private ["_occupiedPositions"];
-private ["_positions", "_i", "_j", "_tooCloseAnotherPos", "_pos", "_maxDistance", "_countNW", "_countNE", "_countSE", "_countSW", "_isOk","_regionCount"];
-
-if (!isServer) exitWith {};
+private ["_positions", "_i", "_j", "_tooCloseAnotherPos", "_pos", "_maxDistance", "_countNW", "_countNE", "_countSE", "_countSW", "_isOk","_regionCount","_artNumber"];
 
 _occupiedPositions = [];
 _positions = [];
 _i = 0;
-_maxDistance = A3E_MinObjDistance;
+_maxDistance = 1000;
 
 _countNW = 0;
 _countNE = 0;
 _countSE = 0;
 _countSW = 0;
 
-drn_var_Escape_ammoDepotPositions = [];
+_artNumber = 1;
 
-if(isNil("A3E_AmmoDepotCount")) then {
-            A3E_AmmoDepotCount = 8;
+a3e_var_artillery_units = [];
+
+if(isNil("A3E_ArtilleryCount")) then {
+            A3E_ArtilleryCount = 8;
     };
-_regionCount = ceil(A3E_AmmoDepotCount/4);
-while {count _positions < A3E_AmmoDepotCount} do {
+_regionCount = ceil(A3E_ArtilleryCount/4);
+while {count _positions < A3E_ArtilleryCount} do {
     _isOk = false;
     _j = 0;
 
@@ -27,15 +27,7 @@ while {count _positions < A3E_AmmoDepotCount} do {
         _pos = call A3E_fnc_findFlatArea;
         _isOk = true;
 
-			{
-		
-		If ((_pos distance _x) < A3E_MinObjDistance) then {
-		
-			_isOk = false;
-			};
-		} foreach banned_positions;
-		
-		
+
         if (_pos select 0 <= ((getpos center) select 0) && _pos select 1 > ((getpos center)select 1)) then {
             if (_countNW <= _regionCount) then {
                 _countNW = _countNW + 1;
@@ -82,7 +74,13 @@ while {count _positions < A3E_AmmoDepotCount} do {
         };
     } foreach _positions;
 
-   
+    if (!_tooCloseAnotherPos) then {
+        {
+            if (_pos distance _x < _maxDistance) then {
+                _tooCloseAnotherPos = true;
+            };
+        } foreach _occupiedPositions;
+    };
 
     if (!_tooCloseAnotherPos) then {
         _positions set [count _positions, _pos];
@@ -96,8 +94,7 @@ while {count _positions < A3E_AmmoDepotCount} do {
 
 
 {
-    [_x,drn_arr_Escape_AmmoDepot_StaticWeaponClasses,drn_arr_Escape_AmmoDepot_ParkedVehicleClasses] call A3E_fnc_AmmoDepot;
+    [_x,_artNumber] call A3E_fnc_Artillery;
+	_artNumber = _artNumber + 2;
 } foreach _positions;
 
-drn_var_Escape_ammoDepotPositions = _positions;
-publicVariable "drn_var_Escape_ammoDepotPositions";

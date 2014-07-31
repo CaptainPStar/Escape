@@ -14,9 +14,9 @@ while {!_isOk} do {
 	
     _startPos = [(SWpos select 0) + random (NEpos select 0),(SWpos select 1) + random (NEpos select 1),0];
 
-    _result = _startPos isFlatEmpty [5, 0, _gradient, 1, 0, false, objNull];
+    _result = _startPos isFlatEmpty [5, 50, 0.2, 150, 0, false, objNull];
     _roadSegments = _startPos nearRoads 30;
-    _buildings = _startPos nearObjects 10;
+    _buildings = _startPos nearObjects 200;
 	
 
 	_startPosN = [(_startPos select 0), (_startPos select 1) + 500, 0];
@@ -42,4 +42,14 @@ while {!_isOk} do {
        };
     };
 };
-[_startPos select 0,_startPos select 1,0]
+
+0 = [_startPos, 0, call (compile (preprocessFileLineNumbers "Structures\Airstrip.sqf"))] call BIS_fnc_ObjectsMapper;
+
+_marker = createMarker ["drn_AirStripMapMarker", _startPos];
+    _marker setMarkerType "o_plane";
+    
+    _marker = createMarkerLocal ["drn_AirStripPatrolMarker", _startPos];
+    _marker setMarkerShapeLocal "ELLIPSE";
+    _marker setMarkerAlpha 0;
+    _marker setMarkerSizeLocal [50, 50];
+	

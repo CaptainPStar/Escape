@@ -49,7 +49,7 @@ while {!_exitScript} do {
 				player sideChat "Search chopper state: MOVING OUT.";
 			};
 
-			_chopper flyInHeight 100;
+			_chopper flyInHeight 250;
 			_chopper setVariable ["waypointFulfilled", false];
 			
 			_chopper engineOn true;
@@ -84,8 +84,8 @@ while {!_exitScript} do {
 			_waypoint setWaypointBehaviour "COMBAT";
 			_waypoint setWaypointSpeed "LIMITED";
 			_waypoint setWaypointStatements ["true", vehicleVarName _chopper + " setVariable [""waypointFulfilled"", true];"];
-
-			_chopper flyInHeight 100;
+			//_SearchHeight = (A3E_FlyHeight / 2) + 20;
+			_chopper flyInHeight 120;
 
 			if (_debug) then {
 				//"SmokeShellRed" createVehicle _position;
@@ -115,14 +115,15 @@ while {!_exitScript} do {
 				createVehicle ["SmokeShellBlue", _homePos, [], 0, "NONE"];
 			};
 
-			_chopper flyInHeight 100;
+			_chopper flyInHeight 250;
 		};
 		case "LANDING": {
 			if (_debug) then {
 				player sideChat "Search chopper state: LANDING.";
 			};
 
-			_chopper land "LAND";
+			//_chopper land "LAND";
+			deleteVehicle _chopper;
 			_chopper setVariable ["waypointFulfilled", false];
 		};
 		case "REFUELING": {

@@ -6,125 +6,113 @@ _rotateDir = _this select 1;
 
 _dir = _rotateDir;
 
+/*
 _pos = [(_centerPos select 0) - 4, (_centerPos select 1) - 6, 0];
-//_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object = createVehicle ["Land_Wall_Tin_4", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+//_object = "Land_Mil_WallBig_4m_F" createVehicle _pos;
+_object = createVehicle ["Land_Mil_WallBig_4m_F", _pos, [], 0, "NONE"];
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
 
 
 _pos = [(_centerPos select 0) - 0, (_centerPos select 1) - 6, 0];
-//_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object = createVehicle ["Land_Wall_Tin_4", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+//_object = "Land_Mil_WallBig_4m_F" createVehicle _pos;
+_object = createVehicle ["Land_Mil_WallBig_4m_F", _pos, [], 0, "NONE"];
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
 
 
 _pos = [(_centerPos select 0) + 4, (_centerPos select 1) - 6, 0];
-//_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object = createVehicle ["Land_Wall_Tin_4", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+//_object = "Land_Mil_WallBig_4m_F" createVehicle _pos;
+_object = createVehicle ["Land_Mil_WallBig_4m_F", _pos, [], 0, "NONE"];
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
 
 
 
-/*
+
 _pos = [(_centerPos select 0) + 6, (_centerPos select 1) - 8, 0];
-_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+_object = "Land_Mil_WallBig_4m_F" createVehicle _pos;
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
-*/
+
 
 _dir = 270 + _rotateDir;
 
 _pos = [(_centerPos select 0) + 6, (_centerPos select 1) - 4, 0];
-//_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object = createVehicle ["Land_Wall_Tin_4", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+//_object = "Land_Mil_WallBig_4m_F" createVehicle _pos;
+_object = createVehicle ["Land_Mil_WallBig_4m_F", _pos, [], 0, "NONE"];
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
 
 
 _pos = [(_centerPos select 0) + 6, (_centerPos select 1) - 0, 0];
-//_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object = createVehicle ["Land_Wall_Tin_4", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+//_object = "Land_Mil_WallBig_4m_F" createVehicle _pos;
+_object = createVehicle ["Land_Mil_WallBig_4m_F", _pos, [], 0, "NONE"];
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
 
 
 _pos = [(_centerPos select 0) + 6, (_centerPos select 1) + 4, 0];
-//_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object = createVehicle ["Land_Wall_Tin_4", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+//_object = "Land_Mil_WallBig_4m_F" createVehicle _pos;
+_object = createVehicle ["Land_Mil_WallBig_4m_F", _pos, [], 0, "NONE"];
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
 
-
-/*
-_pos = [(_centerPos select 0) + 8, (_centerPos select 1) + 6, 0];
-_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
-_object setDir _dir;
-*/
 
 _dir = 180 + _rotateDir;
 
-_pos = [(_centerPos select 0) - 4, (_centerPos select 1) + 6, 0];
-//_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object = createVehicle ["Land_Wall_Tin_4", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+_pos = [(_centerPos select 0) - 3.8, (_centerPos select 1) + 6, 0];
+//_object = "Land_City2_4m_F" createVehicle _pos;
+_object = createVehicle ["Land_CncWall4_F", _pos, [], 0, "NONE"];
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
 
 
-_pos = [(_centerPos select 0) - 0, (_centerPos select 1) + 6, 0];
-//_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object = createVehicle ["Land_Wall_Tin_4", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+_pos = [(_centerPos select 0) + 3.8, (_centerPos select 1) + 6, 0];
+//_object = "Land_City2_4m_F" createVehicle _pos;
+_object = createVehicle ["Land_CncWall4_F", _pos, [], 0, "NONE"];
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
 
 
-/*
-_pos = [(_centerPos select 0) + 4, (_centerPos select 1) + 8, 0];
-_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
-_object setDir _dir;
-*/
 
-// Bar Gate
+// Tunnel
 
-_pos = [(_centerPos select 0) + 4, (_centerPos select 1) + 6, 0];
-//_object = "Land_City_Gate_F" createVehicle _pos;
-_object = createVehicle ["Land_City_Gate_F", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+_pos = [(_centerPos select 0) + 0.1, (_centerPos select 1) + 6, 0];
+//_object = "Land_CncShelter_F" createVehicle _pos;
+_object = createVehicle ["Land_CncShelter_F", _pos, [], 0, "NONE"];
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir (_dir + 180);
+//_object addEventHandler ["AnimStateChanged", {hint "blah";drn_escapeHasStarted = true;publicVariable "drn_escapeHasStarted";}];
+
+_pos = [(_centerPos select 0) + 0.1, (_centerPos select 1) + 7.8, 0];
+//_object = "Land_CncShelter_F" createVehicle _pos;
+_object = createVehicle ["Land_CncShelter_F", _pos, [], 0, "NONE"];
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
+_object setDir _dir;
 //_object addEventHandler ["AnimStateChanged", {hint "blah";drn_escapeHasStarted = true;publicVariable "drn_escapeHasStarted";}];
 _dir = 90 + _rotateDir;
 
 _pos = [(_centerPos select 0) - 6, (_centerPos select 1) - 4, 0];
-//_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object = createVehicle ["Land_Wall_Tin_4", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+//_object = "Land_Mil_WallBig_4m_F" createVehicle _pos;
+_object = createVehicle ["Land_Mil_WallBig_4m_F", _pos, [], 0, "NONE"];
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
 
 
 _pos = [(_centerPos select 0) - 6, (_centerPos select 1) - 0];
-//_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object = createVehicle ["Land_Wall_Tin_4", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+//_object = "Land_Mil_WallBig_4m_F" createVehicle _pos;
+_object = createVehicle ["Land_Mil_WallBig_4m_F", _pos, [], 0, "NONE"];
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
 
 
 _pos = [(_centerPos select 0) - 6, (_centerPos select 1) + 4, 0];
-//_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object = createVehicle ["Land_Wall_Tin_4", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+//_object = "Land_Mil_WallBig_4m_F" createVehicle _pos;
+_object = createVehicle ["Land_Mil_WallBig_4m_F", _pos, [], 0, "NONE"];
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
 
-
-/*
-_pos = [(_centerPos select 0) - 8, (_centerPos select 1) + 6, 0];
-_object = "Land_Wall_Tin_4" createVehicle _pos;
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
-_object setDir _dir;
-*/
 
 // Tunnor
 
@@ -133,13 +121,13 @@ _dir = 90 + _rotateDir;
 _pos = [(_centerPos select 0) + 7, (_centerPos select 1) + 5, 0];
 //_object = "MetalBarrel_burning_F" createVehicle _pos;
 _object = createVehicle ["MetalBarrel_burning_F", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
 
 _pos = [(_centerPos select 0) - 5, (_centerPos select 1) + 7, 0];
 //_object = "MetalBarrel_burning_F" createVehicle _pos;
 _object = createVehicle ["MetalBarrel_burning_F", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
 
 // Flag
@@ -149,5 +137,36 @@ _dir = 90 + _rotateDir;
 _pos = [(_centerPos select 0) + 7, (_centerPos select 1) + 5, 0];
 //_object = "Flag_AAD_F" createVehicle _pos;
 _object = createVehicle ["Flag_AAF_F", _pos, [], 0, "NONE"];
-_object setPos ([_centerPos, _pos, _rotateDir] call a3e_fnc_RotatePosition);
+_object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir _dir;
+
+*/
+
+0 = [_centerPos, _dir, call (compile (preprocessFileLineNumbers "Structures\Prison.sqf"))] call BIS_fnc_ObjectsMapper;
+
+if (karts_allowed) then {
+
+
+_pos = [(_centerPos select 0) + 16, (_centerPos select 1) - 6, 0];
+_bike = createVehicle ["C_Kart_01_F", _pos, [], 0, "NONE"];
+_bike setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
+_bike setDir _dir;
+
+_pos = [(_centerPos select 0) + 18, (_centerPos select 1) - 4, 0];
+_bike = createVehicle ["C_Kart_01_F", _pos, [], 0, "NONE"];
+_bike setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
+_bike setDir _dir;
+
+_dir = 180 + _rotateDir;
+
+_pos = [(_centerPos select 0) + 18, (_centerPos select 1) + 4, 0];
+_bike = createVehicle ["C_Kart_01_F", _pos, [], 0, "NONE"];
+_bike setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
+_bike setDir _dir;
+
+_pos = [(_centerPos select 0) + 16, (_centerPos select 1) + 6, 0];
+_bike = createVehicle ["C_Kart_01_F", _pos, [], 0, "NONE"];
+_bike setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
+_bike setDir _dir;
+
+};

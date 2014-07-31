@@ -1,9 +1,10 @@
 private["_position","_success"];
 _position = [_this,0,[0,0,0],[[]]] call bis_fnc_param;
 
+//diag_log _position;
 
 _success = false;
-{
+{ //diag_log _x;
 	if(_position inRangeOfArtillery [[_x], (getArtilleryAmmo [_x]) select 0]) then {
 		if(a3e_debug_artillery) then {
 			player sidechat format["Arti %1 is in range (Distance %2)",_x,_x distance _position];

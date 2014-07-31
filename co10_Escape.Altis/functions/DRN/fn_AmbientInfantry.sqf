@@ -250,7 +250,7 @@ while {true} do {
 				terminate _scriptHandle;
 			};
 		};
-        
+
         deleteVehicle _x;
     } foreach _unitsToDelete;
     

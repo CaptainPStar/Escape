@@ -19,6 +19,7 @@ if (count _this > 7) then {_maxSkill = _this select 7;} else {_maxSkill = 0.6;};
 if (count _this > 8) then {_fnc_OnSpawnVehicle = _this select 8;} else {_fnc_OnSpawnVehicle = {};};
 if (count _this > 9) then {_debug = _this select 9;} else {_debug = false;};
 _factionsArray = [EAST, RESISTANCE, EAST, RESISTANCE, EAST, RESISTANCE, EAST, RESISTANCE, EAST, RESISTANCE, EAST, RESISTANCE, EAST, RESISTANCE];
+
 while {isNil "drn_var_commonLibInitialized"} do {
     player sideChat "Script MilitaryTraffic.sqf requires CommonLib v1.02.";
     sleep 10;
@@ -28,6 +29,8 @@ while {isnil "bis_fnc_init"} do {
     ["BIS Function Module is needed to run MilitaryTraffic.sqf"] call drn_fnc_CL_ShowDebugTextAllClients;
     sleep 10;
 };
+
+
 
 while {!(["TrafficMarker_SouthWest"] call drn_fnc_CL_MarkerExists)} do {
     player sideChat "Script MilitaryTraffic.sqf requires marker TrafficMarker_SouthWest placed on map.";
@@ -74,7 +77,7 @@ if (isNil "drn_fnc_MilitaryTraffic_MoveVehicle") then {
         };
         
         _speed = "NORMAL";
-        if (_vehicle distance _destinationPos < 500) then {
+        if (_vehicle distance _destinationPos < 40) then {
             _speed = "LIMITED";
         };
         
@@ -114,12 +117,12 @@ if (str _vehicleClasses == """GUE""") then {
     _isFaction = true;
 };
 if (str _vehicleClasses == """CIV""") then {
-    _possibleVehicles = ["C_Hatchback_01_F", "C_Hatchback_01_sport_F", "C_Offroad_01_F", "C_Quadbike_01_F", "C_SUV_01_F", "C_Van_01_box_F", "C_Van_01_transport_F", "C_Van_01_fuel_F"];;
+    _possibleVehicles = ["C_Hatchback_01_F", "C_Hatchback_01_sport_F", "C_Offroad_01_F", "C_Quadbike_01_F", "C_SUV_01_F", "C_Van_01_box_F", "C_Van_01_transport_F", "C_Van_01_fuel_F"];
     _isFaction = true;
 };
 
 if (!_isFaction) then {
-    _possibleVehicles =+ _vehicleClasses;
+    _possibleVehicles = + _vehicleClasses;
 };
 
 _fnc_FindSpawnSegment = {
@@ -424,7 +427,19 @@ while {true} do {
                 terminate _scriptHandle;
             };
             
+			_playerInVehicle = false;
+			{
+			
+			if (_x in _vehicle) then {
+				_playerInVehicle = true;
+				};
+			} foreach call drn_fnc_Escape_GetPlayers;
+			
+			If (!_playerInVehicle) then {
+
             deleteVehicle _vehicle;
+			};
+			
             deleteGroup _group;
 
             [_debugMarkerName] call drn_fnc_CL_DeleteDebugMarkerAllClients;

@@ -1,7 +1,7 @@
 private ["_centerPos", "_rotateDir", "_staticWeaponClasses", "_parkedVehicleClasses", "_index"];
 private ["_pos", "_dir", "_posX", "_posY", "_sectionDir", "_guns", "_gun", "_vehicle", "_powerGenerator"];
 private ["_fnc_CreateObject"];
-private ["_obj"];
+private ["_obj", "_buildingType"];
 
 
 _centerPos = _this select 0;
@@ -47,212 +47,76 @@ _fnc_CreateVehicle = {
     _object
 };
 
-/// Bagfence
+//_buildingType = floor(random 2);
+_buildingType = 1;
 
-/*
-// (North western corner)
-_pos = [-18, 16.5];
-_dir = 90;
-["Land_fort_bagfence_corner", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-*/
+switch (_buildingType) do {
+    case 0: 
+	{
+	
+		// Call Object Mapper
+		0 = [_centerPos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\CommCentre.sqf"))] call BIS_fnc_ObjectsMapper;
+	
+		if (count _parkedVehicleClasses > 0) then {
+		_pos = [11.5, 12];
+		_dir = 270;
+		
+		_vehicle = _parkedVehicleClasses select floor random count _parkedVehicleClasses;
+		[_vehicle, _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateVehicle;
+		
+		_pos = [11.5, 6.5];
+		_dir = 270;
+		
+		_vehicle = _parkedVehicleClasses select floor random count _parkedVehicleClasses;
+		[_vehicle, _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
+		};
 
-//(North western wall)
-_pos = [-18, 15.15];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
+	};
+    case 1: 
+	{
+	
+		// Call Object Mapper
+		0 = [_centerPos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\CommCentre_2.sqf"))] call BIS_fnc_ObjectsMapper;
+		
+		if (count _parkedVehicleClasses > 0) then {
+		_pos = [25, 2];
+		_dir = 90;
+		
+		_vehicle = _parkedVehicleClasses select floor random count _parkedVehicleClasses;
+		[_vehicle, _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateVehicle;
+		
+		_pos = [25, 7];
+		_dir = 90;
+		
+		_vehicle = _parkedVehicleClasses select floor random count _parkedVehicleClasses;
+		[_vehicle, _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
+		};
+	};
+};
 
-// (Western wall)
-_posX = -19.2;
-_sectionDir = 270;
+// Call Object Mapper
+//	0 = [_centerPos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\CommCentre_2.sqf"))] call BIS_fnc_ObjectsMapper;
 
-_pos = [_posX, 14];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, -4];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, -1];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, 2];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, 5];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, 8];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, 11];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, -7];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, -10];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-// (Southern wall)
-_posY = -11.2;
-
-_pos = [-18, _posY];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [-15, _posY];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [-12, _posY];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [-9, _posY];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [-6, _posY];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [-3, _posY];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [0, _posY];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [3, _posY];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [6, _posY];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [9, _posY];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [12, _posY];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [15, _posY];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [18, _posY];
-_dir = 0;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-// (Eastern wall)
-_posX = 19.2;
-_sectionDir = 90;
-
-_pos = [_posX, -10];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, -7];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, -4];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, -1];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, 2];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, 5];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, 8];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, 11];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-_pos = [_posX, 14];
-_dir = _sectionDir;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-// (North eastern wall)
-_pos = [18, 15.15];
-_dir = 180;
-["Land_BagFence_Long_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-// Barracks
-
-_pos = [-13, -3];
-_dir = 0;
-["Land_Cargo_Patrol_V1_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-//"Land_Cargo20_military_green_F"
-// Power Generator
-_pos = [4, -7];
-_dir = 90;
-["Land_Communication_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-
-// Antennas
-
+/*	
+// power generator
 _pos = [0, -9];
 _dir = 90;
 _obj = ["Land_PowerGenerator_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
 [[_obj, "Hijack", "Scripts\Escape\Hijack.sqf"], "a3e_fnc_addHijackAction", nil, false] spawn BIS_fnc_MP;
 _obj allowDamage false;
+*/
 
+/*
+// medical building
 _pos = [13, 1];
 _dir = 90;
 _obj = ["Land_Medevac_House_V1_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
 [[_obj, "Heal at medical building", "Scripts\Escape\HealAtMedicalBuilding.sqf"], "a3e_fnc_addHealAtMedicalBuildingAction", nil, false] spawn BIS_fnc_MP;
-
-_pos = [10, -5];
-_dir = 180;
-["Land_Cargo_House_V1_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-// Toilet
-
-_pos = [-8, -9];
-_dir = 180;
-["Land_ToiletBox_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-_pos = [-6.7, -9];
-_dir = 180;
-["Land_ToiletBox_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-// Fuel Tank
-_pos = [-14, 10];
-_dir = 90;
-["Land_Tank_rust_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-
-// Camo Nets
+*/
 
 
 
 
-// Flag
-_pos = [0, 10];
-_dir = 0;
-["Flag_CSAT_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
 
 if (count _staticWeaponClasses > 0) then {
     // Statics
@@ -271,18 +135,4 @@ if (count _staticWeaponClasses > 0) then {
     [_gun, _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
 };
 
-if (count _parkedVehicleClasses > 0) then {
-    // Cars
-    _pos = [11.5, 12];
-    _dir = 270;
-    
-    _vehicle = _parkedVehicleClasses select floor random count _parkedVehicleClasses;
-    [_vehicle, _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateVehicle;
-    //_object = _vehicle createVehicle [_realPos, [], 0, "CAN_COLLIDE"];
-	
-    _pos = [11.5, 6.5];
-    _dir = 270;
-    
-    _vehicle = _parkedVehicleClasses select floor random count _parkedVehicleClasses;
-    [_vehicle, _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-};
+
