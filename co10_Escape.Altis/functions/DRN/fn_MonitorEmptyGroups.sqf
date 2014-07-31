@@ -5,11 +5,6 @@ _lastTotalGroupCount = 0;
 _emptyGroupCount = 0;
 _lastEmptyGroupCount = 0;
 
-if (isNil "drn_var_commonLibInitialized") then {
-    [] spawn {
-        while {true} do { player sideChat "Script MonitorEmptyGroups.sqf needs CommonLib version 1.02"; sleep 5; };
-    };
-};
 
 while {true} do {
     _totalGroupCount = count allGroups;

@@ -1304,4 +1304,4 @@ if (isServer) then {
     publicVariable "drn_var_Escape_FunctionsInitializedOnServer";
 };
 
-
+ A3E_var_FunctionsInitialized = true;

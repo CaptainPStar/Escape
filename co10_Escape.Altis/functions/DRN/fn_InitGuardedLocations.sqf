@@ -17,12 +17,6 @@ if (count _this > 8) then {_maxSkill = _this select 8;} else {_maxSkill = 0.6;};
 if (count _this > 9) then {_spawnRadius = _this select 9;} else {_spawnRadius = 750;};
 if (count _this > 10) then {_debug = _this select 10;} else {_debug = false;};
 
-if (isNil "drn_var_commonLibInitialized") then {
-    [] spawn {
-        while {true} do { player sideChat "Script AmbientInfantry.sqf needs CommonLib version 1.02"; sleep 5; };
-    };
-};
-
 _isFaction = false;
 if (str _infantryClasses == """USMC""") then {
     _possibleInfantryTypes = ["O_Soldier_F", "O_Soldier_AR_F", "O_Soldier_GL_F", "O_Soldier_lite_F", "O_soldier_exp_F", "O_soldier_M_F"];

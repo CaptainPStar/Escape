@@ -12,11 +12,6 @@ _vehicle = _this select 0;
 _searchAreaMarker = _this select 1;
 if (count _this > 2) then {_debug = _this select 2;} else {_debug = false;};
 
-while {isNil "drn_var_commonLibInitialized"} do {
-    player sideChat "Script MotorizedSearchGroup.sqf requires CommonLib v1.02.";
-    sleep 10;
-};
-
 if (_debug) then {
     ["Starting motorized search group script..."] call drn_fnc_CL_ShowDebugTextAllClients;
 };

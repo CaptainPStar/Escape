@@ -1,8 +1,9 @@
 //waituntil{!isNil("BIS_fnc_init")};
 if(!isServer) exitwith {};
 ["Server started."] spawn a3e_fnc_debugChat;
-if(isNil("drn_var_commonLibInitialized")) then {
-	call compile preprocessFileLineNumbers "Scripts\DRN\CommonLib\CommonLib.sqf";
+
+if(isNil("A3E_var_FunctionsInitialized")) then {
+	call compile preprocessFileLineNumbers "Scripts\Escape\Functions.sqf";
 };
 
 //Parse the parameters

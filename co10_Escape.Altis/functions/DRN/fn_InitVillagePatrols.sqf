@@ -19,12 +19,6 @@ if (count _this > 10) then {_areaPerGroup = _this select 10;} else {_areaPerGrou
 if (count _this > 11) then {_debug = _this select 11;} else {_debug = false;};
 
 
-if (isNil "drn_var_commonLibInitialized") then {
-    [] spawn {
-        while {true} do { player sideChat "Script AmbientInfantry.sqf needs CommonLib version 1.02"; sleep 5; };
-    };
-};
-
 // Initialize global variable
 sleep random 0.1;
 if (isNil "drn_var_guardedVillageInstanceNo") then {
