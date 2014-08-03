@@ -185,7 +185,7 @@ drn_searchAreaMarkerName = "drn_searchAreaMarker";
 drn_startPos = [] call a3e_fnc_findFlatArea;
 publicVariable "drn_startPos";
 
-banned_positions = [drn_startPos];
+A3E_var_BannedPositions = [drn_startPos];
 
 // Build start position
 _fenceRotateDir = random 360;
@@ -215,105 +215,13 @@ if (_showGroupDiagnostics) then {
     [] spawn drn_fnc_MonitorEmptyGroups;
 };
 
+//_EnemyCount = [3] call A3E_fnc_GetEnemyCount;
+//_minEnemies = _EnemyCount select 0;
+//_maxEnemies = _EnemyCount select 1;
+
+[_playergroup, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance] call A3E_fnc_createPOIs;
 
 
-// Initialize communication centers
-if (true) then {
-
-    [] call A3E_fnc_createComCenters;
-
-    _EnemyCount = [3] call A3E_fnc_GetEnemyCount;
-	
-    
-    if (_comCenGuardsExist) then {
-        _scriptHandle = [_playerGroup, "drn_CommunicationCenterPatrolMarker", east, "INS", 4, _EnemyCount select 0, _EnemyCount select 1, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance] spawn drn_fnc_InitGuardedLocations;
-        waitUntil {scriptDone _scriptHandle};
-    };
-    
-    // Initialize armor defence at communication centers
-    
-    if (_comCenGuardsExist) then {
-        [_playerGroup, drn_var_Escape_communicationCenterPositions, _enemySpawnDistance, _enemyFrequency] call drn_fnc_Escape_InitializeComCenArmor;
-    };
-};
-
-
-waitUntil {(count drn_var_Escape_communicationCenterPositions) == A3E_ComCenterCount};
-banned_positions = banned_positions + drn_var_Escape_communicationCenterPositions;
-
-
-
-// Initialize ammo depots
-if (_useAmmoDepots) then {
-	drn_var_Escape_ammoDepotPositions = [];
-    [_enemyMinSkill, _enemyMaxSkill, _debugAmmoDepots, _enemySpawnDistance, _playerGroup, _enemyFrequency] spawn {
-        private ["_enemyMinSkill", "_enemyMaxSkill", "_debugAmmoDepots", "_enemySpawnDistance", "_playerGroup", "_enemyFrequency"];
-        private ["_playerGroup", "_minEnemies", "_maxEnemies", "_bannedPositions", "_scriptHandle"];
-        
-        _enemyMinSkill = _this select 0;
-        _enemyMaxSkill = _this select 1;
-        _debugAmmoDepots = _this select 2;
-        _enemySpawnDistance = _this select 3;
-        _playerGroup = _this select 4;
-        _enemyFrequency = _this select 5;
-        
-		_EnemyCount = [2] call A3E_fnc_GetEnemyCount;
-		_minEnemies = _EnemyCount select 0;
-		_maxEnemies = _EnemyCount select 1;
-		
-        //_bannedPositions = + drn_var_Escape_communicationCenterPositions + [drn_startPos, getMarkerPos "drn_insurgentAirfieldMarker"];
-        /*drn_var_Escape_ammoDepotPositions = _bannedPositions call drn_fnc_Escape_FindAmmoDepotPositions;
-        publicVariable "drn_var_Escape_ammoDepotPositions";*/
-        
-        [] call A3E_fnc_createAmmoDepots;
-		
-        [_playerGroup, "drn_AmmoDepotPatrolMarker", east, "INS", 3, _minEnemies, _maxEnemies, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance, _debugAmmoDepots] spawn drn_fnc_InitGuardedLocations;
-    };
-};
-
-
-
-waitUntil {(count drn_var_Escape_ammoDepotPositions) == A3E_AmmoDepotCount};
-banned_positions = banned_positions + drn_var_Escape_ammoDepotPositions;
-
-
-
-
-// Initialize Heli Bases
-		[_enemyMinSkill, _enemyMaxSkill, _debugAmmoDepots, _enemySpawnDistance, _playerGroup, _enemyFrequency] spawn {
-        private ["_enemyMinSkill", "_enemyMaxSkill", "_debugAmmoDepots", "_enemySpawnDistance", "_playerGroup", "_enemyFrequency"];
-        private ["_playerGroup", "_minEnemies", "_maxEnemies", "_bannedPositions", "_scriptHandle"];
-        
-        _enemyMinSkill = _this select 0;
-        _enemyMaxSkill = _this select 1;
-        _debugAmmoDepots = _this select 2;
-        _enemySpawnDistance = _this select 3;
-        _playerGroup = _this select 4;
-        _enemyFrequency = _this select 5;
-        
-		_EnemyCount = [2] call A3E_fnc_GetEnemyCount;
-		_minEnemies = _EnemyCount select 0;
-		_maxEnemies = _EnemyCount select 1;
-		
-        //_bannedPositions = + drn_var_Escape_communicationCenterPositions + drn_var_Escape_ammoDepotPositions;
-        
-      
-        [] call A3E_fnc_createHeliBases;
-		
-		_minHeliEnemies = _minEnemies + 4;
-		_maxHeliEnemies = _maxEnemies + 4;
-		
-        [_playerGroup, "drn_HeliBasePatrolMarker", east, "INS", 3, _minHeliEnemies, _maxHeliEnemies, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance, _debugAmmoDepots] spawn drn_fnc_InitGuardedLocations;
-		
-		// Armoured vehicle protection
-/*	drn_var_Escape_HeliBasePositions
-	
-	drn_arr_Escape_ComCenArmors set [count drn_arr_Escape_ComCenArmors, [_pos, [drn_arr_ComCenDefence_lightArmorClasses select floor random count drn_arr_ComCenDefence_lightArmorClasses, drn_arr_ComCenDefence_heavyArmorClasses select floor random count drn_arr_ComCenDefence_heavyArmorClasses], []]];
-*/	
-};
-
-// Initialize Air Strip
-//[] call A3E_fnc_createAirstrip;
 
 
 // Initialize search leader
@@ -500,7 +408,7 @@ if(_debugAllUnits) then {
 	[] call A3E_fnc_randomBoats;
 	
 	// Random Artillery	
-	[] call A3E_fnc_createArtillery;
+//	[] call A3E_fnc_createArtillery;
 	
 	
     // Initialize the Escape military and civilian traffic
