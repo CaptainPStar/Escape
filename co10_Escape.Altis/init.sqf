@@ -19,8 +19,13 @@ call compile preprocessFile "Revive\reviveInit.sqf";
 call compile preprocessFile "Scripts\AT\hack_terminal.sqf";
 //call compile preprocessFile "Scripts\AT\dronehack_init.sqf";
 
-call compile preprocessFileLineNumbers "config.sqf";
-call compile preprocessFileLineNumbers ("Islands\" + worldName + "\WorldConfig.sqf");
+if(isNil("A3E_var_ConfigLoaded")) then {
+	call compile preprocessFileLineNumbers "config\config.sqf";
+};
+if(isNil("A3E_var_WorldConfigLoaded")) then {
+	call compile preprocessFileLineNumbers "config\WorldConfig.sqf";
+};
+
 
 
 
@@ -40,9 +45,6 @@ _debug = a3e_debug;
 
 drn_var_Escape_firstPreloadDone = false;
 
-/*if(isNil("drn_var_commonLibInitialized")) then {
-	call compile preprocessFileLineNumbers "Scripts\DRN\CommonLib\CommonLib.sqf";
-};*/
 
 if(isNil("A3E_var_FunctionsInitialized")) then {
 	call compile preprocessFileLineNumbers "Scripts\Escape\Functions.sqf";
@@ -285,7 +287,7 @@ if (!isDedicated) then {
 			waitUntil {!(isNil "drn_fenceIsCreated")};
 			
 			if (_isJipPlayer) then {
-				[[player], "A3E_FNC_handleJIP", false, false] spawn BIS_fnc_MP;
+				//[[player], "A3E_FNC_handleJIP", false, false] spawn BIS_fnc_MP;
 				
                                 
 				[] spawn {

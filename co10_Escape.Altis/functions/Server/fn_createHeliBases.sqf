@@ -2,6 +2,7 @@ private ["_occupiedPositions"];
 private ["_positions", "_i", "_j", "_tooCloseAnotherPos", "_pos", "_maxDistance", "_countNW", "_countNE", "_countSE", "_countSW", "_isOk","_regionCount"];
 
 if (!isServer) exitWith {};
+
 _occupiedPositions = [];
 _positions = [];
 _i = 0;
@@ -11,11 +12,19 @@ _countNW = 0;
 _countNE = 0;
 _countSE = 0;
 _countSW = 0;
-if(isNil("A3E_AmmoDepotCount")) then {
-            A3E_AmmoDepotCount = 8;
-    };
-_regionCount = ceil(A3E_AmmoDepotCount/4);
-while {count _positions < A3E_AmmoDepotCount} do {
+
+drn_var_Escape_HeliBasePositions = [];
+
+if(isNil("A3E_HeliBaseCount")) then {
+            A3E_HeliBaseCount = 8;
+    }
+	else
+	{
+	A3E_HeliBaseCount = A3E_AmmoDepotCount;
+	};
+	
+_regionCount = ceil(A3E_HeliBaseCount/4);
+while {count _positions < A3E_HeliBaseCount} do {
     _isOk = false;
     _j = 0;
 
@@ -23,7 +32,15 @@ while {count _positions < A3E_AmmoDepotCount} do {
         _pos = call A3E_fnc_findFlatArea;
         _isOk = true;
 
-
+				{
+		
+		If ((_pos distance _x) < A3E_MinObjDistance) then {
+			
+			_isOk = false;
+			};
+		} foreach banned_positions;
+		
+		
         if (_pos select 0 <= ((getpos center) select 0) && _pos select 1 > ((getpos center)select 1)) then {
             if (_countNW <= _regionCount) then {
                 _countNW = _countNW + 1;
@@ -70,13 +87,7 @@ while {count _positions < A3E_AmmoDepotCount} do {
         };
     } foreach _positions;
 
-    if (!_tooCloseAnotherPos) then {
-        {
-            if (_pos distance _x < _maxDistance) then {
-                _tooCloseAnotherPos = true;
-            };
-        } foreach _occupiedPositions;
-    };
+
 
     if (!_tooCloseAnotherPos) then {
         _positions set [count _positions, _pos];
@@ -90,5 +101,8 @@ while {count _positions < A3E_AmmoDepotCount} do {
 
 
 {
-    [_x,drn_arr_Escape_AmmoDepot_StaticWeaponClasses,drn_arr_Escape_AmmoDepot_ParkedVehicleClasses] call A3E_fnc_AmmoDepot;
+    [_x,drn_arr_Escape_AmmoDepot_StaticWeaponClasses,drn_arr_Escape_AmmoDepot_ParkedVehicleClasses] call A3E_fnc_HeliBase;
 } foreach _positions;
+
+drn_var_Escape_HeliBasePositions = _positions;
+publicVariable "drn_var_Escape_HeliBasePositions";

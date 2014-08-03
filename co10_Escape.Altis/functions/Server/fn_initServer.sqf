@@ -5,9 +5,32 @@ if(!isServer) exitwith {};
 if(isNil("A3E_var_FunctionsInitialized")) then {
 	call compile preprocessFileLineNumbers "Scripts\Escape\Functions.sqf";
 };
+if(isNil("A3E_var_ConfigLoaded")) then {
+	call compile preprocessFileLineNumbers "config\config.sqf";
+};
+if(isNil("A3E_var_WorldConfigLoaded")) then {
+	call compile preprocessFileLineNumbers "config\WorldConfig.sqf";
+};
 
 //Parse the parameters
 call a3e_fnc_parameterInit;
+if(!isNil("Param_Debug")) then {
+	if(Param_Debug) then {
+		A3E_Debug = true;
+	};
+};
+
+//[] spawn A3E_fnc_CreateComCenters;
+//[] spawn A3E_fnc_createAmmoDepots;
+
+[] call A3E_fnc_Chronos_Init;
+
+
+["A3E_FNC_AmbientAISpawn"] call A3E_FNC_Chronos_Register;
+["A3E_FNC_TrackGroup_Update"] call A3E_FNC_Chronos_Register;
+
+//["A3E_FNC_RandomEvent_Run"] call A3E_FNC_Chronos_Register;
+
 
 // Add crashsite here
 //##############
@@ -41,10 +64,59 @@ if(_hour==24) then {
 _date set [3,_hour];
 [_date] call bis_fnc_setDate;
 
+//Add Fasttime if Param is enabled
 setTimeMultiplier Param_TimeMultiplier;
-call compile preprocessFileLineNumbers ("Islands\" + worldName + "\CommunicationCenterMarkers.sqf");
+if(!isNil("A3E_IslandComCenterMarkers")) then {
+	call compile preprocessFileLineNumbers ("Config\Islands\" + worldName + "\CommunicationCenterMarkers.sqf");
+} else {
+	//Create dynamic Comcenter Markers
+	// Roy Stuff
+	drn_arr_communicationCenterMarkers = [];
+			
+	// Create Markers
+	_center = createCenter sideLogic;
+	_groupLog = createGroup _center;
+	SWpos = [];
+	NEpos = [];
+	_LogPos = [0,0,0];
+	_LogPos2 = [A3E_WorldSize,A3E_WorldSize,0];
+	_logPosC = [(A3E_WorldSize/2),(A3E_WorldSize/2),0];
+	center = _groupLog createUnit ["LOGIC", _LogPosC , [], 0, ""];
+	SouthWest = _groupLog createUnit ["LOGIC", _LogPos , [], 0, ""];
+	NorthEast = _groupLog createUnit ["LOGIC", _LogPos2, [], 0, ""];
+	SWpos = getPos SouthWest;
+	NEpos = getPos NorthEast;
+	publicVariable "SWpos";
+	publicVariable "NEpos";
+	_mapSize = A3E_WorldSize - 50;
+	_LogPosSW = [150,150,0];
+	_LogPosSE = [_mapSize,150,0];
+	_LogPosNW = [150,_mapSize,0];
+	_LogPosNE = [_mapSize,_mapSize,0];
+
+	_TrafMarkSW = createMarker ["TrafficMarker_SouthWest", _LogPosSW];
 
 
+	_TrafMarkSE = createMarker ["TrafficMarker_SouthEast", _LogPosSE];
+
+
+	_TrafMarkNW = createMarker ["TrafficMarker_NorthWest", _LogPosNW];
+
+
+	_TrafMarkNE = createMarker ["TrafficMarker_NorthEast", _LogPosNE];
+
+
+	_russianChop_pos = [200,200,500];
+	_rusChopSPWN = createMarker ["russian_spwn", _russianChop_pos];
+
+	_A164_pos = [A3E_WorldSize - 200,A3E_WorldSize -200,500];
+	_A164SPWN = createMarker ["A164_spwn", _A164_pos];
+
+	_fastMover_pos = [200,A3E_WorldSize - 200,500];
+	_fastMoverSPWN = createMarker ["fastMover_spwn", _fastMover_pos];
+
+	_mapCentre = [(A3E_WorldSize/2),(A3E_WorldSize/2),0];
+};
 //#### Do we need all those switches
 _useRandomStartPos = true;
 _useEscapeSurprises = true;
@@ -110,6 +182,7 @@ drn_searchAreaMarkerName = "drn_searchAreaMarker";
 drn_startPos = [] call a3e_fnc_findFlatArea;
 publicVariable "drn_startPos";
 
+A3E_var_BannedPositions =  A3E_var_BannedPositions + [drn_startPos];
 // Build start position
 _fenceRotateDir = random 360;
 _scriptHandle = [drn_startPos, _fenceRotateDir] spawn a3e_fnc_BuildPrison;
@@ -119,15 +192,17 @@ drn_fenceIsCreated = true;
 publicVariable "drn_fenceIsCreated";
 
 //### The following is a mission function now
-
-[true] call drn_fnc_InitVillageMarkers; 
-[true] call drn_fnc_InitAquaticPatrolMarkers; 
+if(!isNil("A3E_IslandVillageMarkers")) then {
+	[true] call drn_fnc_InitVillageMarkers; 
+};
+//[true] call drn_fnc_InitAquaticPatrolMarkers; 
 
 [_enemyFrequency] call compile preprocessFileLineNumbers "Scripts\Escape\UnitClasses.sqf";
 
 
 //#### The player group should become a global variable broadcasted to network ###
 _playerGroup = group ((call drn_fnc_Escape_GetPlayers) select 0);
+A3E_var_PlayerGroup = _playerGroup;
 
 if (_useEscapeSurprises) then {
     [_enemyMinSkill, _enemyMaxSkill, _enemyFrequency, _debugEscapeSurprises] execVM "Scripts\Escape\EscapeSurprises.sqf";
@@ -177,8 +252,8 @@ if (_useAmmoDepots) then {
 		_minEnemies = _EnemyCount select 0;
 		_maxEnemies = _EnemyCount select 1;
 		
-        _bannedPositions = + drn_var_Escape_communicationCenterPositions + [drn_startPos, getMarkerPos "drn_insurgentAirfieldMarker"];
-        drn_var_Escape_ammoDepotPositions = _bannedPositions call drn_fnc_Escape_FindAmmoDepotPositions;
+        //_bannedPositions = + drn_var_Escape_communicationCenterPositions + [drn_startPos, getMarkerPos "drn_insurgentAirfieldMarker"];
+        drn_var_Escape_ammoDepotPositions = A3E_var_BannedPositions call drn_fnc_Escape_FindAmmoDepotPositions;
         publicVariable "drn_var_Escape_ammoDepotPositions";
         
         [] call A3E_fnc_createAmmoDepots;
@@ -187,6 +262,32 @@ if (_useAmmoDepots) then {
     };
 };
 
+
+// Initialize Heli Bases
+		[_enemyMinSkill, _enemyMaxSkill, _debugAmmoDepots, _enemySpawnDistance, _playerGroup, _enemyFrequency] spawn {
+        private ["_enemyMinSkill", "_enemyMaxSkill", "_debugAmmoDepots", "_enemySpawnDistance", "_playerGroup", "_enemyFrequency"];
+        private ["_playerGroup", "_minEnemies", "_maxEnemies", "_bannedPositions", "_scriptHandle"];
+        
+        _enemyMinSkill = _this select 0;
+        _enemyMaxSkill = _this select 1;
+        _debugAmmoDepots = _this select 2;
+        _enemySpawnDistance = _this select 3;
+        _playerGroup = _this select 4;
+        _enemyFrequency = _this select 5;
+        
+		_EnemyCount = [2] call A3E_fnc_GetEnemyCount;
+		_minEnemies = _EnemyCount select 0;
+		_maxEnemies = _EnemyCount select 1;
+		
+        //_bannedPositions = + drn_var_Escape_communicationCenterPositions + drn_var_Escape_ammoDepotPositions;
+        
+      
+        [] call A3E_fnc_createHeliBases;
+		
+		_minHeliEnemies = _minEnemies + 4;
+		_maxHeliEnemies = _maxEnemies + 4;
+		
+        [_playerGroup, "drn_HeliBasePatrolMarker", east, "INS", 3, _minHeliEnemies, _maxHeliEnemies, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance, _debugAmmoDepots] spawn drn_fnc_InitGuardedLocations;
 // Initialize search leader
 if (_useSearchLeader) then {
     [drn_searchAreaMarkerName, _debugSearchLeader] execVM "Scripts\Escape\SearchLeader.sqf";
@@ -215,9 +316,7 @@ if (_useMotorizedSearchGroup) then {
 // Start garbage collector
 [_playerGroup, 750, _debugGarbageCollector] spawn drn_fnc_CL_RunGarbageCollector;
 
-if(_debugAllUnits) then {
-		[] spawn A3E_fnc_unit_debug_marker;
-	};
+
 
 // Run initialization for scripts that need the players to be gathered at the start position
 [_useVillagePatrols, _useMilitaryTraffic, _useAmbientInfantry, _debugVillagePatrols, _debugMilitaryTraffic, _debugAmbientInfantry, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance, _enemyFrequency, _useRoadBlocks, _debugRoadBlocks, _villagePatrolSpawnArea] spawn {
@@ -242,7 +341,7 @@ if(_debugAllUnits) then {
     waitUntil {[drn_startPos] call drn_fnc_Escape_AllPlayersOnStartPos};
     _playerGroup = group ((call drn_fnc_Escape_GetPlayers) select 0);
     
-    if (_useVillagePatrols) then {
+    if (false) then {
         switch (_enemyFrequency) do
         {
             case 1: // 1-2 players
@@ -273,7 +372,7 @@ if(_debugAllUnits) then {
         waitUntil {scriptDone _scriptHandle};
     };
 
-    if (_useVillagePatrols) then {
+    if (false) then {
         switch (_enemyFrequency) do
         {
             case 1: // 1-2 players
@@ -306,7 +405,7 @@ if(_debugAllUnits) then {
    
 
     // Initialize ambient infantry groups
-    if (_useAmbientInfantry) then {
+    if (false) then {
         
         _fnc_OnSpawnAmbientInfantryUnit = {
             _this call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
@@ -366,6 +465,11 @@ if(_debugAllUnits) then {
         sleep 0.25;
     };
     
+	// Random Boats
+	//[] call A3E_fnc_randomBoats;
+	
+	// Random Artillery	
+	[] call A3E_fnc_createArtillery;
     // Initialize the Escape military and civilian traffic
     if (_useMilitaryTraffic) then {
         private ["_vehiclesPerSqkm", "_radius", "_vehiclesCount", "_fnc_onSpawnCivilian", "_vehicleClasses"];

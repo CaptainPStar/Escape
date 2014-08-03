@@ -36,5 +36,5 @@ wreckRemovalMaxTime = 1800; //seconds
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 #include "include\params.hpp"
-#include "include\functions.hpp"
+#include "functions.hpp"
 #include "include\loadingscreen.hpp"
