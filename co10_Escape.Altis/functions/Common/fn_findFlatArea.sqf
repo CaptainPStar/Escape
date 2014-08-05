@@ -16,13 +16,27 @@ while {!_isOk} do {
 
     _result = _startPos isFlatEmpty [5, 0, _gradient, 1, 0, false, objNull];
     _roadSegments = _startPos nearRoads 30;
-    _buildings = _startPos nearObjects 10;
+    _buildings = _startPos nearObjects 20;
 	
+	
+	
+	
+	if ((count _result > 0) && (count _roadSegments < 50) && (!surfaceIsWater _startPos) && (count _buildings < 50)) then {
+                        _startPos = _result;
+	
+       if (count(_result nearObjects ["House",10]) < 50) then {
+           _isOk = true;
+       };
+    };
+};
+[_startPos select 0,_startPos select 1,0]
 
-	_startPosN = [(_startPos select 0), (_startPos select 1) + 500, 0];
-	_startPosE = [(_startPos select 0) + 500, (_startPos select 1), 0];
-	_startPosS = [(_startPos select 0), (_startPos select 1) - 500, 0];
-	_startPosW = [(_startPos select 0) - 500, (_startPos select 1), 0];
+	
+/*
+	_startPosN = [(_startPos select 0), (_startPos select 1) + 50, 0];
+	_startPosE = [(_startPos select 0) + 50, (_startPos select 1), 0];
+	_startPosS = [(_startPos select 0), (_startPos select 1) - 50, 0];
+	_startPosW = [(_startPos select 0) - 50, (_startPos select 1), 0];
 
 	_isWaterN = surfaceIsWater _startPosN;
 	_isWaterE = surfaceIsWater _startPosE;
@@ -43,3 +57,4 @@ while {!_isOk} do {
     };
 };
 [_startPos select 0,_startPos select 1,0]
+*/
