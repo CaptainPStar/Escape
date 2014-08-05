@@ -179,10 +179,20 @@ _enemySpawnDistance = Param_EnemySpawnDistance;
 _villagePatrolSpawnArea = 0;
 
 drn_searchAreaMarkerName = "drn_searchAreaMarker";
+_gradient = Param_BuildingGradient;
+_result = [];
 
 // Choose a start position
 
-drn_startPos = [] call a3e_fnc_findFlatArea;
+waitUntil {	
+	//diag_log "waiting for _result";
+	_startPos = [(SWpos select 0) + random (NEpos select 0) + 20,(SWpos select 1) + random (NEpos select 1) + 20, 0];
+	_result = _startPos isFlatEmpty [5, 0, _gradient, 50, 0, false, objNull];
+	((count _result) > 0)
+	};
+	
+drn_startPos = _result;
+_dir = random 360;
 publicVariable "drn_startPos";
 
 A3E_var_BannedPositions = [drn_startPos];
@@ -219,6 +229,8 @@ if (_showGroupDiagnostics) then {
 //_minEnemies = _EnemyCount select 0;
 //_maxEnemies = _EnemyCount select 1;
 
+
+// Create all the installations
 [_playergroup, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance] call A3E_fnc_createPOIs;
 
 
