@@ -459,6 +459,7 @@ switch (_buildingType) do {
     
     _marker = createMarker ["drn_AmmoDepotMapMarker" + str _instanceNo, _middlePos];
     _marker setMarkerType "o_installation";
+	_marker setMarkerText "Ammo";
     
     _marker = createMarkerLocal ["drn_AmmoDepotPatrolMarker" + str _instanceNo, _middlePos];
     _marker setMarkerShapeLocal "ELLIPSE";

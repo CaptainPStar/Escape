@@ -18,28 +18,30 @@
 	
 	// Call Object Mapper
 	0 = [_middlePos, _azimut, call (compile (preprocessFileLineNumbers "Structures\HeliBase.sqf"))] call BIS_fnc_ObjectsMapper;
-	
+	_choppaPos = [_middlePos select 0, _middlePos select 1, 0];
 	
 	_choppaRand = floor(random 100);
 	
 	if (_choppaRand < 50) then {	
-	_choppa = createVehicle ["O_Heli_Light_02_unarmed_F", _middlePos, [], 0, "NONE"];
+	_choppa = createVehicle ["O_Heli_Light_02_unarmed_F", _choppaPos, [], 0, "NONE"];
 	}
 	else
 	{
-	_choppa = createVehicle ["B_Heli_Light_01_F", _middlePos, [], 0, "NONE"];
+	_choppa = createVehicle ["B_Heli_Light_01_F", _choppaPos, [], 0, "NONE"];
 	};
 	
-	_heliPos = [(_middlePos select 0) + 6, (_middlePos select 1) - 4, _middlePos select 2];
-    _choppa setPos _heliPos;
-    _choppa setDir _azimut;
-	_randFuel = (random 0.15);
+	//_heliPos = [(_middlePos select 0) + 6, (_middlePos select 1) - 4, _middlePos select 2];
+    //_choppa setPos _heliPos;
+    //_choppa setDir _azimut;
+	_randFuel = (random 0.18);
 	_choppa setFuel _randFuel;
 		
     // Set markers
     
     _marker = createMarker ["drn_HeliBaseMapMarker" + str _instanceNo, _middlePos];
     _marker setMarkerType "o_air";
+	_marker setMarkerText "Air";
+	_marker setMarkerColor "ColorGrey";
     
     _marker = createMarkerLocal ["drn_HeliBasePatrolMarker" + str _instanceNo, _middlePos];
     _marker setMarkerShapeLocal "ELLIPSE";

@@ -102,10 +102,11 @@ a3e_var_artillery_units  = a3e_var_artillery_units  + [_object,_object2];
 //Art markers
 
 _marker = createMarkerLocal ["drn_ArtilleryPosition" + str _artNumber, _centerPos];
-_marker setMarkerType "mil_destroy";
-_marker setMarkerColor "ColorRed";
-_marker setMarkerText "Mobile Artillery";
-_marker setMarkerSize [0.6,0.6];
+
+_marker setMarkerShape "ICON";
+_marker setMarkerType "o_art";
+_marker setMarkerColor "ColorBrown";
+_marker setMarkerText "Artillery";
 
 // Flag
 
