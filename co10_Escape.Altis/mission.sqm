@@ -18,7 +18,7 @@ class Mission
 	randomSeed=16426086;
 	class Intel
 	{
-		briefingName="co10 Escape 1.7 Dev17 Roy v4.11";
+		briefingName="co10 Escape 1.7 Dev17 Roy v4.12";
 		resistanceWest=0;
 		resistanceEast=1;
 		startWeather=0;
