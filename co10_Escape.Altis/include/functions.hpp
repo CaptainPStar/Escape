@@ -12,7 +12,8 @@ class CfgFunctions
 			class KeyDown {};
 			class RandomPatrolPos {};
 			class WriteParamBriefing {};
-            class findFlatArea{};
+            class findFlatArea {};
+			class findInstallPos {};
 			class RotatePosition{};
 			class GetEnemyCount{};
 			class paramWeather{};
@@ -55,12 +56,13 @@ class CfgFunctions
                     recompile = 1; // 1 to recompile the function upon mission start
             };			
 			class parameterInit {}; 
-            class createComCenters {};
-            class createAmmoDepots {};
-			class createHeliBases {};
-			class createAirstrip {};
+			class createPOIs {};
+            //class createComCenters {};
+            //class createAmmoDepots {};
+			//class createHeliBases {};
+			//class createAirstrip {};
 			class handleJIP {};
-			class createArtillery {};
+			//class createArtillery {};
 			class randomBoats {};
 		};
 		class Surprises
