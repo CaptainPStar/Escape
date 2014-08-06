@@ -105,7 +105,7 @@ _marker = createMarkerLocal ["drn_ArtilleryPosition" + str _artNumber, _centerPo
 
 _marker setMarkerShape "ICON";
 _marker setMarkerType "o_art";
-_marker setMarkerColor "ColorBrown";
+_marker setMarkerColor "Color2_FD_F";
 _marker setMarkerText "Artillery";
 
 // Flag
