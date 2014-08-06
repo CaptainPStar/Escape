@@ -18,7 +18,15 @@ _installCount = 0;
 _installPos = [];
 _badPos = 0;
 _tooCloseNo = 0;
-_gradient = Param_BuildingGradient;
+_gradient = 0;
+_gradChoice = Param_BuildingGradient;
+		switch (_gradChoice) do{
+			case 0: {_gradient = 0.10;};    // Very Flat
+            case 1: {_gradient = 0.35;};    // Slight Incline (Default)
+            case 2: {_gradient = 0.55;};  	// Fair Incline 
+            case 3: {_gradient = 0.75;};  	// Steep Incline
+			case 4: {_gradient = 1;};  	// Very Steep Incline
+        };
 
 /// main loop for finding locations
 for "_i" from 0 to 1 step 0 do {
@@ -28,7 +36,7 @@ _result = [];
 	waitUntil {	
 	//diag_log "waiting for _result";
 	_startPos = [(SWpos select 0) + random (NEpos select 0) + 20,(SWpos select 1) + random (NEpos select 1) + 20, 0];
-	_result = _startPos isFlatEmpty [5, 0, _gradient, 50, 0, false, objNull];
+	_result = _startPos isFlatEmpty [5, 0, _gradient, 40, 0, false, objNull];
 	((count _result) > 0)
 	};
 
@@ -112,7 +120,8 @@ if ((!surfaceIsWater _result) && (_tooClose == 0)) then
 	};
 
 	
-if (_installCount == _installNo) exitWith {};		
+if (_installCount == _installNo) exitWith {};
+		
 if (_badPos > 200) then {_installDist = ((_installDist / 3) * 2); _badPos = 0;diag_log _result;
 			diag_log _tooClose;
 			diag_log _isOk;};
