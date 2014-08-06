@@ -181,14 +181,22 @@ _villagePatrolSpawnArea = 0;
 drn_searchAreaMarkerName = "drn_searchAreaMarker";
 _gradient = Param_BuildingGradient;
 _result = [];
-
+_finalResult = 0;
 // Choose a start position
 
 waitUntil {	
 	//diag_log "waiting for _result";
 	_startPos = [(SWpos select 0) + random (NEpos select 0) + 20,(SWpos select 1) + random (NEpos select 1) + 20, 0];
-	_result = _startPos isFlatEmpty [5, 0, _gradient, 50, 0, false, objNull];
-	((count _result) > 0)
+	_result = _startPos isFlatEmpty [5, 0, 0.15, 30, 0, false, objNull];
+	
+	switch ((count _result) > 0) do {
+		case true: {			
+			_nearRoads = _result nearRoads 120;
+			if ((count _nearRoads) == 0) then {_finalResult = 1;};
+			};
+		case false: {};
+		};
+	(_finalResult > 0)
 	};
 	
 drn_startPos = _result;
@@ -418,9 +426,6 @@ if(_debugAllUnits) then {
     
 	// Random Boats
 	[] call A3E_fnc_randomBoats;
-	
-	// Random Artillery	
-//	[] call A3E_fnc_createArtillery;
 	
 	
     // Initialize the Escape military and civilian traffic
