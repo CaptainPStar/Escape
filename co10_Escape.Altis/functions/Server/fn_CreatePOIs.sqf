@@ -13,6 +13,8 @@ _enemySpawnDistance = _this select 3;
 
 private ["_comCenNo","_comCenMarkerNames","_markerCoreName","_markerName","_instanceNo","_marker","_chosenComCenIndexes","_comCenPositions","_distanceBetween","_pos","_occupiedPositions","_i","_j","_tooCloseAnotherPos","_maxDistance","_countNW","_countNE","_countSE","_countSW","_isOk","_regionCount","_commCentreMarkers", "_index","_chosenComCenIndexes","_commCentreMarkers"];
 
+cutText ["Creating Communication Centers", "Plain", 2];
+
 drn_var_Escape_communicationCenterPositions = [A3E_ComCenterCount] call A3E_fnc_findInstallPos;
 
  _instanceNo = 0;
@@ -28,7 +30,7 @@ drn_var_Escape_communicationCenterPositions = [A3E_ComCenterCount] call A3E_fnc_
     _marker = createMarker ["drn_CommunicationCenterMapMarker" + str _instanceNo, _pos];
     _marker setMarkerShape "ICON";
     _marker setMarkerType "flag_CSAT";
-	_marker setMarkerColor "ColorRed";
+	_marker setMarkerColor "Color1_FD_F";
 	_marker setMarkerText "Comms";
 
 
@@ -57,6 +59,8 @@ waitUntil {scriptDone _scriptHandle};
 private ["_occupiedPositions"];
 private ["_positions", "_i", "_j", "_tooCloseAnotherPos", "_pos", "_maxDistance", "_countNW", "_countNE", "_countSE", "_countSW", "_isOk","_regionCount"];
 
+cutText ["Creating Ammo Depots", "Plain", 2];
+
 drn_var_Escape_ammoDepotPositions = [A3E_AmmoDepotCount] call A3E_fnc_findInstallPos;
 
 {
@@ -76,6 +80,9 @@ _EnemyCount = [2] call A3E_fnc_GetEnemyCount;
 
 private ["_occupiedPositions"];
 private ["_positions", "_i", "_j", "_tooCloseAnotherPos", "_pos", "_maxDistance", "_countNW", "_countNE", "_countSE", "_countSW", "_isOk","_regionCount"];
+
+cutText ["Creating Helicopter Bases", "Plain", 2];
+
 A3E_HeliBaseCount = A3E_AmmoDepotCount;
 
 drn_var_Escape_HeliBasePositions = [A3E_HeliBaseCount] call A3E_fnc_findInstallPos;
@@ -99,6 +106,9 @@ waitUntil {scriptDone _scriptHandle};
 
 private ["_occupiedPositions"];
 private ["_positions", "_i", "_j", "_tooCloseAnotherPos", "_pos", "_maxDistance", "_countNW", "_countNE", "_countSE", "_countSW", "_isOk","_regionCount","_artNumber"];
+
+cutText ["Creating Mobile Artillery", "Plain", 2];
+
 A3E_ArtilleryCount = 8;
 
 a3e_var_artillery_units = [A3E_ArtilleryCount, 200] call A3E_fnc_findInstallPos;
@@ -111,3 +121,5 @@ _artNumber = 1;
 } foreach a3e_var_artillery_units;
 
 publicVariable "a3e_var_artillery_units";
+
+cutText ["", "Plain", 2];
