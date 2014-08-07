@@ -1,13 +1,15 @@
 //waituntil{!isNil("BIS_fnc_init")};
 if(!isServer) exitwith {};
 ["Server started."] spawn a3e_fnc_debugChat;
+
+
 //if(isNil("drn_var_commonLibInitialized")) then {
 call compile preprocessFileLineNumbers "Scripts\DRN\CommonLib\CommonLib.sqf";
 //};
 
 waitUntil {!isnil ("drn_var_commonLibInitialized")};
 
-call compile preprocessFileLineNumbers "Islands\WorldConfigs.sqf";
+
 //Parse the parameters
 call a3e_fnc_parameterInit;
 
@@ -144,10 +146,10 @@ _debugEscapeSurprises = false;
 _debugAmmoDepots = false;
 _debugSearchLeader = false;
 _debugVillagePatrols = false;
-_debugMilitaryTraffic = false;
-_debugAmbientInfantry = false;
+_debugMilitaryTraffic = true;
+_debugAmbientInfantry = true;
 _debugGarbageCollector = false;
-_debugRoadBlocks = false;
+_debugRoadBlocks = true;
 drn_var_Escape_debugMotorizedSearchGroup = false;
 drn_var_Escape_debugDropChoppers = false;
 drn_var_Escape_debugReinforcementTruck = false;
@@ -199,7 +201,7 @@ waitUntil {
 	(_finalResult > 0)
 	};
 	
-drn_startPos = _result;
+drn_startPos = [_result select 0, _result select 1, 0];
 _dir = random 360;
 publicVariable "drn_startPos";
 
@@ -241,13 +243,15 @@ if (_showGroupDiagnostics) then {
 // Create all the installations
 [_playergroup, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance] call A3E_fnc_createPOIs;
 
-
+diag_log "created POIs";
 
 
 // Initialize search leader
 if (_useSearchLeader) then {
     [drn_searchAreaMarkerName, _debugSearchLeader] execVM "Scripts\Escape\SearchLeader.sqf";
 };
+
+diag_log "created searchleader";
 
 // Create motorized search group
 if (_useMotorizedSearchGroup) then {
@@ -269,6 +273,8 @@ if (_useMotorizedSearchGroup) then {
     };
 };
 
+diag_log "after motorized search group"; 
+
 // Start garbage collector
 [_playerGroup, 750, _debugGarbageCollector] spawn drn_fnc_CL_RunGarbageCollector;
 
@@ -276,6 +282,7 @@ if(_debugAllUnits) then {
 		[] spawn A3E_fnc_unit_debug_marker;
 	};
 
+diag_log "after Starting garbage collector"; 
 // Run initialization for scripts that need the players to be gathered at the start position
 [_useVillagePatrols, _useMilitaryTraffic, _useAmbientInfantry, _debugVillagePatrols, _debugMilitaryTraffic, _debugAmbientInfantry, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance, _enemyFrequency, _useRoadBlocks, _debugRoadBlocks, _villagePatrolSpawnArea] spawn {
     private ["_useVillagePatrols", "_useMilitaryTraffic", "_useAmbientInfantry", "_debugVillagePatrols", "_debugMilitaryTraffic", "_debugAmbientInfantry", "_enemyMinSkill", "_enemyMaxSkill", "_enemySpawnDistance", "_enemyFrequency", "_useRoadBlocks", "_debugRoadBlocks"];
@@ -330,6 +337,8 @@ if(_debugAllUnits) then {
         _scriptHandle = [_playerGroup, "drn_villageMarker", east, "INS", 5, _minEnemiesPerGroup, _maxEnemiesPerGroup, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance, _villagePatrolSpawnArea, _debugVillagePatrols] spawn drn_fnc_InitVillagePatrols;
         waitUntil {scriptDone _scriptHandle};
     };
+	
+diag_log "after motorized search group";
 
     if (_useVillagePatrols) then {
         switch (_enemyFrequency) do
@@ -361,7 +370,7 @@ if(_debugAllUnits) then {
         waitUntil {scriptDone _scriptHandle};
     };
     
-   
+diag_log "after village patrols";   
 
     // Initialize ambient infantry groups
     if (_useAmbientInfantry) then {
@@ -423,11 +432,11 @@ if(_debugAllUnits) then {
         [_playerGroup, east, drn_arr_Escape_InfantryTypes, _infantryGroupsCount, _enemySpawnDistance + 200, _enemySpawnDistance + 500, _minEnemiesPerGroup, _maxEnemiesPerGroup, _enemyMinSkill, _enemyMaxSkill, 750, _fnc_OnSpawnAmbientInfantryUnit, _fnc_OnSpawnAmbientInfantryGroup, _debugAmbientInfantry] spawn drn_fnc_AmbientInfantry;
         sleep 0.25;
     };
-    
+   
 	// Random Boats
 	[] call A3E_fnc_randomBoats;
 	
-	
+diag_log "after call A3E_fnc_randomBoats";	
     // Initialize the Escape military and civilian traffic
     if (_useMilitaryTraffic) then {
         private ["_vehiclesPerSqkm", "_radius", "_vehiclesCount", "_fnc_onSpawnCivilian", "_vehicleClasses"];
@@ -511,7 +520,7 @@ if(_debugAllUnits) then {
         [_playerGroup, east, drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses, _vehiclesCount, _enemySpawnDistance, _radius, _enemyMinSkill, _enemyMaxSkill, drn_fnc_Escape_TrafficSearch, _debugMilitaryTraffic] spawn drn_fnc_MilitaryTraffic;
         sleep 0.25;
     };
-    
+diag_log "after military traffic";   
     if (_useRoadBlocks) then {
         private ["_areaPerRoadBlock", "_maxEnemySpawnDistanceKm", "_roadBlockCount"];
         private ["_fnc_OnSpawnInfantryGroup", "_fnc_OnSpawnMannedVehicle"];
