@@ -16,6 +16,7 @@ if(!isDedicated) then {
 };
 
 //call compileFinal preprocessFileLineNumbers "FAR_revive\FAR_revive_init.sqf";
+call compile preprocessFileLineNumbers "Islands\WorldConfig.sqf";
 call compile preprocessFile "Revive\reviveInit.sqf";
 call compile preprocessFile "Scripts\AT\hack_terminal.sqf";
 call compile preprocessFile "Scripts\AT\dronehack_init.sqf";
@@ -396,7 +397,7 @@ if (!isDedicated) then {
 	waitUntil {!(isNil "drn_fenceIsCreated")};
 	sleep 1.5;
 	titleFadeOut 1;
-	sleep 3;
+	sleep 5;
 	["Somewhere on", A3E_WorldName , str (date select 2) + "/" + str (date select 1) + "/" + str (date select 0) + " " + str (date select 3) + ":00"] spawn BIS_fnc_infoText;
 	if(!isNil("paramsArray")) then {
 		paramsArray call A3E_fnc_WriteParamBriefing;
