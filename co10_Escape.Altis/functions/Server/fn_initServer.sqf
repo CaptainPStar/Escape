@@ -2,7 +2,7 @@
 if(!isServer) exitwith {};
 ["Server started."] spawn a3e_fnc_debugChat;
 
-
+call compile preprocessFileLineNumbers "Islands\WorldConfig.sqf";
 //if(isNil("drn_var_commonLibInitialized")) then {
 call compile preprocessFileLineNumbers "Scripts\DRN\CommonLib\CommonLib.sqf";
 //};
@@ -146,10 +146,10 @@ _debugEscapeSurprises = false;
 _debugAmmoDepots = false;
 _debugSearchLeader = false;
 _debugVillagePatrols = false;
-_debugMilitaryTraffic = true;
-_debugAmbientInfantry = true;
+_debugMilitaryTraffic = false;
+_debugAmbientInfantry = false;
 _debugGarbageCollector = false;
-_debugRoadBlocks = true;
+_debugRoadBlocks = false;
 drn_var_Escape_debugMotorizedSearchGroup = false;
 drn_var_Escape_debugDropChoppers = false;
 drn_var_Escape_debugReinforcementTruck = false;
@@ -241,7 +241,7 @@ if (_showGroupDiagnostics) then {
 
 
 // Create all the installations
-[_playergroup, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance] call A3E_fnc_createPOIs;
+[_playergroup, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance, _enemyFrequency] spawn A3E_fnc_createPOIs;
 
 diag_log "created POIs";
 
@@ -272,6 +272,7 @@ if (_useMotorizedSearchGroup) then {
         [getPos _spawnSegment, drn_searchAreaMarkerName, _enemyFrequency, _enemyMinSkill, _enemyMaxSkill, drn_var_Escape_debugMotorizedSearchGroup] execVM "Scripts\Escape\CreateMotorizedSearchGroup.sqf";
     };
 };
+
 
 diag_log "after motorized search group"; 
 
@@ -435,7 +436,7 @@ diag_log "after village patrols";
    
 	// Random Boats
 	[] call A3E_fnc_randomBoats;
-	
+[""] call drn_fnc_CL_ShowTitleTextAllClients;	
 diag_log "after call A3E_fnc_randomBoats";	
     // Initialize the Escape military and civilian traffic
     if (_useMilitaryTraffic) then {
