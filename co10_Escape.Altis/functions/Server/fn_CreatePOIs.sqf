@@ -5,6 +5,7 @@ _playergroup = _this select 0;
 _enemyMinSkill = _this select 1;
 _enemyMaxSkill = _this select 2;
 _enemySpawnDistance = _this select 3;
+_enemyFrequency = _this select 4;
 
 
 ////////////////////////////////////
@@ -13,8 +14,9 @@ _enemySpawnDistance = _this select 3;
 
 private ["_comCenNo","_comCenMarkerNames","_markerCoreName","_markerName","_instanceNo","_marker","_chosenComCenIndexes","_comCenPositions","_distanceBetween","_pos","_occupiedPositions","_i","_j","_tooCloseAnotherPos","_maxDistance","_countNW","_countNE","_countSE","_countSW","_isOk","_regionCount","_commCentreMarkers", "_index","_chosenComCenIndexes","_commCentreMarkers"];
 
-cutText ["Creating Communication Centers", "PLAIN DOWN", 2];
 
+["Creating Communication Centers"] call drn_fnc_CL_ShowTitleTextAllClients;
+	
 drn_var_Escape_communicationCenterPositions = [A3E_ComCenterCount] call A3E_fnc_findInstallPos;
 
  _instanceNo = 0;
@@ -59,7 +61,7 @@ waitUntil {scriptDone _scriptHandle};
 private ["_occupiedPositions"];
 private ["_positions", "_i", "_j", "_tooCloseAnotherPos", "_pos", "_maxDistance", "_countNW", "_countNE", "_countSE", "_countSW", "_isOk","_regionCount"];
 
-cutText ["Creating Ammo Depots", "PLAIN DOWN", 2];
+["Creating Ammo Depots"] call drn_fnc_CL_ShowTitleTextAllClients;
 
 drn_var_Escape_ammoDepotPositions = [A3E_AmmoDepotCount] call A3E_fnc_findInstallPos;
 
@@ -71,7 +73,7 @@ publicVariable "drn_var_Escape_ammoDepotPositions";
 
 _EnemyCount = [2] call A3E_fnc_GetEnemyCount;
 
-[_playerGroup, "drn_AmmoDepotPatrolMarker", east, "INS", 3, _EnemyCount select 0, _EnemyCount select 1, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance, _debugAmmoDepots] spawn drn_fnc_InitGuardedLocations;
+[_playerGroup, "drn_AmmoDepotPatrolMarker", east, "INS", 3, _EnemyCount select 0, _EnemyCount select 1, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance] spawn drn_fnc_InitGuardedLocations;
 
 
 /////////////////////////
@@ -81,7 +83,7 @@ _EnemyCount = [2] call A3E_fnc_GetEnemyCount;
 private ["_occupiedPositions"];
 private ["_positions", "_i", "_j", "_tooCloseAnotherPos", "_pos", "_maxDistance", "_countNW", "_countNE", "_countSE", "_countSW", "_isOk","_regionCount"];
 
-cutText ["Creating Helicopter Bases", "PLAIN DOWN", 2];
+["Creating Helicopter Bases"] call drn_fnc_CL_ShowTitleTextAllClients;
 
 A3E_HeliBaseCount = A3E_AmmoDepotCount;
 
@@ -107,7 +109,9 @@ waitUntil {scriptDone _scriptHandle};
 private ["_occupiedPositions"];
 private ["_positions", "_i", "_j", "_tooCloseAnotherPos", "_pos", "_maxDistance", "_countNW", "_countNE", "_countSE", "_countSW", "_isOk","_regionCount","_artNumber"];
 
-cutText ["Creating Mobile Artillery", "PLAIN DOWN", 2];
+
+["Creating Mobile Artillery"] call drn_fnc_CL_ShowTitleTextAllClients;
+
 a3e_var_artillery_units  = [];
 _artPositions = [];
 A3E_ArtilleryCount = 8;
@@ -123,4 +127,6 @@ _artNumber = 1;
 
 publicVariable "a3e_var_artillery_units";
 
-cutText ["", "PLAIN DOWN", 2];
+["Escape has started!"] call drn_fnc_CL_ShowTitleTextAllClients;
+//sleep 4;
+//[""] call drn_fnc_CL_ShowTitleTextAllClients;
