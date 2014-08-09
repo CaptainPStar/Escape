@@ -108,17 +108,18 @@ private ["_occupiedPositions"];
 private ["_positions", "_i", "_j", "_tooCloseAnotherPos", "_pos", "_maxDistance", "_countNW", "_countNE", "_countSE", "_countSW", "_isOk","_regionCount","_artNumber"];
 
 cutText ["Creating Mobile Artillery", "PLAIN DOWN", 2];
-
+a3e_var_artillery_units  = [];
+_artPositions = [];
 A3E_ArtilleryCount = 8;
 
-a3e_var_artillery_units = [A3E_ArtilleryCount, 200] call A3E_fnc_findInstallPos;
+_artPositions = [A3E_ArtilleryCount, 200] call A3E_fnc_findInstallPos;
 
 _artNumber = 1;
 
 {
     [_x,_artNumber] call A3E_fnc_Artillery;
 	_artNumber = _artNumber + 2;
-} foreach a3e_var_artillery_units;
+} foreach _artPositions;
 
 publicVariable "a3e_var_artillery_units";
 
