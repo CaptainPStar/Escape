@@ -55,7 +55,14 @@ switch (_buildingType) do {
 	{
 	
 		// Call Object Mapper
-		0 = [_centerPos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\CommCentre.sqf"))] call BIS_fnc_ObjectsMapper;
+		_objects = [_centerPos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\CommCentre.sqf"))] call BIS_fnc_ObjectsMapper;
+		
+		_generator = _objects select 2;
+		[[_generator, "Hijack", "Scripts\Escape\Hijack.sqf"], "a3e_fnc_addHijackAction", nil, false] spawn BIS_fnc_MP;
+		_generator allowDamage false;
+		
+		_medBuilding = _objects select 8;
+		[[_medBuilding, "Heal at medical building", "Scripts\Escape\HealAtMedicalBuilding.sqf"], "a3e_fnc_addHealAtMedicalBuildingAction", nil, false] spawn BIS_fnc_MP;
 	
 		if (count _parkedVehicleClasses > 0) then {
 		_pos = [11.5, 12];
@@ -76,8 +83,15 @@ switch (_buildingType) do {
 	{
 	
 		// Call Object Mapper
-		0 = [_centerPos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\CommCentre_2.sqf"))] call BIS_fnc_ObjectsMapper;
+		_objects = [_centerPos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\CommCentre_2.sqf"))] call BIS_fnc_ObjectsMapper;
 		
+		_phoneHack = _objects select 4;
+		[[_phoneHack, "Hijack", "Scripts\Escape\Hijack.sqf"], "a3e_fnc_addHijackAction", nil, false] spawn BIS_fnc_MP;
+		_phoneHack allowDamage false;
+		
+		_medBuilding = _objects select 12;
+		[[_medBuilding, "Heal at medical building", "Scripts\Escape\HealAtMedicalBuilding.sqf"], "a3e_fnc_addHealAtMedicalBuildingAction", nil, false] spawn BIS_fnc_MP;
+	
 		if (count _parkedVehicleClasses > 0) then {
 		_pos = [25, 2];
 		_dir = 90;
