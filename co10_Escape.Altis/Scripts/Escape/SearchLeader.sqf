@@ -240,7 +240,7 @@ while {1 == 1} do {
     };
     
     if (_state == "REPORTING") then {
-	//if (isNil "drn_var_Escape_SearchLeader_ReportingCivilian") exitWith { hintsilent "Roy fixed the searchleader bug"; sleep 4; hintsilent ""; };
+	//if (isNull _reportingUnit) exitWith {};
         if (alive _reportingUnit ) then {
             if (diag_tickTime > _reportingStartTime + _timeUntilReportToHQSec) then {
                 
@@ -275,7 +275,11 @@ while {1 == 1} do {
 					_firstsight = (_list select 0) getvariable ["A3E_FirstSight",diag_tickTime];
 					if((diag_tickTime-_firstsight)>=a3e_var_artilleryTimeThreshold && (diag_tickTime > (a3e_var_artillery_cooldown+_lastArtilleryStrike))) then {
 						if(random 100 < a3e_var_artillery_chance) then {
-						["Incoming Artillery Strike!!"] call drn_fnc_CL_ShowTitleTextAllClients;
+						
+							if (Param_strikeWarning == 1) then {
+								["Incoming Artillery Strike!!"] call drn_fnc_CL_ShowTitleTextAllClients;
+								};
+								
 							if (a3e_debug_artillery) then {
 								player sidechat "HQ is trying to call an artillery strike";
 							};

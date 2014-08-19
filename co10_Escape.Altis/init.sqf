@@ -17,7 +17,6 @@ if(!isDedicated) then {
 
 //call compileFinal preprocessFileLineNumbers "FAR_revive\FAR_revive_init.sqf";
 call compile preprocessFileLineNumbers "Islands\WorldConfig.sqf";
-call compile preprocessFile "Revive\reviveInit.sqf";
 call compile preprocessFile "Scripts\AT\hack_terminal.sqf";
 call compile preprocessFile "Scripts\AT\dronehack_init.sqf";
 call compile preprocessFileLineNumbers "config.sqf";
@@ -92,6 +91,7 @@ if (isServer || isDedicated) then
 //Wait until server has parsed the parameters
 waituntil {!isNil("A3E_ParamsParsed")};
 
+call compile preprocessFile "Revive\reviveInit.sqf";
 call compile preprocessFileLineNumbers "Scripts\Escape\Functions.sqf";
 call compile preprocessFileLineNumbers "Scripts\Escape\AIskills.sqf";
 
@@ -293,14 +293,26 @@ if (!isDedicated) then {
 				
                                 
 				[] spawn {
-					private ["_marker"];
+
+					private ["_marker", "_markers"];
 					
 					// Communication center markers
 					waitUntil {!isNil "drn_var_Escape_communicationCenterPositions"};
-					
+/*					
 					for "_i" from 0 to (count drn_var_Escape_communicationCenterPositions) - 1 do {
 						_marker = createMarkerLocal ["drn_Escape_ComCenJipMarker" + str _i, (drn_var_Escape_communicationCenterPositions select _i)];
-						_marker setMarkerType "Flag_CSAT";
+						
+						switch (A3E_CommInstallFound select _x) do {
+							case 0: {
+							_marker setMarkerShape "ICON";
+							_marker setMarkerType "mil_unknown";
+							};
+							case 1: {
+							_marker setMarkerType "flag_CSAT";
+							_marker setMarkerColor "Color1_FD_F";
+							_marker setMarkerText "Comms";
+							};
+						};
 					};
 					
 					// Ammo depot markers
@@ -308,7 +320,20 @@ if (!isDedicated) then {
 					
 					for "_i" from 0 to (count drn_var_Escape_ammoDepotPositions) - 1 do {
 						_marker = createMarkerLocal ["drn_Escape_AmmoDepotJipMarker" + str _i, (drn_var_Escape_ammoDepotPositions select _i)];
-						_marker setMarkerType "o_installation";
+						
+						switch (A3E_AmmoInstallFound select _x) do {
+							case 0: {
+							_marker setMarkerShape "ICON";
+							_marker setMarkerType "mil_unknown";
+							};
+							case 1: {
+							_marker setMarkerType "o_installation";
+							_marker setMarkerText "Ammo";
+							_marker setMarkerColor "ColorRed";
+							};
+						};
+							
+						
 					};
 					
 					// Heli Base markers
@@ -316,7 +341,37 @@ if (!isDedicated) then {
 					
 					for "_i" from 0 to (count drn_var_Escape_HeliBasePositions) - 1 do {
 						_marker = createMarkerLocal ["drn_Escape_HeliBaseJipMarker" + str _i, (drn_var_Escape_HeliBasePositions select _i)];
-						_marker setMarkerType "o_air";
+						
+						switch (A3E_HeliInstallFound select _x) do {
+							case 0: {
+							_marker setMarkerShape "ICON";
+							_marker setMarkerType "mil_unknown";
+							};
+							case 1: {
+							_marker setMarkerType "o_air";
+							_marker setMarkerText "Air";
+							_marker setMarkerColor "Color4_FD_F";
+							};
+						};
+					};	
+					// Artillery markers
+					waitUntil {!isNil "drn_var_Escape_ArtilleryPositions"};
+					
+					for "_i" from 0 to (count drn_var_Escape_ArtilleryPositions) - 1 do {
+						_marker = createMarkerLocal ["drn_Escape_HeliBaseJipMarker" + str _i, (drn_var_Escape_ArtilleryPositions select _i)];
+						
+						switch (A3E_ArtiInstallFound select _x) do {
+							case 0: {
+							_marker setMarkerShape "ICON";
+							_marker setMarkerType "mil_unknown";
+							};
+							case 1: {
+							_marker setMarkerType "o_art";
+							_marker setMarkerColor "Color2_FD_F";
+							_marker setMarkerText "Artillery";
+							};
+						};
+						
 					};
 					
 					// Extraction marker
@@ -324,6 +379,10 @@ if (!isDedicated) then {
 						_marker = createMarkerLocal ["drn_visibleGoalJipMarker", drn_var_Escape_ExtractionMarkerPos];
 						_marker setMarkerType "Flag_NATO";
 					};
+*/
+//	waitUntil {count allEscapeMarkers > 0}; 
+//	{_x setMarkerPos (getMarkerPos _x);} foreach allEscapeMarkers;
+	
 				};
 			} else {
 				//if (isMultiplayer) then {

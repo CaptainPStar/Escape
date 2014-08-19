@@ -18,122 +18,30 @@ _buildingType = floor(random 3);
 _rotateDir = 0;
 _units = [];
 _vehPos = 10;
-diag_log "---_buildingtype---";
-diag_log _buildingType;
+
 
 switch (_buildingType) do {
     case 0: 
 	{
-		_vehPos = 10;
-		
-		// Call Object Mapper
+		_vehPos = 10;		
+		// Call Object Mapper  -  Original depot
 		0 = [_middlePos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\AmmoDepot.sqf"))] call BIS_fnc_ObjectsMapper;
-		
-		
-		// Static HMG 1
-		_dir = 315;
-		_pos = [(_middlePos select 0) - 8, (_middlePos select 1) + 8, 0];
-		_side = EAST;
-		_result = [_pos, _dir, "O_HMG_01_high_F", _side] call BIS_fnc_spawnVehicle;
-		_vehicle = _result select 0;
-		_crew = _result select 1;
-		_group = _result select 2;
-    
-		_units = _units + [_vehicle];
-		_units = _units + _crew;
-		
-		{_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;} foreach (_result select 1);
-		
-		// Static HMG 2
-		_dir = 125;
-		_pos = [(_middlePos select 0) + 8, (_middlePos select 1) - 8, 0];
-		_side = EAST;
-		_result = [_pos, _dir, "O_HMG_01_high_F", _side] call BIS_fnc_spawnVehicle;
-		_vehicle = _result select 0;
-		_crew = _result select 1;
-		_group = _result select 2;
-    
-		_units = _units + [_vehicle];
-		_units = _units + _crew;
-		
-		{_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;} foreach (_result select 1);
-		
-		
+
 	};
     case 1: 
 	{		
 		_vehPos = 10;
-		
-		// Call Object Mapper
+		// Call Object Mapper  -  Bunker depot
 		0 = [_middlePos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\AmmoDepot_2.sqf"))] call BIS_fnc_ObjectsMapper;
 		
-		// Static HMG 1
-		_dir = 315;
-		_pos = [(_middlePos select 0) - 1.2, (_middlePos select 1) + 2, 1.9];
-		_side = EAST;
-		_result = [_pos, _dir, "O_HMG_01_high_F", _side] call BIS_fnc_spawnVehicle;
-		_vehicle = _result select 0;
-		_crew = _result select 1;
-		_group = _result select 2;
-    
-		_units = _units + [_vehicle];
-		_units = _units + _crew;
-		
-		{_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;} foreach (_result select 1);
-		
-		// Static HMG 2
-		_dir = 125;
-		_pos = [(_middlePos select 0) + 2, (_middlePos select 1) - 2.4, 1.9];
-		_side = EAST;
-		_result = [_pos, _dir, "O_HMG_01_high_F", _side] call BIS_fnc_spawnVehicle;
-		_vehicle = _result select 0;
-		_crew = _result select 1;
-		_group = _result select 2;
-    
-		_units = _units + [_vehicle];
-		_units = _units + _crew;
-		
-		{_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;} foreach (_result select 1);
-		
-		_vehPos = 10;
 		
 	};
 	case 2: 
 	{
-		_vehPos = 10;
-		
-		// Call Object Mapper
+		_vehPos = 20;
+		// Call Object Mapper  -  Walled depot
 		0 = [_middlePos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\AmmoDepot_3.sqf"))] call BIS_fnc_ObjectsMapper;
-		
-		// Static HMG 1
-		_dir = 35;
-		_pos = [(_middlePos select 0) + 4.6, (_middlePos select 1) + 9, 0];
-		_side = EAST;
-		_result = [_pos, _dir, "O_HMG_01_high_F", _side] call BIS_fnc_spawnVehicle;
-		_vehicle = _result select 0;
-		_crew = _result select 1;
-		_group = _result select 2;
-    
-		_units = _units + [_vehicle];
-		_units = _units + _crew;
-		
-		{_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;} foreach (_result select 1);
-		
-		// Static HMG 2
-		_dir = 313;
-		_pos = [(_middlePos select 0) - 6, (_middlePos select 1) + 9, 0];
-		_side = EAST;
-		_result = [_pos, _dir, "O_HMG_01_high_F", _side] call BIS_fnc_spawnVehicle;
-		_vehicle = _result select 0;
-		_crew = _result select 1;
-		_group = _result select 2;
-    
-		_units = _units + [_vehicle];
-		_units = _units + _crew;
-		
-		{_x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;} foreach (_result select 1);
-
-		
+				
 	};
 };
     
@@ -458,8 +366,8 @@ switch (_buildingType) do {
     // Set markers
     
     _marker = createMarker ["drn_AmmoDepotMapMarker" + str _instanceNo, _middlePos];
-    _marker setMarkerType "o_installation";
-	_marker setMarkerText "Ammo";
+    _marker setMarkerShape "ICON";
+    _marker setMarkerType "mil_unknown";
     
     _marker = createMarkerLocal ["drn_AmmoDepotPatrolMarker" + str _instanceNo, _middlePos];
     _marker setMarkerShapeLocal "ELLIPSE";

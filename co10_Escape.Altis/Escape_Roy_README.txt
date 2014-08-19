@@ -47,7 +47,7 @@ There's also a map from an early access game that might work. I wouldn't know as
 
 - Vehicles using grenade based weapons have been restricted. You'll still find them patroling Communication centres!
 
-- Village patrols are now dynamic. It's a very simple script which adds infantry to areas around buildings. 
+- Village patrol markers are now dynamically created at startup. It's a very simple script which adds infantry to areas around buildings. 
 
 - A simpler surprise routine and more surprises. I heard a A-164 fell into enemy hands recently. Just a rumour?
 

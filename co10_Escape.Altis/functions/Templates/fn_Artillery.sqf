@@ -3,36 +3,14 @@ private ["_centerPos","_rotateDir","_object","_object2","_objectName","_objectNa
 _centerPos = _this select 0;
 _artNumber = _this select 1;
 _artNumber2 = _artNumber + 1;
+_referenceGroup = _this select 2;
 _rotateDir = random 360;
 _dir = _rotateDir;
 _grp = createGroup EAST;
 
-/*
+_insNo = 0;
+_insNo = ((_artNumber - 1) / 2);
 
-AoW_fnc_artCombatMode = {
-_centerPos = [];
-diag_log "=-=-=-=-=-=-=";
-_trigger = _this select 0;
-diag_log _trigger;
-diag_log "_+_+_+_+_+_+_";
-_centerPos = getPos (_this select 0);
-diag_log "=-=-=-=-=-=-=";
-diag_log _centerPos;
-diag_log "_+_+_+_+_+_+_";
-_units = _centerPos nearEntities 40;
-
-diag_log "=-=-=-=-=-=-=";
-diag_log _units;
-diag_log "_+_+_+_+_+_+_";
-
-{
-_x enableAI "MOVE";
-unassignVehicle _x;
-} forEach _units;
-
-};
-
-*/
 
 	
 // 1st Arti
@@ -101,13 +79,21 @@ a3e_var_artillery_units  = a3e_var_artillery_units  + [_object,_object2];
 
 //Art markers
 
-_marker = createMarkerLocal ["drn_ArtilleryPosition" + str _artNumber, _centerPos];
+_marker = createMarkerLocal ["drn_ArtilleryPosition" + str _insNo, _centerPos];
+
 
 _marker setMarkerShape "ICON";
-_marker setMarkerType "o_art";
-_marker setMarkerColor "Color2_FD_F";
-_marker setMarkerText "Artillery";
+_marker setMarkerType "mil_unknown";
 
+_artiTrigName = "drn_ArtilleryPosition";
+
+_trigger = createTrigger["EmptyDetector", _centerPos];
+_trigger triggerAttachVehicle [vehicle (units _referenceGroup select 0)];
+_trigger setTriggerArea[300, 300, 0, false];
+_trigger setTriggerActivation["MEMBER", "PRESENT", false];
+_trigger setTriggerTimeout [1, 1, 1, true];
+_trigger setTriggerStatements["this", " _nil = [" + str _artiTrigName + ", " + str _insNo + "] spawn A3E_fnc_markerChange;", ""];
+	
 // Flag
 
 _dir = 90 + _rotateDir;

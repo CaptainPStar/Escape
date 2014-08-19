@@ -281,7 +281,7 @@ drn_fnc_Escape_AllPlayersOnStartPos = {
     _allPlayersAtStartPos = true;
     
     {
-        if (_x distance _startPos > 30) exitWith {
+        if (_x distance _startPos > 40) exitWith {
             _allPlayersAtStartPos = false;
         };
     } foreach call drn_fnc_Escape_GetPlayers;
@@ -1034,6 +1034,7 @@ drn_fnc_Escape_AddRemoveComCenArmor = {
         _spawnedArmors = [];
         
         {
+/*			
             _roadSegments = (_pos nearRoads 250);
             if (count _roadSegments == 0) then {
 				_roadSegments = (_pos nearRoads 500);
@@ -1042,6 +1043,15 @@ drn_fnc_Escape_AddRemoveComCenArmor = {
 				_roadSegments = (_pos nearRoads 1000);
 			};
             _spawnPos = getPos (_roadSegments select floor random count _roadSegments);
+*/			
+			waitUntil {	
+			_startPos = [(_pos select 0) + (20 + (random 50)),(_pos select 1) + (20 + (random 50)), 0];			
+			_spawnPos = _startPos isFlatEmpty [10, 10, 0.4, 5, 0, false, objNull];			
+			((count _spawnPos) > 0)
+			};
+			
+			_spawnPos = [_spawnPos select 0, _spawnPos select 1, 0];
+			
             _result = [_spawnPos, 0, _x, east] call BIS_fnc_spawnVehicle;
             _vehicle = _result select 0;
             _crew = _result select 1;

@@ -54,16 +54,13 @@ class CfgFunctions
                     preInit = 0; // 1 to call the function upon mission start, before objects are initialized. Passed arguments are ["preInit"]
                     postInit = 1; // 1 to call the function upon mission start, after objects are initialized. Passed arguments are ["postInit"]
                     recompile = 1; // 1 to recompile the function upon mission start
-            };			
+					};			
 			class parameterInit {}; 
 			class createPOIs {};
-            //class createComCenters {};
-            //class createAmmoDepots {};
-			//class createHeliBases {};
-			//class createAirstrip {};
 			class handleJIP {};
-			//class createArtillery {};
 			class randomBoats {};
+			class markerChange {};
+			class findBuildingsGrid {};
 		};
 		class Surprises
 		{
@@ -88,12 +85,30 @@ class CfgFunctions
 	};
 	class drn
 	{
+		class CommonLib
+			{
+				class CL_AddUnitsToGarbageCollector {};
+				class CL_GetClosestMarker {};
+				class CL_GetMarkerWithinRange {};
+				class CL_GetRandomMarkerPos {};
+				class CL_MarkerExists {};
+				class CL_PositionIsInsideMarker {};
+				class CL_RotatePosition {};
+				class CL_RunGarbageCollector {};
+				class CL_AddScore {};
+				class CL_AddScoreServer {};
+				class CL_ShowTitleTextAllClients {};
+				class CL_ShowTitleTextLocal {};
+				class CL_ShowCommandTextLocal {};
+				class CL_ShowCommandTextAllClients {};
+			};
 		class DRN
 		{
 			class AmbientInfantry {}; 
 			class MoveInfantryGroup {}; 
 			class MonitorEmptyGroups {};
 			class PopulateLocation {};
+			class PopulateLocation_hmg {};
 			class DepopulateLocation {};
 			class InitGuardedLocations {};
 			class DynamicWeatherEffects {};
@@ -104,16 +119,17 @@ class CfgFunctions
 			class RoadBlocks {};	
 			class SearchChopper {};
 			class SearchGroup {};
-			//class InitVillageMarkers{};
-			//class PopulateVillage {};
-			//class DepopulateVillage {};
-			//class InitVillagePatrols {};
+			class InitVillageMarkers{};
+			class PopulateVillage {};
+			class DepopulateVillage {};
+			class InitVillagePatrols {};
 			//class InitAquaticPatrols {};
 			//class PopulateAquaticPatrol {};
 			//class DepopulateAquaticPatrol {};
 			//class InitAquaticPatrolMarkers {};
 		};
 	};
+	
 	class AT
 	{
 	};

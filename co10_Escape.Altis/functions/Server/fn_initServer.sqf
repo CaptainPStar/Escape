@@ -3,11 +3,7 @@ if(!isServer) exitwith {};
 ["Server started."] spawn a3e_fnc_debugChat;
 
 call compile preprocessFileLineNumbers "Islands\WorldConfig.sqf";
-//if(isNil("drn_var_commonLibInitialized")) then {
-call compile preprocessFileLineNumbers "Scripts\DRN\CommonLib\CommonLib.sqf";
-//};
 
-waitUntil {!isnil ("drn_var_commonLibInitialized")};
 
 
 //Parse the parameters
@@ -54,8 +50,17 @@ setTimeMultiplier Param_TimeMultiplier;
 
 //call compile preprocessFileLineNumbers ("Islands\" + worldName + "\CommunicationCenterMarkers.sqf");
 
+
+
+
 // Roy Stuff
 drn_arr_communicationCenterMarkers = [];
+/*
+A3E_CommInstallFound = [];
+A3E_AmmoInstallFound = [];
+A3E_HeliInstallFound = [];
+A3E_ArtiInstallFound = [];
+*/
 
 royCars_allowed = false;
 mechs_allowed = false;
@@ -128,7 +133,7 @@ _useEscapeSurprises = true;
 _useAmmoDepots = true;
 _useSearchLeader = true;
 _useMotorizedSearchGroup = true;
-_useVillagePatrols = false;
+_useVillagePatrols = true;
 _useMilitaryTraffic = true;
 _useAmbientInfantry = true;
 _useSearchChopper = true;
@@ -178,7 +183,7 @@ _searchChopperRefuelTimeMin = (5 + random 10);
 
 _enemyFrequency = Param_EnemyFrequency;
 _enemySpawnDistance = Param_EnemySpawnDistance;
-_villagePatrolSpawnArea = 0;
+_villagePatrolSpawnArea = Param_VillageSpawnCount;
 
 drn_searchAreaMarkerName = "drn_searchAreaMarker";
 _gradient = Param_BuildingGradient;
@@ -217,7 +222,7 @@ publicVariable "drn_fenceIsCreated";
 
 //### The following is a mission function now
 
-//[true] call drn_fnc_InitVillageMarkers; 
+[true] call drn_fnc_InitVillageMarkers; 
 //[true] call drn_fnc_InitAquaticPatrolMarkers; 
 
 [_enemyFrequency] call compile preprocessFileLineNumbers "Scripts\Escape\UnitClasses.sqf";
@@ -259,6 +264,8 @@ if (_useMotorizedSearchGroup) then {
         private ["_enemyFrequency", "_enemyMinSkill", "_enemyMaxSkill"];
         private ["_spawnSegment"];
         
+		sleep 300;
+		
         _enemyFrequency = _this select 0;
         _enemyMinSkill = _this select 1;
         _enemyMaxSkill = _this select 2;
@@ -340,7 +347,7 @@ diag_log "after Starting garbage collector";
     };
 	
 diag_log "after motorized search group";
-
+/*
     if (_useVillagePatrols) then {
         switch (_enemyFrequency) do
         {
@@ -370,7 +377,7 @@ diag_log "after motorized search group";
         _scriptHandle = [(units _playerGroup) select 0, east, drn_arr_Escape_InfantryTypes, _minEnemiesPerGroup, _maxEnemiesPerGroup, 500000, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance + 250, _fnc_OnSpawnGroup, _debugVillagePatrols] spawn drn_fnc_InitAquaticPatrols;
         waitUntil {scriptDone _scriptHandle};
     };
-    
+*/    
 diag_log "after village patrols";   
 
     // Initialize ambient infantry groups
@@ -437,7 +444,7 @@ diag_log "after village patrols";
 	// Random Boats
 	[] call A3E_fnc_randomBoats;
 [""] call drn_fnc_CL_ShowTitleTextAllClients;	
-diag_log "after call A3E_fnc_randomBoats";	
+	
     // Initialize the Escape military and civilian traffic
     if (_useMilitaryTraffic) then {
         private ["_vehiclesPerSqkm", "_radius", "_vehiclesCount", "_fnc_onSpawnCivilian", "_vehicleClasses"];
@@ -504,11 +511,11 @@ diag_log "after call A3E_fnc_randomBoats";
         {
             case 1: // 1-3 players
             {
-                _vehiclesPerSqkm = 0.6;
+                _vehiclesPerSqkm = 0.4;
             };
             case 2: // 4-6 players
             {
-                _vehiclesPerSqkm = 0.8;
+                _vehiclesPerSqkm = 0.6;
             };
             default // 7-8 players
             {
@@ -560,6 +567,7 @@ if (_useSearchChopper) then {
     waitUntil {scriptDone _scriptHandle};
 };
 
+/*
 // Roy stuff - ups markers
 _xPos = 0;
 infNo = 0;
@@ -577,6 +585,7 @@ _players = (switchableUnits + playableUnits);
 } forEach _players;
 
 0 = [] execVM "Scripts\Escape\villagePatrolsUPS.sqf";
+*/
 
 // Spawn creation of start position settings
 [drn_startPos, _enemyMinSkill, _enemyMaxSkill, _guardsAreArmed, _guardsExist, _guardLivesLong, _enemyFrequency, _fenceRotateDir] spawn {
@@ -608,7 +617,7 @@ _players = (switchableUnits + playableUnits);
     _marker = createMarkerLocal ["drn_guardAreaMarker", _startPos];
     _marker setMarkerAlpha 0;
     _marker setMarkerShapeLocal "ELLIPSE";
-    _marker setMarkerSizeLocal [50, 50];
+    _marker setMarkerSizeLocal [60, 60];
     
     if (_guardsExist) then {
         _guardCount = (2 + (_enemyFrequency)) + floor (random 2);
@@ -623,7 +632,7 @@ _players = (switchableUnits + playableUnits);
         private ["_pos"];
         
         _pos = [_marker] call drn_fnc_CL_GetRandomMarkerPos;
-        while {_pos distance _startPos < 10} do {
+        while {_pos distance _startPos < 20} do {
             _pos = [_marker] call drn_fnc_CL_GetRandomMarkerPos;
         };
         

@@ -46,11 +46,7 @@ if (count _this > 13) then {_debug = _this select 13;} else {_debug = false;};
 _factionsArray = [RESISTANCE, RESISTANCE, RESISTANCE, RESISTANCE, RESISTANCE, RESISTANCE, RESISTANCE, RESISTANCE, EAST, EAST];
 
 
-if (isNil "drn_var_commonLibInitialized") then {
-    [] spawn {
-        while {true} do { player sideChat "Script AmbientInfantry.sqf needs CommonLib version 1.02"; sleep 5; };
-    };
-};
+
 
 if (_debug) then {
     ["Starting script Ambient Infantry..."] call drn_fnc_CL_ShowDebugTextAllClients;

@@ -20,10 +20,6 @@ if (count _this > 8) then {_fnc_OnSpawnVehicle = _this select 8;} else {_fnc_OnS
 if (count _this > 9) then {_debug = _this select 9;} else {_debug = false;};
 _factionsArray = [EAST, RESISTANCE, EAST, RESISTANCE, EAST, RESISTANCE, EAST, RESISTANCE, EAST, RESISTANCE, EAST, RESISTANCE, EAST, RESISTANCE];
 
-while {isNil "drn_var_commonLibInitialized"} do {
-    player sideChat "Script MilitaryTraffic.sqf requires CommonLib v1.02.";
-    sleep 10;
-};
 
 while {isnil "bis_fnc_init"} do {
     ["BIS Function Module is needed to run MilitaryTraffic.sqf"] call drn_fnc_CL_ShowDebugTextAllClients;

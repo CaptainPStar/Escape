@@ -5,14 +5,14 @@ class Params
             title = "Parameter Loading";
             values[] = {0, 1, 2};
             texts[] = {"Use below and save", "Load existing (Use below if not found)", "Use below without save"};
-            default = 1;
+            default = 0;
 	};
     class Param_EnemySkill
     {
             title = "Enemy Skill";
             values[] = {0, 1, 2, 3, 4, 6};
             texts[] = {"Cadet", "Easy", "Normal", "Hard", "Extreme", "Use this setting for AI mods such as Zeus AI"};
-            default = 1;
+            default = 0;
 	};
 	class Param_EnemyFrequency
 	{
@@ -20,6 +20,13 @@ class Params
 		values[]={1,2,3};
 		texts[]={"Few (suitable for 1-3 players)", "Some (suitable for 4-6 players)", "A lot (suitable for 7-8 players)"};
 		default = 1;
+	};
+	class Param_SPLives	
+	{	
+	    title="Singleplayer respawns";
+		values[]={0,1,2,3,4};
+		texts[]={"No respawn","1","2","3","4"};
+		default = 2;
 	};
 	class Param_TimeOfDay	
 	{	
@@ -33,7 +40,7 @@ class Params
 	    title="Time Multiplier (Fasttime)";
 		values[]={1,6,12,24,36};
 		texts[]={"1:1 (Normal)","1:6 (Day = 4 Hours)","1:12 (Day = 2 Hours)","1:24 (Day = 1 Hour)","1:36 (Day = 40 Minutes)"};
-		default = 12;
+		default = 24;
 	};
 	class Param_Weather
 	{
@@ -62,6 +69,13 @@ class Params
 		values[]={800,1050,1300};
 		texts[]={"Short (better performance)", "Medium", "Far (for good rigs)"};
 		default = 1050;
+	};
+	class Param_VillageSpawnCount
+	{
+		title="Village Patrol Spawns";
+		values[]={80000, 40000, 10000};
+		texts[]={"Low (better performance)", "Medium", "High (Very demanding)"};
+		default = 40000;
 	};
 	class Param_BuildingGradient
 	{
@@ -120,4 +134,12 @@ class Params
 		texts[]={"All", "No Goggles and TWS"};
 		default = 1;
 	};
+	class Param_strikeWarning
+	{
+		title="Artillery warning";
+		values[]={0,1};
+		texts[]={"Off", "On"};
+		default = 1;
+	};
+	
 };

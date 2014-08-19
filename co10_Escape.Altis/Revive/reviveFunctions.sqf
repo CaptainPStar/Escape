@@ -109,23 +109,21 @@ AT_FNC_Revive_Unconscious =
 	_msg = format["%1 is unconscious.",name _unit];
 	[[_msg],"AT_FNC_Revive_GlobalMsg",true] call bis_fnc_MP;
 	
-
-	
-	if (isPlayer _unit) then
-	{
-		disableUserInput true;
-		//titleText ["", "BLACK FADED"];
-	};
 	
 	// Eject unit if inside vehicle
-	while {vehicle _unit != _unit} do 
-	{
+
+	if ( vehicle _unit != _unit ) then {
 		unAssignVehicle _unit;
 		_unit action ["eject", vehicle _unit];
 		
-		//sleep 2;
+		sleep 1;
 	};
-	
+
+	if (isPlayer _unit) then
+		{
+			disableUserInput true;
+			//titleText ["", "BLACK FADED"];
+		};	
 //	if(((eyepos _unit) select 2)>0.4) then {
 //		[_unit] spawn at_fnc_revive_ragdoll;
 //	} else {
@@ -163,15 +161,54 @@ AT_FNC_Revive_Unconscious =
 	_noPlayers = 0;
 	_players = call drn_fnc_Escape_GetPlayers;
 	_noPlayers = count _players;
+	_livesMessage = "";
 	
+	// SP lives check
 	if ({(_x getVariable "AT_Revive_isUnconscious")} count _players == _noPlayers) then
 	{
-	cutText ["", "BLACK FADED",3];
-	reviveCamera cameraEffect ["Terminate", "Back"];
-	camDestroy reviveCamera;
-	call drn_fnc_Escape_SetMissionCompleteTasks;
-	drn_var_Escape_AllPlayersDead = true;
-	publicVariable "drn_var_Escape_AllPlayersDead";	
+		switch (count (call drn_fnc_Escape_GetPlayers) == 1 && (A3E_spLives > 0)) do {
+		
+			case true: {
+			
+			sleep 5;	
+			cutText ["", "WHITE OUT",2, true];
+			sleep 4;
+			_unit unassignItem "itemMap";
+			_unit removeItem "itemMap";
+			_unit enableSimulation true;
+			
+			_unit setDamage 0;
+			_unit setCaptive false;
+			reviveCamera cameraEffect ["Terminate", "Back"];
+			camDestroy reviveCamera;
+
+			[[_unit,"amovppnemstpsraswrfldnon"],"at_fnc_revive_playMove",true] call BIS_fnc_MP;
+			[[_unit,""],"at_fnc_revive_playMove",true] call BIS_fnc_MP;
+			_unit playMove "";
+			
+			A3E_spLives = A3E_spLives - 1;
+			_livesMessage = "You have " + str A3E_spLives + " respawns left";
+						
+			_pos = call A3E_fnc_findFlatArea;
+			_unit setPos _pos;
+			cutText [_livesMessage, "WHITE IN",4, true];
+			
+			//[_livesMessage] call drn_fnc_CL_ShowTitleTextAllClients;
+			_unit setVariable ["AT_Revive_isUnconscious", false, false];
+			_unit allowDamage true;
+			
+			};
+			
+			case false: {
+			cutText ["", "BLACK FADED",3];
+			reviveCamera cameraEffect ["Terminate", "Back"];
+			camDestroy reviveCamera;
+			call drn_fnc_Escape_SetMissionCompleteTasks;
+			drn_var_Escape_AllPlayersDead = true;
+			publicVariable "drn_var_Escape_AllPlayersDead";	
+			};
+		};
+	
 	};
 	
 	

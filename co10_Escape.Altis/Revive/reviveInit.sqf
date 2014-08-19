@@ -1,3 +1,6 @@
+
+A3E_spLives = Param_SPLives;
+
 call compile preprocessFile "Revive\reviveFunctions.sqf";
 
 AT_Revive_Debug = true;

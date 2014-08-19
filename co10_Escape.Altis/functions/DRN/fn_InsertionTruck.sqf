@@ -89,11 +89,7 @@ if (isNil "drn_ReinforcementTruck_CurrentEntityNo") then {
 _currentEntityNo = drn_ReinforcementTruck_CurrentEntityNo;
 drn_ReinforcementTruck_CurrentEntityNo = drn_ReinforcementTruck_CurrentEntityNo + 1;
 
-if (isNil "drn_var_commonLibInitialized") then {
-    [] spawn {
-        while {true} do { player sideChat "Script ReinforcementTruck.sqf needs CommonLib version 1.02"; sleep 5; };
-    };
-};
+
 
 if (vehicleVarName _truck == "") exitWith {
     ["Reinforcement truck must have a name. Script exiting."] call drn_fnc_CL_ShowDebugTextAllClients;

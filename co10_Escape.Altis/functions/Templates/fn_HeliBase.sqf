@@ -39,9 +39,8 @@
     // Set markers
     
     _marker = createMarker ["drn_HeliBaseMapMarker" + str _instanceNo, _middlePos];
-    _marker setMarkerType "o_air";
-	_marker setMarkerText "Air";
-	_marker setMarkerColor "Color4_FD_F";
+    _marker setMarkerShape "ICON";
+    _marker setMarkerType "mil_unknown";
     
     _marker = createMarkerLocal ["drn_HeliBasePatrolMarker" + str _instanceNo, _middlePos];
     _marker setMarkerShapeLocal "ELLIPSE";

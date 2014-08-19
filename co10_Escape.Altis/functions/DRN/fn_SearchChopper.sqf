@@ -12,12 +12,7 @@ _searchTimeMin = _this select 2;
 _refuelTimeMin = _this select 3;
 if (count _this > 4) then {_debug = _this select 4;} else {_debug = false;};
 
-if (isNil "drn_var_commonLibInitialized") exitWith {
-	private ["_message"];
-	_message = "Scripts\DRN\CommonLib\CommonLib.sqf must be called before call to Scripts/DRN/SearchChopper/SearchChopper.sqf.";
-	player sideChat _message;
-	diag_log _message;
-};
+
 
 _group = group _chopper;
 _side = side leader _group;
