@@ -104,7 +104,7 @@ if (_Wcounter < 2 && _Lcounter > 400) exitWith
 //diag_log _surface;
 
 //if (_Wcounter > 100 && _Lcounter > 100) then 
-if (_Scounter > 20) then 
+if (_Scounter > 35) then 
 	{
 	altExtractPlan = "sea";
 	_notFull = false;

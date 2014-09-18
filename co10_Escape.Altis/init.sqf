@@ -12,11 +12,12 @@ if (!isServer && isNull player) then
 if(!isDedicated) then {
 	//startLoadingScreen ["Loading Mission, please wait...","Escape_loadingScreen"];
 	//startLoadingScreen ["Loading Mission, please wait..."];
+
 	titleText ["Loading Escape", "BLACK",0.1];
 };
 
 //call compileFinal preprocessFileLineNumbers "FAR_revive\FAR_revive_init.sqf";
-call compile preprocessFileLineNumbers "Islands\WorldConfig.sqf";
+//call compile preprocessFileLineNumbers "Islands\WorldConfig.sqf";
 call compile preprocessFile "Scripts\AT\hack_terminal.sqf";
 call compile preprocessFile "Scripts\AT\dronehack_init.sqf";
 call compile preprocessFileLineNumbers "config.sqf";
@@ -78,7 +79,7 @@ if(isMultiplayer) then {
 
 
 // Initialization
-drn_arr_JipSpawnPos = [];
+
 call compile preprocessFileLineNumbers "Scripts\DRN\CommonLib\CommonLib.sqf";
 
 /*
@@ -235,7 +236,7 @@ if (!isDedicated) then {
 
 	player addWeapon "ItemRadio";
 	player addWeapon "ItemWatch";
-	player addWeapon "ItemMap";
+	//player addWeapon "ItemMap";
 
 	drn_fnc_Escape_DisableLeaderSetWaypoints = {
 		if (!visibleMap) exitwith {};
@@ -289,101 +290,9 @@ if (!isDedicated) then {
 			waitUntil {!(isNil "drn_fenceIsCreated")};
 			
 			if (_isJipPlayer) then {
+			
 				[[player], "A3E_FNC_handleJIP", false, false] spawn BIS_fnc_MP;
-				
-                                
-				[] spawn {
 
-					private ["_marker", "_markers"];
-					
-					// Communication center markers
-					waitUntil {!isNil "drn_var_Escape_communicationCenterPositions"};
-/*					
-					for "_i" from 0 to (count drn_var_Escape_communicationCenterPositions) - 1 do {
-						_marker = createMarkerLocal ["drn_Escape_ComCenJipMarker" + str _i, (drn_var_Escape_communicationCenterPositions select _i)];
-						
-						switch (A3E_CommInstallFound select _x) do {
-							case 0: {
-							_marker setMarkerShape "ICON";
-							_marker setMarkerType "mil_unknown";
-							};
-							case 1: {
-							_marker setMarkerType "flag_CSAT";
-							_marker setMarkerColor "Color1_FD_F";
-							_marker setMarkerText "Comms";
-							};
-						};
-					};
-					
-					// Ammo depot markers
-					waitUntil {!isNil "drn_var_Escape_ammoDepotPositions"};
-					
-					for "_i" from 0 to (count drn_var_Escape_ammoDepotPositions) - 1 do {
-						_marker = createMarkerLocal ["drn_Escape_AmmoDepotJipMarker" + str _i, (drn_var_Escape_ammoDepotPositions select _i)];
-						
-						switch (A3E_AmmoInstallFound select _x) do {
-							case 0: {
-							_marker setMarkerShape "ICON";
-							_marker setMarkerType "mil_unknown";
-							};
-							case 1: {
-							_marker setMarkerType "o_installation";
-							_marker setMarkerText "Ammo";
-							_marker setMarkerColor "ColorRed";
-							};
-						};
-							
-						
-					};
-					
-					// Heli Base markers
-					waitUntil {!isNil "drn_var_Escape_HeliBasePositions"};
-					
-					for "_i" from 0 to (count drn_var_Escape_HeliBasePositions) - 1 do {
-						_marker = createMarkerLocal ["drn_Escape_HeliBaseJipMarker" + str _i, (drn_var_Escape_HeliBasePositions select _i)];
-						
-						switch (A3E_HeliInstallFound select _x) do {
-							case 0: {
-							_marker setMarkerShape "ICON";
-							_marker setMarkerType "mil_unknown";
-							};
-							case 1: {
-							_marker setMarkerType "o_air";
-							_marker setMarkerText "Air";
-							_marker setMarkerColor "Color4_FD_F";
-							};
-						};
-					};	
-					// Artillery markers
-					waitUntil {!isNil "drn_var_Escape_ArtilleryPositions"};
-					
-					for "_i" from 0 to (count drn_var_Escape_ArtilleryPositions) - 1 do {
-						_marker = createMarkerLocal ["drn_Escape_HeliBaseJipMarker" + str _i, (drn_var_Escape_ArtilleryPositions select _i)];
-						
-						switch (A3E_ArtiInstallFound select _x) do {
-							case 0: {
-							_marker setMarkerShape "ICON";
-							_marker setMarkerType "mil_unknown";
-							};
-							case 1: {
-							_marker setMarkerType "o_art";
-							_marker setMarkerColor "Color2_FD_F";
-							_marker setMarkerText "Artillery";
-							};
-						};
-						
-					};
-					
-					// Extraction marker
-					if (!isNil "drn_var_Escape_ExtractionMarkerPos") then {
-						_marker = createMarkerLocal ["drn_visibleGoalJipMarker", drn_var_Escape_ExtractionMarkerPos];
-						_marker setMarkerType "Flag_NATO";
-					};
-*/
-//	waitUntil {count allEscapeMarkers > 0}; 
-//	{_x setMarkerPos (getMarkerPos _x);} foreach allEscapeMarkers;
-	
-				};
 			} else {
 				//if (isMultiplayer) then {
 					player setPos [(drn_startPos select 0) + (random 4) - 2, (drn_startPos select 1) + (random 6) - 3, 0];

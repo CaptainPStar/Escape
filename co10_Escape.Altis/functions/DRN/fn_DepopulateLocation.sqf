@@ -30,6 +30,9 @@ if (_debug) then {
     //_hasScript = _soldierObject select 6;
 
 	if (_spawned) then {
+	
+	[[_soldier], "aow_fnc_removeActions"] call BIS_fnc_MP;
+	
 		_damage = damage _soldier;
 		if (!canStand _soldier) then {
 			_damage = 1;
@@ -55,6 +58,8 @@ if (_debug) then {
         _soldierObject set [6, false];
     };
 
+
+	
 } foreach _soldierObjects;
 
 

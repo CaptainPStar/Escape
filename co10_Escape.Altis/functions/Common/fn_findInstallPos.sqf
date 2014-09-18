@@ -35,7 +35,7 @@ _result = [];
 
 	waitUntil {	
 	//diag_log "waiting for _result";
-	_startPos = [(SWpos select 0) + random (NEpos select 0) + 20,(SWpos select 1) + random (NEpos select 1) + 20, 0];
+	_startPos = [(SWpos select 0) + random (NEpos select 0) + 400,(SWpos select 1) + random (NEpos select 1) + 400, 0];
 	_result = _startPos isFlatEmpty [5, 0, _gradient, 40, 0, false, objNull];
 	((count _result) > 0)
 	};

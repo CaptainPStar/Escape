@@ -87,7 +87,7 @@ private ["_positions", "_i", "_j", "_tooCloseAnotherPos", "_pos", "_maxDistance"
 
 ["Creating Helicopter Bases"] call drn_fnc_CL_ShowTitleTextAllClients;
 
-A3E_HeliBaseCount = A3E_AmmoDepotCount;
+A3E_HeliBaseCount = round (A3E_AmmoDepotCount / 2);
 
 drn_var_Escape_HeliBasePositions = [A3E_HeliBaseCount] call A3E_fnc_findInstallPos;
 {
@@ -123,7 +123,7 @@ a3e_var_artillery_units  = [];
 _artPositions = [];
 A3E_ArtilleryCount = 8;
 
-_artPositions = [A3E_ArtilleryCount, 200] call A3E_fnc_findInstallPos;
+_artPositions = [A3E_ArtilleryCount, 400] call A3E_fnc_findInstallPos;
 
 _artNumber = 1;
 

@@ -42,19 +42,26 @@ class Params
 		texts[]={"1:1 (Normal)","1:6 (Day = 4 Hours)","1:12 (Day = 2 Hours)","1:24 (Day = 1 Hour)","1:36 (Day = 40 Minutes)"};
 		default = 24;
 	};
-	class Param_Weather
+	class Param_initWeather
 	{
-		title = "Weather"; //--- ToDo: Localize
+		title = "Initial weather";
 		values[] = {0,1,2,3,4,5};
-		texts[] = {"Clear","Sunny","Cloudy","Foggy","Stormy","Random"}; //--- ToDo: Localize
-		default = 5;
+		texts[] = {"Clear","Sunny","Cloudy","Foggy","Stormy","Random"};
+		default = 1;
 	};
 	class Param_WeatherTrend
 	{
-		title = "Weather Trend"; //--- ToDo: Localize
+		title = "Weather Trend";
 		values[] = {0,1,2,3,4,5,6};
-		texts[] = {"Constant","Worse","2/3 Worse","Better","2/3 Better","Cycle","Random"}; //--- ToDo: Localize
+		texts[] = {"Constant init level (random events return to this)","Worse","Likely to trend to worse","Better","Likely to trend to better","Randomly cycling","Random at any"};
 		default = 6;
+	};
+	class Param_probRnd
+	{
+		title = "Random weather events";
+		values[] = {0,1,2,3};
+		texts[] = {"Never","Rarely","Sometimes","Often"};
+		default = 2;
 	};
 	class Param_Grass
 	{	
@@ -90,36 +97,7 @@ class Params
 		values[]={0, 1, 2};
 		texts[]={"Random", "Close", "Far"};
 		default = 2;
-	};
-/*	class Param_RoyCars
-	{
-		title="Car Addons";
-		values[]={0, 1};
-		texts[]={"off", "on"};
-		default = 0;
-	};
-*/
-	class Param_RDSCars
-	{
-		title="RDS Arma 2 Car Addons";
-		values[]={0, 1};
-		texts[]={"Off", "On"};
-		default = 1;
-	};
-	class Param_Mech
-	{
-		title="Mechs";
-		values[]={0, 1};
-		texts[]={"Off", "On"};
-		default = 0;
-	};
-	class Param_Kart
-	{
-		title="Karts";
-		values[]={0, 1};
-		texts[]={"Off", "On"};
-		default = 1;
-	};
+	};	
 	class Param_RespawnButton
 	{
 		title="Reenable respawn button";
@@ -141,5 +119,69 @@ class Params
 		texts[]={"Off", "On"};
 		default = 1;
 	};
+	class Param_weakChoppers
+	{
+		title="Extraction choppers are more vulnerable";
+		values[]={0,1};
+		texts[]={"Off", "On"};
+		default = 1;
+	};
+		class Param_Kart
+	{
+		title="Karts";
+		values[]={0, 1};
+		texts[]={"Off", "On"};
+		default = 1;
+	};
+		class param_pureFactions
+	{
+		title="Pure or mixed addon factions";
+		values[]={0, 1};
+		texts[]={"Mixed", "Pure"};
+		default = 0;
+	};
+	class param_manAuto
+	{
+		title="Automatic or manual addon selection";
+		values[]={0, 1};
+		texts[]={"Manual - choose below", "Automatic - settings below are ignored"};
+		default = 1;
+	};
+	class param_RDScivs
+	{
+		title="RDS Civilian pack";
+		values[]={0, 1};
+		texts[]={"Off", "On"};
+		default = 0;
+	};
+	class param_mechs
+	{
+		title="WAP mechs addon";
+		values[]={0, 1};
+		texts[]={"Off", "On"};
+		default = 0;
+	};
+	class param_CAF
+	{
+		title="CAF addons";
+		values[]={0, 1};
+		texts[]={"Off", "On"};
+		default = 0;
+	};
+	class param_EvW
+	{
+		title="East vs West addon";
+		values[]={0, 1};
+		texts[]={"Off", "On"};
+		default = 0;
+	};
+	class param_HLC
+	{
+		title="HLC weapons pack";
+		values[]={0, 1};
+		texts[]={"Off", "On"};
+		default = 0;
+	};
+
 	
 };

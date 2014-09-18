@@ -18,7 +18,7 @@ class Mission
 	randomSeed=16426086;
 	class Intel
 	{
-		briefingName="co10 Escape 1.7 Dev17 Roy v4.22";
+		briefingName="co10 Escape 1.7 Dev17 Roy v4.34";
 		resistanceWest=0;
 		resistanceEast=1;
 		startWeather=0;
@@ -59,7 +59,7 @@ class Mission
 					rank="CAPTAIN";
 					skill=0.60000002;
 					text="p1";
-					init="this unassignitem ""itemmap""; this removeitem ""Itemmap"";this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
+					init="this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
 				};
 				class Item1
 				{
@@ -73,7 +73,7 @@ class Mission
 					rank="LIEUTENANT";
 					skill=0.60000002;
 					text="p4";
-					init="this unassignitem ""itemmap""; this removeitem ""Itemmap"";this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
+					init="this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
 				};
 				class Item2
 				{
@@ -87,7 +87,7 @@ class Mission
 					rank="LIEUTENANT";
 					skill=0.60000002;
 					text="p2";
-					init="this unassignitem ""itemmap""; this removeitem ""Itemmap""; this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
+					init="this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
 				};
 				class Item3
 				{
@@ -101,7 +101,7 @@ class Mission
 					rank="LIEUTENANT";
 					skill=0.60000002;
 					text="p3";
-					init="this unassignitem ""itemmap""; this removeitem ""Itemmap"";this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
+					init="this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
 				};
 				class Item4
 				{
@@ -115,7 +115,7 @@ class Mission
 					rank="LIEUTENANT";
 					skill=0.60000002;
 					text="p5";
-					init="this unassignitem ""itemmap""; this removeitem ""Itemmap"";this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
+					init="this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
 				};
 				class Item5
 				{
@@ -129,7 +129,7 @@ class Mission
 					rank="LIEUTENANT";
 					skill=0.60000002;
 					text="p6";
-					init="this unassignitem ""itemmap""; this removeitem ""Itemmap"";this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
+					init="this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
 				};
 				class Item6
 				{
@@ -143,7 +143,7 @@ class Mission
 					rank="LIEUTENANT";
 					skill=0.59000003;
 					text="p7";
-					init="this unassignitem ""itemmap""; this removeitem ""Itemmap"";this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
+					init="this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
 				};
 				class Item7
 				{
@@ -157,7 +157,7 @@ class Mission
 					rank="LIEUTENANT";
 					skill=0.60000002;
 					text="p8";
-					init="this unassignitem ""itemmap""; this removeitem ""Itemmap"";this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
+					init="this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
 				};
 				class Item8
 				{
@@ -171,7 +171,7 @@ class Mission
 					rank="LIEUTENANT";
 					skill=0.60000002;
 					text="p9";
-					init="this unassignitem ""itemmap""; this removeitem ""Itemmap"";this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
+					init="this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
 				};
 				class Item9
 				{
@@ -185,7 +185,7 @@ class Mission
 					rank="LIEUTENANT";
 					skill=0.60000002;
 					text="p10";
-					init="this unassignitem ""itemmap""; this removeitem ""Itemmap"";this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
+					init="this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
 				};
 			};
 		};

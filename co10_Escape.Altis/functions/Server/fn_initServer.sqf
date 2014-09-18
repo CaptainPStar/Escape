@@ -2,8 +2,8 @@
 if(!isServer) exitwith {};
 ["Server started."] spawn a3e_fnc_debugChat;
 
-call compile preprocessFileLineNumbers "Islands\WorldConfig.sqf";
-
+call compile preprocessFileLineNumbers "MapConfigs\WorldConfig.sqf";
+publicVariable "A3E_worldname";
 
 
 //Parse the parameters
@@ -30,12 +30,39 @@ if((Param_NoNightvision)==1) then {
 	a3e_var_noNV = false;
 };
 
-//[] spawn MB_fnc_randomWeather2;
-private["_weather","_weatherTrend"];
-_weather = ["clear","sunny","cloudy","foggy","bad","random"] select Param_Weather;
-_weatherTrend = ["constant","worse","pWorse","better","pBetter","freeCycle","random"] select Param_WeatherTrend;
+// dynamic weather
+private["_initWeather","_weatherTrend","_probRnd", "_tort_DW_preset"];
+_initWeather = ["clear","sunny","cloudy","foggy","bad","random"] select Param_initWeather;
+_weatherTrend = ["constant","worse","pWorse","better","pBetter","freeCycle","random","cycling"] select Param_weatherTrend;
+_probRnd = [0,0.05,0.2,0.45] select Param_probRnd;
 
-0 = [_weather, _weatherTrend, 0, [0, 0.2], 0, [0, 1, 0, 0.4, 0, 1]] execVM "Scripts\tort\tort_DynamicWeather.sqf";
+param_autoWeather = 0;
+
+switch (param_autoWeather) do {
+	case 0: {
+	
+	0 = [_initWeather, _weatherTrend, [0.1, 0], [0, 0.2], [0, 1, 0, 0.5, 0, 1], 0, 0, 0] execVM "Scripts\tort\tort_DynamicWeather.sqf";
+	
+	};
+	
+	case 1: {
+	/*
+	switch (A3E_weather) do {
+	   case "Hot": {_tort_DW_preset=[[0.3,0.01,0.2],"constant",[0.1,0.1],[0.05,0.15],[0,0.75,0,0.2,0,0.5],0,0]};
+	   case "Sunny and moderate": {_tort_DW_preset=[[0.3,0.01,0.2],"constant",[0.05,0],[0.05,0.15],[0,0.4,0,0.05,0,0.5],0,0]};
+	   case "Cloudy": {_tort_DW_preset=[[0.45,0.01,0.5],"freeCycle",[0,0],[0,0.1],[0.3,0.5,0,0.1,0,0.8],0,0]};
+	   case "Moderately variable": {_tort_DW_preset=[[0.5,0.05,0.5],"freeCycle",[0.1,0],[0.05,0.15],[0.2,0.6,0,0.1,0,0.5],0,0]};
+	   case "Variable and turbulent": {_tort_DW_preset=[[0.5,0.05,0.5],"freeCycle",[0.3,0.1],[0.1,0.3],[0.2,0.8,0,0.5,0,1],0,0]};
+	   case "Light fog": {_tort_DW_preset=[[0.4,0.1,0.5],"constant",[0.2,0.2],[0.05,0.15],[0,0.7,0.05,0.15,0,1],0,0]};
+	   case "Fog": {_tort_DW_preset=[[0.4,0.6,0.5],"constant",[0.2,0.2],[0.05,0.15],[0,0.7,0.4,0.7,0,1],0,0]};
+	   case "Random chaos": {_tort_DW_preset=["random","random",[1,1],[0,0.2],[0,1,0,1,0,1],0,0]};
+	};
+
+	0 = _tort_DW_preset execVM "Scripts\tort\tort_DynamicWeather.sqf";
+	*/
+	};
+};
+
 
 private ["_hour","_date"];
 _hour = Param_TimeOfDay;
@@ -48,36 +75,58 @@ _date set [3,_hour];
 
 setTimeMultiplier Param_TimeMultiplier;
 
-//call compile preprocessFileLineNumbers ("Islands\" + worldName + "\CommunicationCenterMarkers.sqf");
-
-
-
-
-// Roy Stuff
 drn_arr_communicationCenterMarkers = [];
-/*
-A3E_CommInstallFound = [];
-A3E_AmmoInstallFound = [];
-A3E_HeliInstallFound = [];
-A3E_ArtiInstallFound = [];
-*/
 
-royCars_allowed = false;
 mechs_allowed = false;
 karts_allowed = false;
 RDSCars_allowed = false;
+CAF_allowed = false;
+EvW_allowed = false;
+HLC_allowed = false;
 
-if (Param_RoyCars == 1) then {
-           royCars_allowed = true;
-        };
-
-if (Param_RDSCars == 1) then {
+switch (param_manAuto) do {
+	case  0: {	
+	// manual selection
+	
+	if (isClass(configFile >> "cfgPatches" >> "rds_A2_Civilians") && param_RDScivs == 1) then {
            RDSCars_allowed = true;
         };
 		
-if (Param_Mech == 1) then {
-           mechs_allowed = true;
+	if (isClass(configFile >> "cfgPatches" >> "WAPAddon") && param_mechs == 1) then {
+			   mechs_allowed = true;
         };
+		
+
+	
+	if (param_CAF == 1) then {
+		CAF_allowed = true;
+		};
+	
+	if (param_EvW == 1) then {
+		EvW_allowed = true;
+		};
+		
+	if (param_HLC == 1) then {
+		HLC_allowed = true;
+		};
+	};	
+	
+	case  1: {
+	// auto detection
+
+	mechs_allowed = true;
+	karts_allowed = true;
+	RDSCars_allowed = true;
+	CAF_allowed = true;
+	EvW_allowed = true;
+	HLC_allowed = true;
+	
+	};
+};
+
+
+
+
 
 if (Param_Kart == 1) then {
            karts_allowed = true;
@@ -193,12 +242,12 @@ _finalResult = 0;
 
 waitUntil {	
 	//diag_log "waiting for _result";
-	_startPos = [(SWpos select 0) + random (NEpos select 0) + 20,(SWpos select 1) + random (NEpos select 1) + 20, 0];
+	_startPos = [(SWpos select 0) + random (NEpos select 0) + 400,(SWpos select 1) + random (NEpos select 1) + 400, 0];
 	_result = _startPos isFlatEmpty [5, 0, 0.15, 30, 0, false, objNull];
 	
 	switch ((count _result) > 0) do {
 		case true: {			
-			_nearRoads = _result nearRoads 120;
+			_nearRoads = _result nearRoads 20;
 			if ((count _nearRoads) == 0) then {_finalResult = 1;};
 			};
 		case false: {};
@@ -225,8 +274,24 @@ publicVariable "drn_fenceIsCreated";
 [true] call drn_fnc_InitVillageMarkers; 
 //[true] call drn_fnc_InitAquaticPatrolMarkers; 
 
-[_enemyFrequency] call compile preprocessFileLineNumbers "Scripts\Escape\UnitClasses.sqf";
 
+//Pre process unit classes
+A3E_addonsArrayINF = [];
+
+switch (param_pureFactions) do {
+	case 1: {
+		diag_log "param_pureFactions is true";
+		[_enemyFrequency] call compile preprocessFileLineNumbers "Scripts\Escape\UnitClasses_pure.sqf";
+		};
+	case 0: {
+		diag_log "param_pureFactions is false";
+		[_enemyFrequency] call compile preprocessFileLineNumbers "Scripts\Escape\UnitClasses_mixed.sqf";
+		};
+	default {
+		diag_log "param_pureFactions is false";
+		[_enemyFrequency] call compile preprocessFileLineNumbers "Scripts\Escape\UnitClasses_mixed.sqf";
+		};
+};
 
 waitUntil {!isnil {call drn_fnc_Escape_GetPlayers}};
 //#### The player group should become a global variable broadcasted to network ###
@@ -246,7 +311,7 @@ if (_showGroupDiagnostics) then {
 
 
 // Create all the installations
-[_playergroup, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance, _enemyFrequency] spawn A3E_fnc_createPOIs;
+[_playergroup, _enemyMinSkill, _enemyMaxSkill, _enemySpawnDistance, _enemyFrequency] execVM "Scripts\Escape\createPOIs.sqf";
 
 diag_log "created POIs";
 
@@ -485,10 +550,15 @@ diag_log "after village patrols";
                     if ((_this select 1) in (call drn_fnc_Escape_GetPlayers)) then {
                         drn_var_Escape_SearchLeader_civilianReporting = true;
                         publicVariable "drn_var_Escape_SearchLeader_civilianReporting";
+						drn_var_Escape_SearchLeader_ReportingCivilian = _this select 0;
+						publicVariable "drn_var_Escape_SearchLeader_ReportingCivilian";
                         (_this select 1) addScore -4;
                         [name (_this select 1) + " has killed a civilian."] call drn_fnc_CL_ShowCommandTextAllClients;
                     }
                 }];
+				
+				[[_x, "Swap clothes", "Scripts\Escape\swapUniform.sqf"], "a3e_fnc_addSwapUniformAction", true, false] spawn BIS_fnc_MP;
+				
             } foreach _crew;
             
             if (random 100 < 20) then {
@@ -644,7 +714,7 @@ _players = (switchableUnits + playableUnits);
         
         //(drn_arr_Escape_StartPositionGuardTypes select floor (random count drn_arr_Escape_StartPositionGuardTypes)) createUnit [_pos, _guardGroup, "", (0.5), "CAPTAIN"];
         _guardGroup createUnit [(drn_arr_Escape_StartPositionGuardTypes select floor (random count drn_arr_Escape_StartPositionGuardTypes)), _pos, [], 0, "FORM"];
-        
+
         if (count units _guardGroup >= 2) then {
             _createNewGroup = true;
         };
@@ -662,7 +732,7 @@ _players = (switchableUnits + playableUnits);
             _unit unlinkItem "ItemCompass";
             _unit unlinkItem "ItemGPS";
 			_unit unlinkItem "NVGoggles_INDEP";
-			
+			[[_unit, "Swap uniform", "Scripts\Escape\swapUniform.sqf"], "a3e_fnc_addSwapUniformAction", true, false] spawn BIS_fnc_MP;
 			if(random 100 < 80) then {
 				removeAllPrimaryWeaponItems _unit;
 				

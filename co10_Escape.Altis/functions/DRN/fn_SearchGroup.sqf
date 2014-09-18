@@ -163,9 +163,9 @@ while {!_exitScript} do {
         _soldiers = + units _group;
         {
             if ((!alive _x) || (!canStand _x)) then {
-                _garbageGroup = createGroup _side;
-                [_x] joinSilent _garbageGroup;
-                [_x] call drn_fnc_CL_AddUnitsToGarbageCollector;
+                //_garbageGroup = createGroup _side;
+                //[_x] joinSilent _garbageGroup;
+                //[_x] call drn_fnc_CL_AddUnitsToGarbageCollector;
                 
                 if (count units _group == 0) then {
                     deleteGroup _group;

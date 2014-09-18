@@ -8,13 +8,12 @@
  * and RunExtraction.sqf, all in folder Scripts\Escape\.
  */
 
-
 private ["_enemyFrequency"];
 
 _enemyFrequency = _this select 0;
 
 // Random array. Start position guard types.
-drn_arr_Escape_StartPositionGuardTypes = ["I_Soldier_AR_F", "I_Soldier_GL_F", "I_Soldier_F", "I_Soldier_lite_F"];
+drn_arr_Escape_StartPositionGuardTypes = ["SUD_USSR_Soldier_TL", "SUD_USSR_Soldier_AR", "SUD_USSR_Soldier"];
 
 // Inner fence guard's secondary weapon (and corresponding magazine type).
 drn_var_Escape_InnerFenceGuardSecondaryWeapon = [];
@@ -28,15 +27,11 @@ drn_var_Escape_InnerFenceGuardSecondaryWeapon set [count(drn_var_Escape_InnerFen
 
 _mechArray = ["WAP_03_CSAT_AS", "WAP_03_Blue_AS", "WAP_03_Red_Random_AS", "WAP_03_Blue_Random_AS", "WAP_03_Red_AS", "WAP_02_CSAT_AS", "WAP_02_CSAT_AS_2", "WAP_02_CSAT_GN", "WAP_02_CSAT_LC", "WAP_02_Red_Random_LC", "WAP_02_Blue_Random_LC", "G_WAP_03_Blue_AS"];
 // Random array. Civilian vehicle classes for ambient traffic. (Can also be set to a faction name).
-drn_arr_Escape_MilitaryTraffic_CivilianVehicleClasses = ["C_Hatchback_01_F", "C_Hatchback_01_sport_F", "C_Offroad_01_F", "C_Quadbike_01_F", "C_SUV_01_F", "C_Van_01_box_F", "C_Van_01_transport_F", "C_Van_01_fuel_F"];
+drn_arr_Escape_MilitaryTraffic_CivilianVehicleClasses = ["C_Offroad_01_F", "C_Quadbike_01_F", "C_Van_01_box_F", "C_Van_01_fuel_F"];
 
-if (royCars_allowed) then {
-	_royCarArray = ["MMT_Civ", "C_VWGolf_F", "C_Ikarus_Bus_F", "C_VWcamper_F"];
-	drn_arr_Escape_MilitaryTraffic_CivilianVehicleClasses = drn_arr_Escape_MilitaryTraffic_CivilianVehicleClasses + _royCarArray;
-	};
 
 if (RDSCars_allowed) then {
-	_RDSCarArray = ["RDS_Ikarus_Civ_01", "RDS_Ikarus_Civ_02", "RDS_Lada_Civ_01", "RDS_Lada_Civ_02", "RDS_Lada_Civ_03", "RDS_Lada_Civ_04", "RDS_Lada_Civ_05", "RDS_S1203_Civ_01", "RDS_S1203_Civ_02", "RDS_S1203_Civ_03", "RDS_Gaz24_Civ_01", "RDS_Gaz24_Civ_02", "RDS_Gaz24_Civ_03", "RDS_Golf4_Civ_01", "RDS_Octavia_Civ_01", "RDS_Hatchback_01_F", "RDS_SUV_01_F", "RDS_Van_01_transport_F", "RDS_Van_01_box_F"];
+	_RDSCarArray = ["RDS_Ikarus_Civ_01", "RDS_Ikarus_Civ_02", "RDS_Lada_Civ_01", "RDS_Lada_Civ_02", "RDS_Lada_Civ_03", "RDS_Lada_Civ_04", "RDS_Lada_Civ_05", "RDS_S1203_Civ_01", "RDS_S1203_Civ_02", "RDS_S1203_Civ_03", "RDS_Gaz24_Civ_01", "RDS_Gaz24_Civ_02", "RDS_Gaz24_Civ_03", "RDS_Golf4_Civ_01", "RDS_Octavia_Civ_01", "RDS_Van_01_transport_F", "RDS_Van_01_box_F"];
 	drn_arr_Escape_MilitaryTraffic_CivilianVehicleClasses = drn_arr_Escape_MilitaryTraffic_CivilianVehicleClasses + _RDSCarArray;
 	};
 	
@@ -47,62 +42,44 @@ if (karts_allowed) then {
 	
 // Random arrays. Enemy vehicle classes for ambient traffic. (Can also be set to a faction name).
 // Variable _enemyFrequency applies to server parameter, and can be one of the values 1 (Few), 2 (Some) or 3 (A lot).
-switch (_enemyFrequency) do {
-    case 1: {
-        drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses = ["O_MRAP_02_F", "O_MRAP_02_F", "O_MRAP_02_F", "O_MRAP_02_F", "O_MRAP_02_hmg_F", "O_MRAP_02_hmg_F", "O_Quadbike_01_F", "O_Quadbike_01_F", "O_Quadbike_01_F", "O_Truck_02_covered_F", "O_Truck_02_transport_F", "O_Truck_02_ammo_F", "O_Truck_02_box_F", "O_Truck_02_fuel_F", "O_Truck_02_medical_F", "O_APC_Tracked_02_AA_F", "O_APC_Tracked_02_cannon_F", "O_MBT_02_arty_F", "O_MBT_02_cannon_F"];
-        drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses_IND = ["I_MRAP_03_F", "I_MRAP_03_hmg_F", "I_MRAP_03_F", "I_MRAP_03_hmg_F", "I_G_Offroad_01_armed_F", "I_G_Offroad_01_armed_F", "I_G_Offroad_01_armed_F", "I_G_Offroad_01_armed_F","I_G_Offroad_01_F","I_MBT_03_cannon_F","I_APC_tracked_03_cannon_F","I_APC_tracked_03_cannon_F"];
-		
-		if (mechs_allowed) then {
-			drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses = drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses + _mechArray;
-		};
-    };
-    case 2: {
-        drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses = ["O_MRAP_02_F", "O_MRAP_02_F", "O_MRAP_02_F", "O_MRAP_02_F", "O_MRAP_02_hmg_F", "O_MRAP_02_hmg_F", "O_Quadbike_01_F", "O_Quadbike_01_F", "O_Quadbike_01_F", "O_Truck_02_covered_F", "O_Truck_02_transport_F", "O_Truck_02_ammo_F", "O_Truck_02_box_F", "O_Truck_02_fuel_F", "O_Truck_02_medical_F", "O_APC_Tracked_02_AA_F", "O_APC_Tracked_02_cannon_F", "O_MBT_02_arty_F", "O_MBT_02_cannon_F"];
-        drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses_IND = ["I_MRAP_03_F", "I_MRAP_03_hmg_F", "I_MRAP_03_F", "I_MRAP_03_hmg_F", "I_G_Offroad_01_armed_F", "I_G_Offroad_01_armed_F", "I_G_Offroad_01_armed_F", "I_G_Offroad_01_armed_F","I_G_Offroad_01_F","I_MBT_03_cannon_F","I_APC_tracked_03_cannon_F","I_APC_tracked_03_cannon_F"];
-		
-		if (mechs_allowed) then {
-			drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses = drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses + _mechArray;
-		};
-    };
-    default {
-        drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses = ["O_MRAP_02_F", "O_MRAP_02_F", "O_MRAP_02_F", "O_MRAP_02_F", "O_MRAP_02_hmg_F", "O_MRAP_02_hmg_F", "O_Quadbike_01_F", "O_Quadbike_01_F", "O_Quadbike_01_F", "O_Truck_02_covered_F", "O_Truck_02_transport_F", "O_Truck_02_ammo_F", "O_Truck_02_box_F", "O_Truck_02_fuel_F", "O_Truck_02_medical_F", "O_APC_Tracked_02_AA_F", "O_APC_Tracked_02_cannon_F", "O_MBT_02_arty_F", "O_MBT_02_cannon_F"];
-        drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses_IND = ["I_MRAP_03_F", "I_MRAP_03_hmg_F", "I_MRAP_03_F", "I_MRAP_03_hmg_F", "I_G_Offroad_01_armed_F", "I_G_Offroad_01_armed_F", "I_G_Offroad_01_armed_F", "I_G_Offroad_01_armed_F","I_G_Offroad_01_F","I_MBT_03_cannon_F","I_APC_tracked_03_cannon_F","I_APC_tracked_03_cannon_F"];
-		
-		if (mechs_allowed) then {
-			drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses = drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses + _mechArray;
-		};
-    };
+
+drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses = ["SUD_UAZ", "SUD_BRDM2",  "SUD_URAL", "SUD_HMMWV", "SUD_TRUCK5t", "SUD_BTR60", "O_Quadbike_01_F", "O_Truck_02_covered_F", "O_Truck_02_transport_F", "O_Truck_02_ammo_F", "O_Truck_02_box_F", "O_Truck_02_fuel_F", "O_Truck_02_medical_F", "O_MRAP_02_hmg_F"];
+drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses_IND = ["SUD_UAZ", "SUD_BRDM2",  "SUD_URAL", "SUD_HMMWV", "SUD_TRUCK5t", "SUD_BTR60", "I_G_Offroad_01_armed_F", "I_G_Offroad_01_armed_F", "I_G_Offroad_01_F", "I_MRAP_03_F", "I_Quadbike_01_F", "I_Truck_02_covered_F", "I_Truck_02_transport_F", "I_Truck_02_box_F", "I_Truck_02_fuel_F"];
+
+if (mechs_allowed) then {
+	drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses = drn_arr_Escape_MilitaryTraffic_EnemyVehicleClasses + _mechArray;
 };
 
+
 // Random array. General infantry types. E.g. village patrols, ambient infantry, ammo depot guards, communication center guards, etc.
-drn_arr_Escape_InfantryTypes =      ["O_engineer_F", "O_medic_F", "O_Soldier_A_F", "O_Soldier_AA_F", "O_Soldier_AR_F", "O_Soldier_AT_F", "O_Soldier_exp_F", "O_soldier_F", "O_Soldier_GL_F", "O_Soldier_LAT_F", "O_Soldier_lite_F", "O_Soldier_M_F", "O_Soldier_repair_F", "O_officer_F", "O_engineer_F", "O_medic_F", "O_Soldier_A_F", "O_Soldier_AR_F", "O_Soldier_exp_F", "O_soldier_F", "O_Soldier_GL_F", "O_Soldier_LAT_F", "O_Soldier_lite_F", "O_Soldier_M_F", "O_Soldier_repair_F", "O_officer_F", "O_engineer_F", "O_medic_F", "O_Soldier_A_F", "O_Soldier_AR_F", "O_Soldier_exp_F", "O_soldier_F", "O_Soldier_GL_F", "O_Soldier_lite_F", "O_Soldier_M_F", "O_Soldier_repair_F","O_soldier_UAV_F","O_Soldier_AAR_F", "O_support_AMG_F", "O_support_AMort_F", "O_Soldier_AAA_F", "O_Soldier_AAT_F", "O_support_GMG_F", "O_support_MG_F", "O_support_Mort_F"];
-drn_arr_Escape_InfantryTypes_Ind =  ["I_engineer_F", "I_medic_F", "I_Soldier_A_F", "I_Soldier_AA_F", "I_Soldier_AR_F", "I_Soldier_AT_F", "I_Soldier_exp_F", "I_soldier_F", "I_Soldier_GL_F", "I_Soldier_LAT_F", "I_Soldier_lite_F", "I_Soldier_M_F", "I_Soldier_repair_F", "I_officer_F", "I_engineer_F", "I_medic_F", "I_Soldier_A_F", "I_Soldier_AR_F", "I_Soldier_exp_F", "I_soldier_F", "I_Soldier_GL_F", "I_Soldier_LAT_F", "I_Soldier_lite_F", "I_Soldier_M_F", "I_Soldier_repair_F", "I_officer_F", "I_engineer_F", "I_medic_F", "I_Soldier_A_F", "I_Soldier_AR_F", "I_Soldier_exp_F", "I_soldier_F", "I_Soldier_GL_F", "I_Soldier_lite_F", "I_Soldier_M_F", "I_Soldier_repair_F","I_soldier_UAV_F","I_Soldier_AAR_F", "I_support_AMG_F", "I_support_AMort_F", "I_Soldier_AAA_F", "I_Soldier_AAT_F", "I_support_GMG_F", "I_support_MG_F", "I_support_Mort_F"];
-a3n_arr_recon_InfantryTypes = ["O_recon_exp_F", "O_recon_JTAC_F", "O_recon_M_F", "O_recon_medic_F", "O_recon_F", "O_recon_LAT_F", "O_recon_TL_F"];
+drn_arr_Escape_InfantryTypes =      ["SUD_USSR_Soldier_TL", "SUD_USSR_Soldier_AR", "SUD_USSR_Soldier_GL", "SUD_USSR_Soldier_AT", "SUD_USSR_Soldier", "SUD_USSR_Soldier_Medic"];
+drn_arr_Escape_InfantryTypes_Ind =  ["SUD_USSR_Soldier_TL", "SUD_USSR_Soldier_AR", "SUD_USSR_Soldier_GL", "SUD_USSR_Soldier_AT", "SUD_USSR_Soldier", "SUD_USSR_Soldier_Medic"];
+a3n_arr_recon_InfantryTypes = ["O_recon_JTAC_F", "O_recon_M_F", "O_recon_medic_F", "O_recon_F", "O_recon_LAT_F", "O_recon_TL_F"];
 
 // Random array. A roadblock has a manned vehicle. This array contains possible manned vehicles (can be of any kind, like cars, armored and statics).
-drn_arr_Escape_RoadBlock_MannedVehicleTypes = ["O_MRAP_02_hmg_F", "O_HMG_01_high_F", "O_HMG_01_high_F", "O_static_AT_F", "O_static_AA_F"];
+drn_arr_Escape_RoadBlock_MannedVehicleTypes = ["SUD_UAZ", "SUD_BRDM2",  "SUD_URAL", "SUD_HMMWV", "SUD_TRUCK5t", "SUD_BTR60", "I_G_Offroad_01_armed_F", "I_G_Offroad_01_F", "O_HMG_01_high_F", "O_HMG_01_high_F", "O_static_AT_F", "O_static_AA_F"];
 if (mechs_allowed) then {
 		_arrayLength = count drn_arr_Escape_RoadBlock_MannedVehicleTypes;
 		drn_arr_Escape_RoadBlock_MannedVehicleTypes set  [_arrayLength, "WAP_02_CSAT_AS"];
 		};
 		
-drn_arr_Escape_RoadBlock_MannedVehicleTypes_Ind = ["I_G_Offroad_01_armed_F", "I_static_AT_F"];
+drn_arr_Escape_RoadBlock_MannedVehicleTypes_Ind = ["SUD_UAZ", "SUD_BRDM2",  "SUD_URAL", "SUD_HMMWV", "SUD_TRUCK5t", "SUD_BTR60", "I_G_Offroad_01_armed_F", "I_static_AT_F"];
 
 // Random array. Vehicle classes (preferrably trucks) transporting enemy reinforcements.
-drn_arr_Escape_ReinforcementTruck_vehicleClasses = ["O_Truck_03_covered_F", "O_Truck_03_transport_F", "O_Truck_02_covered_F", "O_Truck_02_transport_F"];
+drn_arr_Escape_ReinforcementTruck_vehicleClasses = ["O_Truck_02_covered_F", "O_Truck_02_transport_F"];
 drn_arr_Escape_ReinforcementTruck_vehicleClasses_Ind = ["I_Truck_02_transport_F", "I_Truck_02_covered"];
 // Total cargo for reinforcement trucks. Each element corresponds to a vehicle (array element) in array drn_arr_Escape_ReinforcementTruck_vehicleClasses above.
-drn_arr_Escape_ReinforcementTruck_vehicleClassesMaxCargo = [16, 16, 16, 16, 16, 16];
+drn_arr_Escape_ReinforcementTruck_vehicleClassesMaxCargo = [16, 16, 16, 16];
 
 
 // Random array. Motorized search groups are sometimes sent to look for you. This array contains possible class definitions for the vehicles.
-drn_arr_Escape_MotorizedSearchGroup_vehicleClasses = ["O_G_Offroad_01_armed_F", "O_G_Offroad_01_armed_F", "O_APC_Wheeled_02_rcws_F"];
+drn_arr_Escape_MotorizedSearchGroup_vehicleClasses = ["SUD_UAZ", "SUD_BMP2", "SUD_BRDM2", "SUD_BTR60", "SUD_HMMWV", "O_MRAP_02_hmg_F"];
 // Total cargo motorized search group vehicle. Each element corresponds to a vehicle (array element) in array drn_arr_Escape_MotorizedSearchGroup_vehicleClasses above.
-drn_arr_Escape_MotorizedSearchGroup_vehicleClassesMaxCargo = [2, 2, 8];
+drn_arr_Escape_MotorizedSearchGroup_vehicleClassesMaxCargo = [5, 3, 5, 5, 4, 2];
 
 if (mechs_allowed) then {
 			drn_arr_Escape_MotorizedSearchGroup_vehicleClasses = drn_arr_Escape_MotorizedSearchGroup_vehicleClasses + _mechArray;
-			drn_arr_Escape_MotorizedSearchGroup_vehicleClassesMaxCargo = [2, 2, 8, 2, 2, 2];
+			drn_arr_Escape_MotorizedSearchGroup_vehicleClassesMaxCargo = [5, 3, 5, 5, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
 		};
 		
 
@@ -111,9 +88,9 @@ if (mechs_allowed) then {
 // light *and* a random heavy armor.
 
 // Random array. Light armored vehicles guarding the communication centers.
-drn_arr_ComCenDefence_lightArmorClasses = ["O_MRAP_02_gmg_F", "O_MRAP_02_hmg_F", "O_APC_Wheeled_02_rcws_F", "O_APC_Tracked_02_AA_F"];
+drn_arr_ComCenDefence_lightArmorClasses = ["SUD_HMMWV_M2", "SUD_BMP2", "SUD_BRDM2",  "O_MRAP_02_hmg_F"];
 // Random array. Heavy armored vehicles guarding the communication centers.
-drn_arr_ComCenDefence_heavyArmorClasses = ["O_MBT_02_cannon_F", "O_APC_Tracked_02_cannon_F"];
+drn_arr_ComCenDefence_heavyArmorClasses = ["SUD_BMP2", "SUD_BRDM2", "O_MBT_02_cannon_F", "O_APC_Tracked_02_AA_F"];
 
 if (mechs_allowed) then {
 			drn_arr_ComCenDefence_heavyArmorClasses = drn_arr_ComCenDefence_heavyArmorClasses + _mechArray;
@@ -121,24 +98,20 @@ if (mechs_allowed) then {
 		
 // A communication center contains two static weapons (in two corners of the communication center).
 // Random array. Possible static weapon types for communication centers.
-drn_arr_ComCenStaticWeapons = ["O_HMG_01_high_F"];
+drn_arr_ComCenStaticWeapons = ["I_HMG_01_high_F"];
 // A communication center have two parked and empty vehicles of the following possible types.
-drn_arr_ComCenParkedVehicles = ["O_MRAP_02_F", "O_MRAP_02_gmg_F", "O_MRAP_02_hmg_F", "C_Offroad_01_F", "C_Van_01_transport_F", "O_MRAP_02_F", "I_G_Offroad_01_armed_F", "I_MRAP_03_hmg_F", "I_MRAP_03_gmg_F", "I_G_Offroad_01_F"];
+drn_arr_ComCenParkedVehicles = ["SUD_UAZ", "SUD_BRDM2",  "SUD_URAL", "SUD_HMMWV", "SUD_TRUCK5t", "SUD_BTR60", "SUD_BMP2", "C_Offroad_01_F", "C_Van_01_transport_F", "O_MRAP_02_F", "I_G_Offroad_01_armed_F", "I_MRAP_03_hmg_F", "I_MRAP_03_gmg_F", "I_G_Offroad_01_F"];
 
 if (mechs_allowed) then {
 			drn_arr_ComCenParkedVehicles = drn_arr_ComCenParkedVehicles + _mechArray;
 		};
 		
 // Random array. Enemies sometimes use civilian vehicles in their unconventional search for players. The following car types may be used.
-drn_arr_Escape_EnemyCivilianCarTypes = ["C_Hatchback_01_F", "C_Hatchback_01_sport_F", "C_Offroad_01_F", "C_Quadbike_01_F", "C_SUV_01_F", "C_Van_01_box_F", "C_Van_01_transport_F", "C_Van_01_fuel_F"];
+drn_arr_Escape_EnemyCivilianCarTypes = ["RDS_Ikarus_Civ_01", "RDS_Ikarus_Civ_02", "RDS_Lada_Civ_01", "RDS_Lada_Civ_02", "RDS_Lada_Civ_03", "RDS_Lada_Civ_04", "RDS_Lada_Civ_05", "RDS_S1203_Civ_01", "RDS_S1203_Civ_02", "RDS_S1203_Civ_03", "RDS_Gaz24_Civ_01", "RDS_Gaz24_Civ_02", "RDS_Gaz24_Civ_03", "RDS_Golf4_Civ_01", "RDS_Octavia_Civ_01", "RDS_Van_01_transport_F", "RDS_Van_01_box_F", "C_Offroad_01_F"];
 
-if (royCars_allowed) then {
-	_royCarArray = ["MMT_Civ", "C_VWGolf_F", "C_Ikarus_Bus_F", "C_VWcamper_F"];
-	drn_arr_Escape_EnemyCivilianCarTypes = drn_arr_Escape_EnemyCivilianCarTypes + _royCarArray;
-	};
 
 if (RDSCars_allowed) then {
-	_RDSCarArray = ["RDS_Ikarus_Civ_01", "RDS_Ikarus_Civ_02", "RDS_Lada_Civ_01", "RDS_Lada_Civ_02", "RDS_Lada_Civ_03", "RDS_Lada_Civ_04", "RDS_Lada_Civ_05", "RDS_S1203_Civ_01", "RDS_S1203_Civ_02", "RDS_S1203_Civ_03", "RDS_Gaz24_Civ_01", "RDS_Gaz24_Civ_02", "RDS_Gaz24_Civ_03", "RDS_Golf4_Civ_01", "RDS_Octavia_Civ_01", "RDS_Hatchback_01_F", "RDS_SUV_01_F", "RDS_Van_01_transport_F", "RDS_Van_01_box_F"];
+	_RDSCarArray = ["RDS_Ikarus_Civ_01", "RDS_Ikarus_Civ_02", "RDS_Lada_Civ_01", "RDS_Lada_Civ_02", "RDS_Lada_Civ_03", "RDS_Lada_Civ_04", "RDS_Lada_Civ_05", "RDS_S1203_Civ_01", "RDS_S1203_Civ_02", "RDS_S1203_Civ_03", "RDS_Gaz24_Civ_01", "RDS_Gaz24_Civ_02", "RDS_Gaz24_Civ_03", "RDS_Golf4_Civ_01", "RDS_Octavia_Civ_01", "RDS_Hatchback_01_F", "RDS_Van_01_transport_F", "RDS_Van_01_box_F"];
 	drn_arr_Escape_EnemyCivilianCarTypes = drn_arr_Escape_EnemyCivilianCarTypes + _RDSCarArray;
 	};
 	
@@ -152,7 +125,7 @@ if (karts_allowed) then {
 // Random array. An ammo depot contains one static weapon of the followin types:
 drn_arr_Escape_AmmoDepot_StaticWeaponClasses = ["O_HMG_01_high_F", "O_GMG_01_high_F", "O_HMG_01_high_F", "O_static_AT_F", "O_static_AA_F"];
 // An ammo depot have one parked and empty vehicle of the following possible types.
-drn_arr_Escape_AmmoDepot_ParkedVehicleClasses = ["O_MRAP_02_F", "O_MRAP_02_gmg_F", "O_MRAP_02_hmg_F", "O_Truck_02_covered_F", "O_Truck_02_ammo_F", "O_Truck_02_box_F", "I_G_Offroad_01_armed_F", "I_MRAP_03_hmg_F", "I_MRAP_03_gmg_F", "I_G_Offroad_01_F"];
+drn_arr_Escape_AmmoDepot_ParkedVehicleClasses = ["RDS_Ikarus_Civ_01", "RDS_Ikarus_Civ_02", "SUD_UAZ", "SUD_URAL", "SUD_TRUCK5t", "O_Truck_02_covered_F", "I_G_Offroad_01_armed_F", "I_G_Offroad_01_F"];
 
 
 // The following arrays define weapons and ammo contained at the ammo depots
@@ -168,9 +141,20 @@ drn_arr_AmmoDepotBasicWeapons = [];
 // CSAT weapons
 drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["hgun_Rook40_F", 40, 4, 8, ["16Rnd_9x21_Mag", "30Rnd_9x21_Mag"], 6]];
 drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["SMG_02_F", 40, 4, 8, ["30Rnd_9x21_Mag"], 6]];
-drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_Katiba_F", 30, 2, 4, ["30Rnd_65x39_caseless_green", "30Rnd_65x39_caseless_green_mag_Tracer"], 6]];
-drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_Katiba_C_F", 30, 2, 4, ["30Rnd_65x39_caseless_green", "30Rnd_65x39_caseless_green_mag_Tracer"], 6]];
-drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_Katiba_GL_F", 20, 2, 4, ["30Rnd_65x39_caseless_green", "30Rnd_65x39_caseless_green_mag_Tracer", "1Rnd_HE_Grenade_shell", "1Rnd_Smoke_Grenade_shell", "UGL_FlareWhite_F"], 6]];
+
+//USSR
+drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_SUD_AK74", 80, 4, 8, ["SUD_30rnd_545x39_AK"], 8]];
+drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_SUD_AK74_GL", 80, 4, 8, ["SUD_1rnd_HE_GP25"], 8]];
+drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["LMG_SUD_PK", 60, 4, 8, ["SUD_100rnd_762x54_PK"], 8]];
+
+//NATO
+drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_SUD_M16", 60, 4, 8, ["SUD_30Rnd_556x45_STANAG"], 8]];
+drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_SUD_M16_GL", 60, 4, 8, ["SUD_1rnd_HE_M203"], 8]];
+drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["LMG_SUD_M60", 60, 4, 8, ["SUD_100Rnd_762x51_M60"], 8]];
+
+drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_Katiba_F", 35, 2, 4, ["30Rnd_65x39_caseless_green", "30Rnd_65x39_caseless_green_mag_Tracer"], 6]];
+drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_Katiba_C_F", 35, 2, 4, ["30Rnd_65x39_caseless_green", "30Rnd_65x39_caseless_green_mag_Tracer"], 6]];
+drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_Katiba_GL_F", 35, 2, 4, ["30Rnd_65x39_caseless_green", "30Rnd_65x39_caseless_green_mag_Tracer", "1Rnd_HE_Grenade_shell", "1Rnd_Smoke_Grenade_shell", "UGL_FlareWhite_F"], 6]];
 drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_Mk20_F", 40, 2, 4, ["30Rnd_556x45_Stanag", "30Rnd_556x45_Stanag_Tracer_Green", "30Rnd_556x45_Stanag_Tracer_Red", "30Rnd_556x45_Stanag_Tracer_Yellow"], 6]];
 drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_Mk20_GL_F", 40, 2, 4, ["30Rnd_556x45_Stanag", "30Rnd_556x45_Stanag_Tracer_Green", "30Rnd_556x45_Stanag_Tracer_Red", "30Rnd_556x45_Stanag_Tracer_Yellow", "1Rnd_HE_Grenade_shell", "1Rnd_Smoke_Grenade_shell", "UGL_FlareWhite_F"], 6]];
 drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_Mk20C_F", 40, 2, 4, ["30Rnd_556x45_Stanag", "30Rnd_556x45_Stanag_Tracer_Green", "30Rnd_556x45_Stanag_Tracer_Red", "30Rnd_556x45_Stanag_Tracer_Yellow"], 6]];
@@ -186,30 +170,33 @@ drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["SMG_01
 //drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_MXC_F", 40, 2, 4, ["30Rnd_65x39_caseless_mag", "30Rnd_65x39_caseless_mag_Tracer"], 6]];
 //drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_MXM_F", 40, 2, 4, ["30Rnd_65x39_caseless_mag", "30Rnd_65x39_caseless_mag_Tracer"], 6]];
 //drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_SDAR_F", 40, 2, 4, ["20Rnd_556x45_UW_mag", "30Rnd_556x45_Stanag", "30Rnd_556x45_Stanag_Tracer_Green", "30Rnd_556x45_Stanag_Tracer_Red", "30Rnd_556x45_Stanag_Tracer_Yellow"], 6]];
-drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_TRG20_F", 40, 2, 4, ["30Rnd_556x45_Stanag", "30Rnd_556x45_Stanag_Tracer_Green", "30Rnd_556x45_Stanag_Tracer_Red", "30Rnd_556x45_Stanag_Tracer_Yellow"], 6]];
-drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_TRG21_F", 40, 2, 4, ["30Rnd_556x45_Stanag", "30Rnd_556x45_Stanag_Tracer_Green", "30Rnd_556x45_Stanag_Tracer_Red", "30Rnd_556x45_Stanag_Tracer_Yellow"], 6]];
-drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_TRG21_GL_F", 40, 2, 4, ["30Rnd_556x45_Stanag", "30Rnd_556x45_Stanag_Tracer_Green", "30Rnd_556x45_Stanag_Tracer_Red", "30Rnd_556x45_Stanag_Tracer_Yellow", "1Rnd_HE_Grenade_shell", "1Rnd_Smoke_Grenade_shell", "UGL_FlareWhite_F"], 6]];
+drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_TRG20_F", 5, 2, 4, ["30Rnd_556x45_Stanag", "30Rnd_556x45_Stanag_Tracer_Green", "30Rnd_556x45_Stanag_Tracer_Red", "30Rnd_556x45_Stanag_Tracer_Yellow"], 6]];
+drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_TRG21_F", 5, 2, 4, ["30Rnd_556x45_Stanag", "30Rnd_556x45_Stanag_Tracer_Green", "30Rnd_556x45_Stanag_Tracer_Red", "30Rnd_556x45_Stanag_Tracer_Yellow"], 6]];
+drn_arr_AmmoDepotBasicWeapons set [count drn_arr_AmmoDepotBasicWeapons, ["arifle_TRG21_GL_F", 5, 2, 4, ["30Rnd_556x45_Stanag", "30Rnd_556x45_Stanag_Tracer_Green", "30Rnd_556x45_Stanag_Tracer_Red", "30Rnd_556x45_Stanag_Tracer_Yellow", "1Rnd_HE_Grenade_shell", "1Rnd_Smoke_Grenade_shell", "UGL_FlareWhite_F"], 6]];
 
 
 // Weapons and ammo in the special weapons box
 drn_arr_AmmoDepotSpecialWeapons = [];
 // CSAT weapons
-drn_arr_AmmoDepotSpecialWeapons set [count drn_arr_AmmoDepotSpecialWeapons, ["srifle_LRR_F", 20, 2, 4, ["7Rnd_408_Mag"], 14]];
-drn_arr_AmmoDepotSpecialWeapons set [count drn_arr_AmmoDepotSpecialWeapons, ["srifle_DMR_01_F", 20, 2, 4, ["10Rnd_762x51_Mag"], 9]];
-drn_arr_AmmoDepotSpecialWeapons set [count drn_arr_AmmoDepotSpecialWeapons, ["srifle_EBR_F", 20, 2, 4, ["20Rnd_762x51_Mag"], 9]];
-drn_arr_AmmoDepotSpecialWeapons set [count drn_arr_AmmoDepotSpecialWeapons, ["srifle_GM6_F", 20, 2, 4, ["5Rnd_127x108_Mag"], 9]];
-drn_arr_AmmoDepotSpecialWeapons set [count drn_arr_AmmoDepotSpecialWeapons, ["LMG_Zafir_F", 20, 2, 4, ["150Rnd_762x51_Box", "150Rnd_762x51_Box_Tracer"], 6]];
+
+drn_arr_AmmoDepotSpecialWeapons set [count drn_arr_AmmoDepotSpecialWeapons, ["srifle_LRR_F", 35, 2, 4, ["7Rnd_408_Mag"], 14]];
+drn_arr_AmmoDepotSpecialWeapons set [count drn_arr_AmmoDepotSpecialWeapons, ["srifle_DMR_01_F", 35, 2, 4, ["10Rnd_762x51_Mag"], 9]];
+drn_arr_AmmoDepotSpecialWeapons set [count drn_arr_AmmoDepotSpecialWeapons, ["srifle_EBR_F", 35, 2, 4, ["20Rnd_762x51_Mag"], 9]];
+drn_arr_AmmoDepotSpecialWeapons set [count drn_arr_AmmoDepotSpecialWeapons, ["srifle_GM6_F", 35, 2, 4, ["5Rnd_127x108_Mag"], 9]];
+drn_arr_AmmoDepotSpecialWeapons set [count drn_arr_AmmoDepotSpecialWeapons, ["LMG_Zafir_F", 35, 2, 4, ["150Rnd_762x51_Box", "150Rnd_762x51_Box_Tracer"], 6]];
 // non-CAST weapons
 //drn_arr_AmmoDepotSpecialWeapons set [count drn_arr_AmmoDepotSpecialWeapons, ["srifle_LRR_F", 50, 2, 4, ["7Rnd_408_Mag"], 9]];
-drn_arr_AmmoDepotSpecialWeapons set [count drn_arr_AmmoDepotSpecialWeapons, ["LMG_Mk200_F", 30, 2, 4, ["200Rnd_65x39_cased_Box", "200Rnd_65x39_cased_Box_Tracer"], 6]];
+drn_arr_AmmoDepotSpecialWeapons set [count drn_arr_AmmoDepotSpecialWeapons, ["LMG_Mk200_F", 40, 2, 4, ["200Rnd_65x39_cased_Box", "200Rnd_65x39_cased_Box_Tracer"], 6]];
 
 
 // Weapons and ammo in the launchers box
 drn_arr_AmmoDepotLaunchers = [];
 // CSAT weapons
-drn_arr_AmmoDepotLaunchers set [count drn_arr_AmmoDepotLaunchers, ["launch_RPG32_F", 60, 3, 5, ["RPG32_F", "RPG32_HE_F"], 6]];
-drn_arr_AmmoDepotLaunchers set [count drn_arr_AmmoDepotLaunchers, ["launch_O_Titan_F", 40, 1, 1, ["Titan_AA"], 3]];
-drn_arr_AmmoDepotLaunchers set [count drn_arr_AmmoDepotLaunchers, ["launch_O_Titan_short_F", 40, 1, 1, ["Titan_AP", "Titan_AT"], 3]];
+//drn_arr_AmmoDepotLaunchers set [count drn_arr_AmmoDepotLaunchers, ["CAF_RPG7", 60, 3, 5, ["CAF_PG7V"], 6]];
+drn_arr_AmmoDepotLaunchers set [count drn_arr_AmmoDepotLaunchers, ["launch_SUD_RPG7V", 60, 3, 5, ["SUD_PG7VL"], 6]];
+drn_arr_AmmoDepotLaunchers set [count drn_arr_AmmoDepotLaunchers, ["launch_SUD_CarlGustaf", 60, 3, 5, ["SUD_HEAT751"], 6]];
+drn_arr_AmmoDepotLaunchers set [count drn_arr_AmmoDepotLaunchers, ["launch_O_Titan_F", 30, 1, 1, ["Titan_AA"], 3]];
+drn_arr_AmmoDepotLaunchers set [count drn_arr_AmmoDepotLaunchers, ["launch_O_Titan_short_F", 30, 1, 1, ["Titan_AP", "Titan_AT"], 3]];
 // non-CSAT weapons
 drn_arr_AmmoDepotLaunchers set [count drn_arr_AmmoDepotLaunchers, ["launch_NLAW_F", 50, 3, 5, ["NLAW_F"], 6]];
 //drn_arr_AmmoDepotLaunchers set [count drn_arr_AmmoDepotLaunchers, ["launch_I_Titan_F", 50, 1, 1, ["Titan_AA"], 3]];
@@ -221,7 +208,7 @@ drn_arr_AmmoDepotLaunchers set [count drn_arr_AmmoDepotLaunchers, ["launch_NLAW_
 // Weapons and ammo in the ordnance box
 drn_arr_AmmoDepotOrdnance = [];
 // General weapons
-drn_arr_AmmoDepotOrdnance set [count drn_arr_AmmoDepotOrdnance, [objNull, 50, 1, 1, ["DemoCharge_Remote_Mag", "SatchelCharge_Remote_Mag", "ClaymoreDirectionalMine_Remote_Mag", "APERSMine_Range_Mag", "APERSBoundingMine_Range_Mag", "ATMine_Range_Mag", "APERSTripMine_Wire_Mag", "SLAMDirectionalMine_Wire_Mag", "Laserbatteries"], 20]];
+drn_arr_AmmoDepotOrdnance set [count drn_arr_AmmoDepotOrdnance, [objNull, 40, 1, 1, ["DemoCharge_Remote_Mag", "SatchelCharge_Remote_Mag", "ClaymoreDirectionalMine_Remote_Mag", "APERSMine_Range_Mag", "APERSBoundingMine_Range_Mag", "ATMine_Range_Mag", "APERSTripMine_Wire_Mag", "SLAMDirectionalMine_Wire_Mag", "Laserbatteries"], 20]];
 
 
 // Weapons and ammo in the vehicle box (the big one)
@@ -239,7 +226,12 @@ drn_arr_AmmoDepotVehicle set [count drn_arr_AmmoDepotVehicle, [objNull, 50, 1, 1
 drn_arr_AmmoDepotVehicle set [count drn_arr_AmmoDepotVehicle, ["ToolKit", 50, 10, 10, [], 0]];
 drn_arr_AmmoDepotVehicle set [count drn_arr_AmmoDepotVehicle, ["Medikit", 50, 10, 10, [], 0]];
 drn_arr_AmmoDepotVehicle set [count drn_arr_AmmoDepotVehicle, ["FirstAidKit", 50, 50, 50, [], 0]];
-drn_arr_AmmoDepotVehicle set [count drn_arr_AmmoDepotVehicle, ["Binocular", 50, 25, 25, [], 0]];
+drn_arr_AmmoDepotVehicle set [count drn_arr_AmmoDepotVehicle, ["SUD_Binocular", 50, 25, 25, [], 0]];
+//drn_arr_AmmoDepotVehicle set [count drn_arr_AmmoDepotVehicle, ["B_FieldPack_oli", 20, 25, 25, [], 0]];
+//drn_arr_AmmoDepotVehicle set [count drn_arr_AmmoDepotVehicle, ["B_Carryall_oli", 20, 25, 25, [], 0]];
+//drn_arr_AmmoDepotVehicle set [count drn_arr_AmmoDepotVehicle, ["G_AssaultPack", 20, 25, 25, [], 0]];
+//drn_arr_AmmoDepotVehicle set [count drn_arr_AmmoDepotVehicle, ["G_Bergen", 20, 25, 25, [], 0]];
+
 a3e_arr_AmmoDepotVehicleBackpacks = ["O_UAV_01_backpack_F"];
 
 // Items
@@ -250,17 +242,17 @@ a3e_arr_AmmoDepotVehicleBackpacks = ["O_UAV_01_backpack_F"];
 // Index 3: Maximum amount.
 
 drn_arr_AmmoDepotItems = [];
-drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["Laserdesignator", 40, 10, 10]];
+drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["Laserdesignator", 5, 10, 10]];
 if(!a3e_var_noNV) then {
-	drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["NVGoggles", 100, 10, 10]];
+	drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["SUD_NVG", 15, 10, 10]];
 };
-drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["Rangefinder", 40, 10, 10]];
+drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["Rangefinder", 15, 10, 10]];
 drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["ItemCompass", 40, 10, 10]];
-drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["ItemGPS", 40, 10, 10]];
-drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["ItemMap", 40, 10, 10]];
+drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["ItemGPS", 15, 10, 10]];
+drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["ItemMap", 60, 10, 10]];
 drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["ItemRadio", 40, 10, 10]];
 drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["ItemWatch", 40, 10, 10]];
-drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["acc_flashlight", 40, 10, 10]];
+drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["acc_flashlight", 60, 10, 10]];
 drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["acc_pointer_IR", 40, 10, 10]];
 drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["muzzle_snds_acp", 40, 10, 10]];
 drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["muzzle_snds_B", 40, 10, 10]];
@@ -274,19 +266,19 @@ drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_ACO_grn", 40, 
 drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_ACO_grn_smg", 40, 10, 10]];
 drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_Arco", 40, 10, 10]];
 drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_Hamr", 40, 10, 10]];
-drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_Holosight", 40, 10, 10]];
-drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_Holosight_smg", 40, 10, 10]];
+drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_Holosight", 10, 10, 10]];
+drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_Holosight_smg", 10, 10, 10]];
 drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_MRCO", 40, 10, 10]];
 drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_SOS", 40, 10, 10]];
 if(!a3e_var_noNV) then {
-drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_tws", 40, 10, 10]];
-drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_tws_mg", 40, 10, 10]];
-drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_Nightstalker", 40, 10, 10]];
-drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_NVS", 40, 10, 10]];
+drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_tws", 5, 10, 10]];
+drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_tws_mg", 5, 10, 10]];
+drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_Nightstalker", 10, 10, 10]];
+drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_NVS", 10, 10, 10]];
 };
-drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["O_UavTerminal", 40, 5, 5]];
+drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["O_UavTerminal", 20, 5, 5]];
 drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_DMS", 40, 5, 5]];
-drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_Yorris", 40, 5, 5]];
+drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_Yorris", 20, 5, 5]];
 drn_arr_AmmoDepotItems set [count drn_arr_AmmoDepotItems, ["optic_LRPS", 40, 5, 5]];
 
 // Weapons that may show up in civilian cars
@@ -300,14 +292,12 @@ drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["hgun_P07_F",
 drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["hgun_P07_snds_F", "30Rnd_9x21_Mag", 11]];
 drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["hgun_Rook40_snds_F", "30Rnd_9x21_Mag", 9]];
 drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["hgun_ACPC2_F", "9Rnd_45ACP_Mag", 12]];
-drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["arifle_MXM_Hamr_pointer_F", "30Rnd_65x39_caseless_mag_Tracer", 8]];
-drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["arifle_MX_Hamr_pointer_F", "30Rnd_65x39_caseless_mag_Tracer", 6]];
-drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["arifle_MXM_SOS_pointer_F", "30Rnd_65x39_caseless_mag_Tracer", 7]];
-drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["arifle_Katiba_C_F", "30Rnd_65x39_caseless_green", 5]];
-drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["arifle_Mk20_GL_ACO_F", "UGL_FlareWhite_F", 8]];
-drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["SMG_01_Holo_F", "30Rnd_45ACP_Mag_SMG_01_Tracer_Green", 5]];
+
+drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["arifle_SUD_AK74", "SUD_30rnd_545x39_AK", 8]];
+drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["arifle_SUD_AK74_GL", "SUD_1rnd_HE_GP25", 8]];
+drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["LMG_SUD_PK", "SUD_100rnd_762x54_PK", 8]];
+
 drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["SMG_02_ACO_F", "30Rnd_9x21_Mag", 12]];
-drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["launch_RPG32_F", "RPG32_F", 2]];
 drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["MineDetector", objNull, 0]];
 drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["Medikit", objNull, 0]];
 drn_arr_CivilianCarWeapons set [count drn_arr_CivilianCarWeapons, ["Toolkit", objNull, 0]];

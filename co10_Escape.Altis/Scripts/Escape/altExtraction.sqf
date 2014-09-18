@@ -61,7 +61,60 @@ drn_var_Escape_ExtractionMarkerPos = _markerPos;
 "drn_visibleGoalMarker" setMarkerPos drn_var_Escape_ExtractionMarkerPos;
 drn_var_Escape_ExtractionMarker setMarkerType "Flag_NATO";
 
+if (chopper1dead == 1 && chopper2dead == 1) then {
 ["The extraction team are MIA. A new Rendezvous point is marked on the map."] call drn_fnc_CL_ShowTitleTextAllClients;
+} else {
+["One of the choppers is down so the extraction has failed. A new Rendezvous point is marked on the map."] call drn_fnc_CL_ShowTitleTextAllClients;
+
+_players = call drn_fnc_Escape_GetPlayers;
+
+{
+	unassignvehicle _x;
+	_x action ["EJECT", chopper1];
+	sleep 0.2;
+} foreach _players;
+
+{
+	unassignvehicle _x;
+	_x action ["EJECT", chopper2];
+	sleep 0.2;
+} foreach _players;
+
+_chop1Group = group chopper1;
+_chop2Group = group chopper2;
+_chop3Group = group chopper3;
+
+_waypoint = _chop1Group addWaypoint [[0, 0, 400], 200];
+_waypoint setWaypointType "MOVE"; 
+_waypoint setWaypointSpeed "FULL";
+_waypoint setWaypointBehaviour "CARELESS";
+_waypoint setWaypointFormation "WEDGE";
+_waypoint setWaypointStatements ["true", "{
+		deleteVehicle _x;
+	} foreach units group chopper1;
+	deleteVehicle chopper1;"];
+
+_waypoint = _chop2Group addWaypoint [[0, 0, 400], 200];
+_waypoint setWaypointType "MOVE"; 
+_waypoint setWaypointSpeed "FULL";
+_waypoint setWaypointBehaviour "CARELESS";
+_waypoint setWaypointFormation "WEDGE";
+_waypoint setWaypointStatements ["true", "{
+		deleteVehicle _x;
+	} foreach units group chopper2;
+	deleteVehicle chopper2;"];
+
+_waypoint = _chop3Group addWaypoint [[0, 0, 400], 200];
+_waypoint setWaypointType "MOVE"; 
+_waypoint setWaypointSpeed "FULL";
+_waypoint setWaypointBehaviour "CARELESS";
+_waypoint setWaypointFormation "WEDGE";
+_waypoint setWaypointStatements ["true", "{
+		deleteVehicle _x;
+	} foreach units group chopper3;
+	deleteVehicle chopper3;"];
+
+};
 
 markerSurface = "";	
 _isWater = false;

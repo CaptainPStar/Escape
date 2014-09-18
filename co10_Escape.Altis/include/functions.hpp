@@ -20,6 +20,8 @@ class CfgFunctions
 			class paramDaytime{};
 			class systemChat {};
 			class groupChat {};
+			class swapUniform {};
+			class addSwapUniformAction {};
 		};
 		class AI
 		{
@@ -37,7 +39,6 @@ class CfgFunctions
 			//class AquaticPatrol {};
 			class RoyDropChopper {};
 			class RoyCreateDropChopper {};
-			class villageSquads {};
 		};
 		class Debug
 		{
@@ -56,7 +57,7 @@ class CfgFunctions
                     recompile = 1; // 1 to recompile the function upon mission start
 					};			
 			class parameterInit {}; 
-			class createPOIs {};
+			//class createPOIs {};
 			class handleJIP {};
 			class randomBoats {};
 			class markerChange {};

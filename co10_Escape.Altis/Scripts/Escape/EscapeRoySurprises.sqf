@@ -34,7 +34,7 @@ while {true} do
 	// 6 = stolen a164
 	// 7 = new search chopper
 	
-	_surprisearray = [0,0,0,0,0,0,0,0,1,2,2,2,2,2,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,5,5,5,5,5,6,7,7,7,7,7,7,7,7];
+	_surprisearray = [0,0,0,0,0,0,0,0,1,1,2,2,2,2,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,5,5,6,7,7,7,7,7,7,7,7];
 	_surprise = _surprisearray select floor (random (count _surprisearray));
 	
 	

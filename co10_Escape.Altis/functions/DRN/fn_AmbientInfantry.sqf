@@ -42,11 +42,6 @@ if (count _this > 11) then {_fnc_OnSpawnUnit = _this select 11;} else {_fnc_OnSp
 if (count _this > 12) then {_fnc_OnSpawnGroup = _this select 12;} else {_fnc_OnSpawnGroup = {};};
 if (count _this > 13) then {_debug = _this select 13;} else {_debug = false;};
 
-//WHY!?!?!?!?!
-_factionsArray = [RESISTANCE, RESISTANCE, RESISTANCE, RESISTANCE, RESISTANCE, RESISTANCE, RESISTANCE, RESISTANCE, EAST, EAST];
-
-
-
 
 if (_debug) then {
     ["Starting script Ambient Infantry..."] call drn_fnc_CL_ShowDebugTextAllClients;
@@ -57,31 +52,6 @@ _activeUnits = [];
 _debugMarkers = [];
 _debugMarkerNo = 0;
 
-_isFaction = false;
-if (str _infantryClasses == """USMC""") then {
-    _possibleInfantryTypes = ["USMC_Soldier_AA", "USMC_Soldier_HAT", "USMC_Soldier_AT", "USMC_Soldier_AR", "USMC_Soldier_Medic", "USMC_SoldierM_Marksman", "USMC_SoldierS_Engineer", "USMC_Soldier_TL", "USMC_Soldier_GL", "USMC_Soldier_MG", "USMC_Soldier_Officer", "USMC_Soldier", "USMC_Soldier2", "USMC_Soldier_LAT", "USMC_SoldierS_Sniper", "USMC_SoldierS_SniperH"];    
-    _isFaction = true;
-};
-if (str _infantryClasses == """CDF""") then {
-    _possibleInfantryTypes = ["CDF_Soldier_Strela", "CDF_Soldier_RPG", "CDF_Soldier_AR", "CDF_Soldier_GL", "CDF_Soldier_MG", "CDF_Soldier_Marksman", "CDF_Soldier_Medic", "CDF_Soldier_Militia", "CDF_Soldier_Officer", "CDF_Soldier", "CDF_Soldier_Sniper"];
-    _isFaction = true;
-};
-if (str _infantryClasses == """RU""") then {
-    _possibleInfantryTypes = ["RU_Soldier_AA", "RU_Soldier_HAT", "RU_Soldier_AR", "RU_Soldier_GL", "RU_Soldier_MG", "RU_Soldier_Marksman", "RU_Soldier_Medic", "RU_Soldier", "RU_Soldier_LAT", "RU_Soldier_AT", "RU_Soldier2", "RU_Soldier_Sniper", "RU_Soldier_SniperH"];
-    _isFaction = true;
-};
-if (str _infantryClasses == """INS""") then {
-    _possibleInfantryTypes = ["O_Soldier_AA_F", "O_Soldier_A_F", "O_Soldier_AR_F", "O_Soldier_AT_F", "O_Soldier_exp_F", "O_soldier_F", "O_Soldier_GL_F", "O_Soldier_LAT_F", "O_Soldier_lite_F", "O_Soldier_M_F", "O_Soldier_repair_F", "O_Soldier_A_F", "O_Soldier_AR_F", "O_Soldier_AT_F", "O_Soldier_exp_F", "O_soldier_F", "O_Soldier_GL_F", "O_Soldier_LAT_F", "O_Soldier_lite_F", "O_Soldier_M_F", "O_Soldier_repair_F"];
-    _isFaction = true;
-};
-if (str _infantryClasses == """GUE""") then {
-    _possibleInfantryTypes = ["GUE_Soldier_AR", "GUE_Soldier_GL", "GUE_Soldier_Sniper", "GUE_Soldier_MG", "GUE_Soldier_Medic", "GUE_Soldier_3", "GUE_Soldier_2", "GUE_Soldier_1", "GUE_Soldier_AT", "GUE_Soldier_AA"];
-    _isFaction = true;
-};
-
-if (!_isFaction) then {
-    _possibleInfantryTypes =+ _infantryClasses;
-};
 
 _atScriptStartUp = true;
 
@@ -107,17 +77,11 @@ while {true} do {
         _spawnPos = [units _referenceGroup, _minDistance, _maxSpawnDistance] call a3e_fnc_RandomSpawnPos;
         _skill = _minSkill + random (_maxSkill - _minSkill);
         
-        _faction = _factionsArray select (floor (random (count _factionsArray)));
-        if(_faction == EAST) then {
-            _possibleInfantryTypes = drn_arr_Escape_InfantryTypes;
-        };
-        if (_faction == RESISTANCE) then {
-            _possibleInfantryTypes = drn_arr_Escape_InfantryTypes_Ind;
-        };
-
+		
+		_possibleInfantryTypes = A3E_addonsArrayINF select (floor(random (count A3E_addonsArrayINF)));
         // Create group
         _unitsInGroup = _minUnitsInGroup + floor (random (_maxUnitsInGroup - _minUnitsInGroup));
-        _group = createGroup _faction;
+        _group = createGroup EAST;
         
         for [{_i = 0}, {_i < _unitsInGroup}, {_i = _i + 1}] do {
             _infantryType = _possibleInfantryTypes select floor (random count _possibleInfantryTypes);

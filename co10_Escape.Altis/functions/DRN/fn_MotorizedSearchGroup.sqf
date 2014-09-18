@@ -208,10 +208,10 @@ while {_searchGroupExists} do {
     
     {
         if ((!alive _x) || (!canStand _x)) then {
-            _garbageGroup = createGroup _side;
+            //_garbageGroup = createGroup _side;
             _soldiers = _soldiers - [_x];
-            [_x] joinSilent _garbageGroup;
-            [_x] call drn_fnc_CL_AddUnitsToGarbageCollector;
+            //[_x] joinSilent _garbageGroup;
+           // [_x] call drn_fnc_CL_AddUnitsToGarbageCollector;
             
             if (count units _group == 0) then {
                 deleteGroup _group;
@@ -231,7 +231,7 @@ while {_searchGroupExists} do {
         _crewGroup = _group;
         _group = createGroup _side;
         _soldiers joinSilent _group;
-        (units _crewGroup) call drn_fnc_CL_AddUnitsToGarbageCollector;
+        //(units _crewGroup) call drn_fnc_CL_AddUnitsToGarbageCollector;
         
         _state = ["BEGIN UNMOUNT", _debug] call _fnc_SetNewState;
         

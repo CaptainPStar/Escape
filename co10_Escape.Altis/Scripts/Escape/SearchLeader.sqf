@@ -54,6 +54,8 @@ _trigger2 = createTrigger["EmptyDetector", [_worldSizeXY / 2, _worldSizeXY / 2, 
 _trigger2 setTriggerArea[_worldSizeXY, _worldSizeXY, 0, true];
 _trigger2 setTriggerActivation["WEST", "GUER D", false];
 _trigger2 setTriggerStatements["this", "drn_var_SearchLeader_Detected = true;", ""];
+
+/*
 // Start thread that sets detected by civilian
 [] spawn {
     while {true} do {
@@ -62,23 +64,14 @@ _trigger2 setTriggerStatements["this", "drn_var_SearchLeader_Detected = true;", 
                 if (side _x == civilian && _x distance ((call drn_fnc_Escape_GetPlayers) select 0) <300) exitWith {
                     drn_var_SearchLeader_Detected = true;
                     drn_var_Escape_SearchLeader_ReportingCivilian = _x;
-					//diag_log "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$";
-					//diag_log drn_var_Escape_SearchLeader_ReportingCivilian;
-					
                 };
 				
             } foreach allUnits;
         };
- //       if (isNil "drn_var_Escape_SearchLeader_ReportingCivilian") then {
-//				hintsilent "reportciv is null";
-//				}
-//				else
-//				{
-//				hintsilent format ["ReportingCiv == %1 \n detected == %2",drn_var_Escape_SearchLeader_ReportingCivilian,drn_var_SearchLeader_Detected];
-//				};
-        sleep 5;
+        sleep 10;
     };
 };
+*/
 
 //waitUntil {drn_var_SearchLeader_Detected};
 

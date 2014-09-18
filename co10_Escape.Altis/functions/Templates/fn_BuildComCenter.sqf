@@ -58,11 +58,11 @@ switch (_buildingType) do {
 		_objects = [_centerPos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\CommCentre.sqf"))] call BIS_fnc_ObjectsMapper;
 		
 		_generator = _objects select 2;
-		[[_generator, "Hijack", "Scripts\Escape\Hijack.sqf"], "a3e_fnc_addHijackAction", nil, false] spawn BIS_fnc_MP;
+		[[_generator, "Hijack", "Scripts\Escape\Hijack.sqf"], "a3e_fnc_addHijackAction", true, false] spawn BIS_fnc_MP;
 		_generator allowDamage false;
 		
 		_medBuilding = _objects select 8;
-		[[_medBuilding, "Heal at medical building", "Scripts\Escape\HealAtMedicalBuilding.sqf"], "a3e_fnc_addHealAtMedicalBuildingAction", nil, false] spawn BIS_fnc_MP;
+		[[_medBuilding, "Heal at medical building", "Scripts\Escape\HealAtMedicalBuilding.sqf"], "a3e_fnc_addHealAtMedicalBuildingAction", true, false] spawn BIS_fnc_MP;
 	
 		if (count _parkedVehicleClasses > 0) then {
 		_pos = [11.5, 12];
@@ -86,11 +86,11 @@ switch (_buildingType) do {
 		_objects = [_centerPos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\CommCentre_2.sqf"))] call BIS_fnc_ObjectsMapper;
 		
 		_phoneHack = _objects select 4;
-		[[_phoneHack, "Hijack", "Scripts\Escape\Hijack.sqf"], "a3e_fnc_addHijackAction", nil, false] spawn BIS_fnc_MP;
+		[[_phoneHack, "Hijack", "Scripts\Escape\Hijack.sqf"], "a3e_fnc_addHijackAction", true, false] spawn BIS_fnc_MP;
 		_phoneHack allowDamage false;
 		
 		_medBuilding = _objects select 12;
-		[[_medBuilding, "Heal at medical building", "Scripts\Escape\HealAtMedicalBuilding.sqf"], "a3e_fnc_addHealAtMedicalBuildingAction", nil, false] spawn BIS_fnc_MP;
+		[[_medBuilding, "Heal at medical building", "Scripts\Escape\HealAtMedicalBuilding.sqf"], "a3e_fnc_addHealAtMedicalBuildingAction", true, false] spawn BIS_fnc_MP;
 	
 		if (count _parkedVehicleClasses > 0) then {
 		_pos = [25, 2];
@@ -116,7 +116,7 @@ switch (_buildingType) do {
 _pos = [0, -9];
 _dir = 90;
 _obj = ["Land_PowerGenerator_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-[[_obj, "Hijack", "Scripts\Escape\Hijack.sqf"], "a3e_fnc_addHijackAction", nil, false] spawn BIS_fnc_MP;
+[[_obj, "Hijack", "Scripts\Escape\Hijack.sqf"], "a3e_fnc_addHijackAction", true, false] spawn BIS_fnc_MP;
 _obj allowDamage false;
 */
 
@@ -125,7 +125,7 @@ _obj allowDamage false;
 _pos = [13, 1];
 _dir = 90;
 _obj = ["Land_Medevac_House_V1_F", _pos, _dir, _centerPos, _rotateDir] call _fnc_CreateObject;
-[[_obj, "Heal at medical building", "Scripts\Escape\HealAtMedicalBuilding.sqf"], "a3e_fnc_addHealAtMedicalBuildingAction", nil, false] spawn BIS_fnc_MP;
+[[_obj, "Heal at medical building", "Scripts\Escape\HealAtMedicalBuilding.sqf"], "a3e_fnc_addHealAtMedicalBuildingAction", true, false] spawn BIS_fnc_MP;
 
 
 

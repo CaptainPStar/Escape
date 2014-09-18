@@ -114,7 +114,8 @@ AT_FNC_Revive_Unconscious =
 
 	if ( vehicle _unit != _unit ) then {
 		unAssignVehicle _unit;
-		_unit action ["eject", vehicle _unit];
+		moveOut _unit;
+		//_unit action ["eject", vehicle _unit];
 		
 		sleep 1;
 	};

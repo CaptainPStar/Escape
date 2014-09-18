@@ -72,7 +72,7 @@ drn_fnc_Escape_OnSpawnGeneralSoldierUnit = {
             _this unlinkItem "NVGoggles_INDEP";
         };
     };
-   
+   [[_this, "Swap uniform", "Scripts\Escape\swapUniform.sqf"], "a3e_fnc_addSwapUniformAction", true, false] spawn BIS_fnc_MP;
     
 	
 	
@@ -1314,26 +1314,17 @@ drn_fnc_Escape_PopulateVehicle = {
     _group
 };
 
+aow_fnc_removeActions = {
+	diag_log "*^*^*^*^*^*^*^*^*^*^*^*";
+	diag_log _this select 0;
+	removeallactions (_this select 0);
+	};
+	
+
 
 
 if (isServer) then {
-    "drn_fnc_Escape_AskForJipPos" addPublicVariableEventHandler {
-        private ["_anotherPlayer"];
-        
-        _unitName = drn_fnc_Escape_AskForJipPos select 0;
-		
-		{
-		if (isPlayer _x && (_unitName != str _x)) exitwith {_anotherPlayer = _x;};
-		} forEach call drn_fnc_Escape_GetPlayers;
-		
-		
-        _pos = [((getPos vehicle _anotherPlayer) select 0) + 3, ((getPos vehicle _anotherPlayer) select 1) + 3, 0];
-        
-        drn_arr_JipSpawnPos = [_unitName, _pos];
-        publicVariable "drn_arr_JipSpawnPos";
-        
-        //diag_log ("Server respond to JIP, pos == " + str getPos _anotherPlayer);
-    };
+    
 
     drn_var_Escape_FunctionsInitializedOnServer = true;
     publicVariable "drn_var_Escape_FunctionsInitializedOnServer";

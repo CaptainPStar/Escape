@@ -22,31 +22,20 @@ _spawnHmg = _this select 11;
 _hmgDist = _this select 12;
 
 
-_isFaction = false;
-if (str _infantryClasses == """USMC""") then {
-    _possibleInfantryTypes = ["O_Soldier_F", "O_Soldier_AR_F", "O_Soldier_GL_F", "O_Soldier_lite_F", "O_soldier_exp_F", "O_soldier_M_F"];
-    _isFaction = true;
-};
-if (str _infantryClasses == """CDF""") then {
-    _possibleInfantryTypes = ["CDF_Soldier_Strela", "CDF_Soldier_RPG", "CDF_Soldier_AR", "CDF_Soldier_GL", "CDF_Soldier_MG", "CDF_Soldier_Marksman", "CDF_Soldier_Medic", "CDF_Soldier_Militia", "CDF_Soldier_Officer", "CDF_Soldier", "CDF_Soldier_Sniper"];
-    _isFaction = true;
-};
-if (str _infantryClasses == """RU""") then {
-    _possibleInfantryTypes = ["RU_Soldier_AA", "RU_Soldier_HAT", "RU_Soldier_AR", "RU_Soldier_GL", "RU_Soldier_MG", "RU_Soldier_Marksman", "RU_Soldier_Medic", "RU_Soldier", "RU_Soldier_LAT", "RU_Soldier_AT", "RU_Soldier2", "RU_Soldier_Sniper", "RU_Soldier_SniperH"];
-    _isFaction = true;
-};
-if (str _infantryClasses == """INS""") then {
-    _possibleInfantryTypes = ["O_engineer_F", "O_medic_F", "O_Soldier_A_F", "O_Soldier_AA_F", "O_Soldier_AR_F", "O_Soldier_AT_F", "O_Soldier_exp_F", "O_soldier_F", "O_Soldier_GL_F", "O_Soldier_LAT_F", "O_Soldier_lite_F", "O_Soldier_M_F", "O_Soldier_repair_F", "O_officer_F"];
-    _isFaction = true;
-};
-if (str _infantryClasses == """GUE""") then {
-    _possibleInfantryTypes = ["GUE_Soldier_AR", "GUE_Soldier_GL", "GUE_Soldier_Sniper", "GUE_Soldier_MG", "GUE_Soldier_Medic", "GUE_Soldier_3", "GUE_Soldier_2", "GUE_Soldier_1", "GUE_Soldier_AT", "GUE_Soldier_AA"];
-    _isFaction = true;
+// Inf class choice
+switch (_locationMapMarkerName) do {
+	case "drn_CommunicationCenterMapMarker": {
+		_possibleInfantryTypes = drn_arr_Escape_InfantryTypes;
+	};
+	case "drn_HeliBaseMapMarker": {
+		_possibleInfantryTypes = drn_arr_Escape_InfantryTypes;
+	};
+	case "drn_AmmoDepotMapMarker": {
+		_possibleInfantryTypes = A3E_addonsArrayINF select (floor(random (count A3E_addonsArrayINF)));
+	};
 };
 
-if (!_isFaction) then {
-    _possibleInfantryTypes =+ _infantryClasses;
-};
+diag_log _possibleInfantryTypes;
 
 // Initialize global variable
 sleep random 0.1;
