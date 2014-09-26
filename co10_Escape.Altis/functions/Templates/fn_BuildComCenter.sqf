@@ -58,7 +58,7 @@ switch (_buildingType) do {
 		_objects = [_centerPos, _rotateDir, call (compile (preprocessFileLineNumbers "Structures\CommCentre.sqf"))] call BIS_fnc_ObjectsMapper;
 		
 		_generator = _objects select 2;
-		[[_generator, "Hijack", "Scripts\Escape\Hijack.sqf"], "a3e_fnc_addHijackAction", true, false] spawn BIS_fnc_MP;
+		[[_generator, "Hijack", "Scripts\Escape\Hijack.sqf"], "a3e_fnc_addHijackAction", true, false] call BIS_fnc_MP;
 		_generator allowDamage false;
 		
 		_medBuilding = _objects select 8;

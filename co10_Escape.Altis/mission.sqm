@@ -18,7 +18,7 @@ class Mission
 	randomSeed=16426086;
 	class Intel
 	{
-		briefingName="co10 Escape 1.7 Dev17 Roy v4.34";
+		briefingName="co10 Escape 1.7 Dev17 Roy v4.37";
 		resistanceWest=0;
 		resistanceEast=1;
 		startWeather=0;
@@ -46,7 +46,7 @@ class Mission
 			side="WEST";
 			class Vehicles
 			{
-				items=10;
+				items=8;
 				class Item0
 				{
 					position[]={5966.7705,326.97836,8664.3574};
@@ -110,7 +110,7 @@ class Mission
 					special="NONE";
 					id=4;
 					side="WEST";
-					vehicle="B_Soldier_GL_F";
+					vehicle="B_medic_F";
 					player="PLAY CDG";
 					rank="LIEUTENANT";
 					skill=0.60000002;
@@ -152,41 +152,14 @@ class Mission
 					special="NONE";
 					id=7;
 					side="WEST";
-					vehicle="B_Soldier_A_F";
+					vehicle="B_soldier_M_F";
 					player="PLAY CDG";
 					rank="LIEUTENANT";
 					skill=0.60000002;
 					text="p8";
 					init="this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
-				};
-				class Item8
-				{
-					position[]={5970.8115,327.23407,8664.1953};
-					azimut=3.57658;
-					special="NONE";
-					id=8;
-					side="WEST";
-					vehicle="B_soldier_M_F";
-					player="PLAY CDG";
-					rank="LIEUTENANT";
-					skill=0.60000002;
-					text="p9";
-					init="this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
-				};
-				class Item9
-				{
-					position[]={5971.4326,327.31372,8665.2813};
-					azimut=3.57658;
-					special="NONE";
-					id=9;
-					side="WEST";
-					vehicle="B_medic_F";
-					player="PLAY CDG";
-					rank="LIEUTENANT";
-					skill=0.60000002;
-					text="p10";
-					init="this setCaptive true;this setVariable [""drn_var_initializing"", true];this addeventhandler [""killed"",{ if ((_this select 1) in (call drn_fnc_Escape_GetPlayers) && (_this select 1) != (_this select 0)) then {[(_this select 1), -9] call drn_fnc_CL_AddScore;}; }];";
-				};
+				};				
+				
 			};
 		};
 		class Item1

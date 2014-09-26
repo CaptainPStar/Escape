@@ -12,7 +12,7 @@ _gradChoice = Param_BuildingGradient;
 _surface = "";		
 while {!_isOk} do {
 	
-    _startPos = [(SWpos select 0) + random (NEpos select 0),(SWpos select 1) + random (NEpos select 1),0];
+    _startPos = [(SWpos select 0) + random (NEpos select 0),(SWpos select 1) + random (NEpos select 1) ,0];
 
     _result = _startPos isFlatEmpty [5, 0, _gradient, 1, 0, false, objNull];
     _roadSegments = _startPos nearRoads 30;

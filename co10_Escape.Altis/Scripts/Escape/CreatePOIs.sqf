@@ -136,4 +136,4 @@ drn_var_Escape_ArtilleryPositions = _artPositions;
 publicVariable "drn_var_Escape_ArtilleryPositions";
 //publicVariable "a3e_var_artillery_units";
 
-["Escape has started!"] call drn_fnc_CL_ShowTitleTextAllClients;
+[""] call drn_fnc_CL_ShowTitleTextAllClients;

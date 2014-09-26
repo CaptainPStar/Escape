@@ -1,8 +1,8 @@
 /*
 script: tort_DynamicWeather.sqf
-Version: 1.2.4
+Version: 1.2.5
 Author: tortuosit
-Date: 20140908
+Date: 20140915
 
 Disclaimer: Feel free to use and modify this code. Please report errors and enhancements back so that anybody can profit.
 
@@ -45,7 +45,7 @@ tort_initial = "cloudy";
 tort_trend = "freeCycle";
 tort_rndChange = [0, 0];
 tort_variation = [0, 0.2, 1800];
-tort_minMax = [0, 1, 0, 0.5, 0, 1];
+tort_minMax = [0, 1, 0, 0.5, 0, 1, 0, 1];
 tort_debugMode = 0;
 tort_seed = 0;
 tort_delaySeconds = 0;
@@ -100,6 +100,16 @@ if (typeName tort_initial == "STRING") then {
       default {tort_overcast = 0.3; tort_fog = 0; tort_windStr = 0.1; tort_windDir = [360] call tRandom; tort_rain = 0;};
    };
 };
+
+// Respect user defined borders
+if (tort_overcast < _ocMin) then {tort_overcast = _ocMin};
+if (tort_overcast > _ocMax) then {tort_overcast = _ocMax};
+if (tort_fog < _fogMin) then {tort_fog = _fogMin};
+if (tort_fog > _fogMax) then {tort_fog = _fogMax};
+if (tort_windStr < _windMin) then {tort_windStr = _windMin};
+if (tort_windStr > _windMax) then {tort_windStr = _windMax};
+// if (tort_rain < _rainMin) then {tort_rain = _rainMin};
+// if (tort_rain > _rainMax) then {tort_rain = _rainMax};
 
 // Fog related
 _groundFogActive = false; currentTime = (date select 3) + ((date select 4)/60);

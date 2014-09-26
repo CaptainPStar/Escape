@@ -35,7 +35,6 @@ switch (_locationMapMarkerName) do {
 	};
 };
 
-diag_log _possibleInfantryTypes;
 
 // Initialize global variable
 sleep random 0.1;

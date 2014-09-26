@@ -182,7 +182,7 @@ _chpTrg2 setTriggerStatements ["!(alive chopper2)", "chopper2Dead = 1", ""];
 // ++++ trigger for alt extraction
 _altTrg = createTrigger ["EmptyDetector", [0,0,0]];
 //_altTrg triggerAttachVehicle [chopper1];
-_altTrg setTriggerStatements ["(chopper1dead == 1 && chopper2dead == 1) || (chopper1dead == 1 || chopper2dead == 1 && ((count (call drn_fnc_Escape_GetPlayers)) > 8))", "[] execVM 'Scripts\Escape\altExtraction.sqf'", ""];
+_altTrg setTriggerStatements ["(chopper1dead == 1 && chopper2dead == 1)", "[] execVM 'Scripts\Escape\altExtraction.sqf'", ""];
 
 _result = [[(_markerPos select 0) - 40, (_markerPos select 1) - 40, 400], 0, "B_Heli_Attack_01_F", west] call BIS_fnc_spawnVehicle;
 chopper3 = _result select 0;
@@ -219,6 +219,7 @@ sleep 1;
 (driver chopper1) action ["LightOff", chopper1];
 (driver chopper2) action ["LightOff", chopper2];
 
+
 if (isMultiplayer) then {
     waitUntil {{vehicle _x == chopper1 || vehicle _x == chopper2} count (call drn_fnc_Escape_GetPlayers) == count (call drn_fnc_Escape_GetPlayers)};
 }
@@ -229,20 +230,20 @@ else {
 chopper1 land "NONE";
 chopper2 land "NONE";
 
-_waypoint = _group1 addWaypoint [(_markerPos select 0) + 25,(_markerPos select 1) + 20, 400];
+_waypoint = _group1 addWaypoint [_markerPos, 200];
 _waypoint setWaypointSpeed "FULL";
 _waypoint setWaypointBehaviour "CARELESS";
 
-_waypoint = _group2 addWaypoint [(_markerPos select 0) + 25,(_markerPos select 1) + 20, 400];
+_waypoint = _group2 addWaypoint [_markerPos, 200];
 _waypoint setWaypointSpeed "FULL";
 _waypoint setWaypointBehaviour "CARELESS";
 
-_waypoint = _group3 addWaypoint _markerPos;
+_waypoint = _group3 addWaypoint [_markerPos, 200];
 _waypoint setWaypointSpeed "FULL";
 _waypoint setWaypointBehaviour "CARELESS";
 
 
-sleep 5;
+sleep 15;
 
 ["Task complete: Rendesvouz with allied forces."] call drn_fnc_CL_ShowTitleTextAllClients;
 

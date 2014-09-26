@@ -72,7 +72,7 @@ drn_fnc_Escape_OnSpawnGeneralSoldierUnit = {
             _this unlinkItem "NVGoggles_INDEP";
         };
     };
-   [[_this, "Swap uniform", "Scripts\Escape\swapUniform.sqf"], "a3e_fnc_addSwapUniformAction", true, false] spawn BIS_fnc_MP;
+   //[[_this, "Swap uniform", "Scripts\Escape\swapUniform.sqf"], "a3e_fnc_addSwapUniformAction", true, false] spawn BIS_fnc_MP;
     
 	
 	

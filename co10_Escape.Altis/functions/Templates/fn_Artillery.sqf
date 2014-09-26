@@ -24,6 +24,7 @@ _object setVehicleArmor 1;
 _object setUnitRank "PRIVATE";
 _object setFuel 1;
 _object setVehicleAmmo 1;
+_object stop true;
 _object setPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
 _object setDir (_dir + 180);
 createVehicleCrew _object;

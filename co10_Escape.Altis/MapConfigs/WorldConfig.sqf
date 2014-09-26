@@ -198,6 +198,17 @@ A3E_SnowChance = 0;
 A3E_Location = "MidEast";
 };
 
+if (worldname == "Sara") exitWith  {
+A3E_WorldSize = 20000;
+A3E_MinObjDistance = 500;
+A3E_WorldName = "Sahrani";
+A3E_ComCenterCount = 3;
+A3E_AmmoDepotCount = 8;
+A3E_FlyHeight = 100;
+A3E_SnowChance = 0;
+A3E_Location = "MidEast";
+};
+
 if (worldname == "zargabad") exitWith  {
 A3E_WorldSize = 8000;
 A3E_MinObjDistance = 500;

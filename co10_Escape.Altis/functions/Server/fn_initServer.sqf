@@ -1,6 +1,8 @@
 //waituntil{!isNil("BIS_fnc_init")};
 if(!isServer) exitwith {};
-["Server started."] spawn a3e_fnc_debugChat;
+
+diag_log "--------------------------------------server init---------------------------------------------";
+//["Server started."] spawn a3e_fnc_debugChat;
 
 call compile preprocessFileLineNumbers "MapConfigs\WorldConfig.sqf";
 publicVariable "A3E_worldname";
@@ -37,9 +39,11 @@ _weatherTrend = ["constant","worse","pWorse","better","pBetter","freeCycle","ran
 _probRnd = [0,0.05,0.2,0.45] select Param_probRnd;
 
 param_autoWeather = 0;
+tort_groundfog = 0;
 
 switch (param_autoWeather) do {
 	case 0: {
+	
 	
 	0 = [_initWeather, _weatherTrend, [0.1, 0], [0, 0.2], [0, 1, 0, 0.5, 0, 1], 0, 0, 0] execVM "Scripts\tort\tort_DynamicWeather.sqf";
 	
@@ -84,6 +88,8 @@ CAF_allowed = false;
 EvW_allowed = false;
 HLC_allowed = false;
 
+diag_log "sort out unit classes";
+
 switch (param_manAuto) do {
 	case  0: {	
 	// manual selection
@@ -115,7 +121,6 @@ switch (param_manAuto) do {
 	// auto detection
 
 	mechs_allowed = true;
-	karts_allowed = true;
 	RDSCars_allowed = true;
 	CAF_allowed = true;
 	EvW_allowed = true;
@@ -125,13 +130,11 @@ switch (param_manAuto) do {
 };
 
 
-
-
-
 if (Param_Kart == 1) then {
            karts_allowed = true;
         };
-		
+
+diag_log "Create Markers";		
 // Create Markers
 _center = createCenter sideLogic;
 _groupLog = createGroup _center;
@@ -143,8 +146,8 @@ _logPosC = [(A3E_WorldSize/2),(A3E_WorldSize/2),0];
 center = _groupLog createUnit ["LOGIC", _LogPosC , [], 0, ""];
 SouthWest = _groupLog createUnit ["LOGIC", _LogPos , [], 0, ""];
 NorthEast = _groupLog createUnit ["LOGIC", _LogPos2, [], 0, ""];
-SWpos = getPos SouthWest;
-NEpos = getPos NorthEast;
+SWpos = [400,400,0];
+NEpos = [A3E_WorldSize - 400, A3E_WorldSize - 400, 0];
 publicVariable "SWpos";
 publicVariable "NEpos";
 _mapSize = A3E_WorldSize - 50;
@@ -242,7 +245,7 @@ _finalResult = 0;
 
 waitUntil {	
 	//diag_log "waiting for _result";
-	_startPos = [(SWpos select 0) + random (NEpos select 0) + 400,(SWpos select 1) + random (NEpos select 1) + 400, 0];
+	_startPos = [(SWpos select 0) + random (NEpos select 0), (SWpos select 1) + random (NEpos select 1), 0];
 	_result = _startPos isFlatEmpty [5, 0, 0.15, 30, 0, false, objNull];
 	
 	switch ((count _result) > 0) do {
@@ -557,7 +560,7 @@ diag_log "after village patrols";
                     }
                 }];
 				
-				[[_x, "Swap clothes", "Scripts\Escape\swapUniform.sqf"], "a3e_fnc_addSwapUniformAction", true, false] spawn BIS_fnc_MP;
+				//[[_x, "Swap clothes", "Scripts\Escape\swapUniform.sqf"], "a3e_fnc_addSwapUniformAction", true, false] spawn BIS_fnc_MP;
 				
             } foreach _crew;
             
@@ -637,25 +640,6 @@ if (_useSearchChopper) then {
     waitUntil {scriptDone _scriptHandle};
 };
 
-/*
-// Roy stuff - ups markers
-_xPos = 0;
-infNo = 0;
-infArray = [];
-_players = (switchableUnits + playableUnits);
-
-{
-	_playr = _x;
-	_xPos = getPos _x;
-	_marker = createMarker [str _x + "midvillage", _xPos];
-	_marker setMarkerShape "Rectangle";
-	_marker setMarkerAlpha 0;
-	_marker setMarkerSize [200,200];
-
-} forEach _players;
-
-0 = [] execVM "Scripts\Escape\villagePatrolsUPS.sqf";
-*/
 
 // Spawn creation of start position settings
 [drn_startPos, _enemyMinSkill, _enemyMaxSkill, _guardsAreArmed, _guardsExist, _guardLivesLong, _enemyFrequency, _fenceRotateDir] spawn {
@@ -671,7 +655,7 @@ _players = (switchableUnits + playableUnits);
     _enemyFrequency = _this select 6;
     _fenceRotateDir = _this select 7;
 	 
-    // Spawn guard
+    // Spawn backpack
 
     _guardPos = [_startPos, [(_startPos select 0) - 4, (_startPos select 1) + 4, 0], _fenceRotateDir] call drn_fnc_CL_RotatePosition;
 	
@@ -720,19 +704,24 @@ _players = (switchableUnits + playableUnits);
         };
     };
     
+	drn_escapeHasStarted = false;
+	
     {
         _guardGroup = _x;
         
         _guardGroup setFormDir floor (random 360);
         
         {
-            _unit = _x; //(units _guardGroup) select 0;
+            _unit = _x; //(units _guardGroup) select 0;			
             _unit setUnitRank "CAPTAIN";
 			_unit unlinkItem "ItemMap";
             _unit unlinkItem "ItemCompass";
             _unit unlinkItem "ItemGPS";
 			_unit unlinkItem "NVGoggles_INDEP";
-			[[_unit, "Swap uniform", "Scripts\Escape\swapUniform.sqf"], "a3e_fnc_addSwapUniformAction", true, false] spawn BIS_fnc_MP;
+			_unit enableSimulationGlobal false;
+			//_unit stop true;
+			//_unit setSkill 0;
+			//[[_unit, "Swap uniform", "Scripts\Escape\swapUniform.sqf"], "a3e_fnc_addSwapUniformAction", true, false] spawn BIS_fnc_MP;
 			if(random 100 < 80) then {
 				removeAllPrimaryWeaponItems _unit;
 				
@@ -753,15 +742,83 @@ _players = (switchableUnits + playableUnits);
             };
         } foreach units _guardGroup;
         
-        [_guardGroup, _marker] spawn drn_fnc_SearchGroup;
+        
         
     } foreach _guardGroups;
     
     sleep 0.5;
     
-    drn_startPos = _startPos;
-    publicVariable "drn_startPos";
-    
+	_marker = createMarker ["Markertest", drn_startPos];
+	//"markertest" setMarkerPos ([_centerPos, _pos, _rotateDir] call drn_fnc_CL_RotatePosition);
+	"Markertest" setMarkerShape "RECTANGLE";
+	"Markertest" setMarkerSize [10, 10];
+	"Markertest" setMarkerColor "ColorRed";
+
+	_trigger = createTrigger["EmptyDetector", drn_startPos];
+	_trigger setTriggerArea[10, 10, 0, true];
+	_trigger setTriggerActivation["WEST", "NOT PRESENT", true];
+	_trigger setTriggerStatements["this", "drn_escapeHasStarted = true", ""];
+	
+	sleep 5;
+	
+	_nearMen = nearestObjects [drn_startPos, ["Man"], 1000];
+
+		{
+		  if ((side _x == RESISTANCE) || (side _x == EAST)) then {			
+			_x enableSimulationGlobal false;
+			//_x stop true;
+			//_x setSkill 0;
+			//_x setDamage 1;
+		  };
+		  
+		} forEach _nearMen;
+		
+// Wait until players leave the prison
+		
+	waitUntil {drn_escapeHasStarted};
+{	
+	{
+	_x enableSimulationGlobal true;
+		//_x stop false;
+		//[_x, drn_var_Escape_enemyMinSkill] call EGG_EVO_skill;
+	 } foreach units _guardGroup;
+
+
+		
+[_guardGroup, _marker] spawn drn_fnc_SearchGroup;
+	 
+} foreach _guardGroups;
+
+{
+	  if ((side _x == RESISTANCE) || (side _x == EAST)) then {
+		_x enableSimulationGlobal true;
+		//_x stop false;
+		//[_x, drn_var_Escape_enemyMinSkill] call EGG_EVO_skill;
+	  };
+} forEach _nearMen;
+
+        {
+            _x setCaptive false;
+        } foreach call drn_fnc_Escape_GetPlayers;
+        
+        //sleep (15 + random 15);
+        
+        {
+            private ["_guardGroup"];
+            
+            _guardGroup = _x;
+            
+            {
+                _guardGroup reveal _x;
+            } foreach call drn_fnc_Escape_GetPlayers;
+        } foreach _guardGroups;	
+		
+	["Escape has started!"] call drn_fnc_CL_ShowTitleTextAllClients;
+
+};
+
+
+  /*  
     // Start thread that waits for escape to start
     [_guardGroups, _startPos] spawn {
         private ["_guardGroups", "_startPos"];
@@ -792,23 +849,8 @@ _players = (switchableUnits + playableUnits);
             
             sleep 1;
         };
-        
+*/        
         // ESCAPE HAS STARTED
         
-        {
-            _x setCaptive false;
-        } foreach call drn_fnc_Escape_GetPlayers;
-        
-        sleep (15 + random 15);
-        
-        {
-            private ["_guardGroup"];
-            
-            _guardGroup = _x;
-            
-            {
-                _guardGroup reveal _x;
-            } foreach call drn_fnc_Escape_GetPlayers;
-        } foreach _guardGroups;
-    };
-};
+
+
